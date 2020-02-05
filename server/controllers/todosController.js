@@ -136,6 +136,22 @@ class TodoController {
             res.status(500).json({ msg: err.message })
          ])
    }
+
+   static myTodo(req, res, next) {
+      console.log(`masuk sini`);
+      
+      Todo.findAll({
+         where: {
+            UserId: req.currentUserId
+         }
+      })
+         .then(data => {
+            res.status(200).json(data)
+         })
+         .catch (err => {
+            next(err)
+         })
+   }
 }
 
 module.exports = TodoController

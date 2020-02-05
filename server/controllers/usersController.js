@@ -1,6 +1,8 @@
 const {User} = require ('../models')
 const jwt = require('jsonwebtoken');
 const bcrypt = require ('bcryptjs')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 class UserController {
    static register (req, res, next) {
@@ -39,6 +41,48 @@ class UserController {
             }
          })
          .catch (err => {
+            next(err)
+         })
+   }
+
+   static gSignIn (req, res, next) {
+      let email
+      client.verifyIdToken({
+         idToken: req.body.token,
+         audience: process.env.CLIENT_ID
+      })
+         .then(data => {
+            // console.log(data.payload.email, `heiiiiiiiiiiiiiiiii`);
+            email = data.payload.email
+
+            return User.findOne({
+               where : {
+                  email : email
+               }
+            })
+         })
+         .then(user => {
+            // console.log(user);
+            
+            if (!user) {
+               console.log(`user belum terdaftar di database`);               
+               let newUser = {
+                  email,
+                  password: process.env.SECRET_PASSWORD
+               }
+
+               return User.create(newUser)
+            }
+            else {
+               return user
+            }
+         })
+         .then(logUser => {
+            // console.log(logUser, `ini masuk then terakhir`);            
+            const token = jwt.sign({ id: logUser.id }, process.env.SECRET);
+            res.status(200).json({token})
+         })
+         .catch(err => {
             next(err)
          })
    }
