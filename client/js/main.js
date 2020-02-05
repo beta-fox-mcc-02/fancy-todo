@@ -163,12 +163,7 @@ console.log(1, localStorage.getItem("token"));
             })
                 .done(function(data) {
                     localStorage.setItem("token", data.token)
-                    // $("#menu-logout").show();
-                    // $("#menu-register").hide();
-                    // $("#menu-login").hide();
-                    // $("#cont-home").show();
-                    // $("#cont-login").hide();
-                    // $("#cont-register").hide();
+                    
                     menu(true);
                     menuTrans(true);
                     $("#menu-login").hide();
@@ -176,7 +171,7 @@ console.log(1, localStorage.getItem("token"));
 
                     cont(false);
                     contTrans(false);
-                    // $("#cont-login").hide();
+                    
                     $("#cont-list").show();
                     // getTodos(localStorage.getItem("token"));
                 })
