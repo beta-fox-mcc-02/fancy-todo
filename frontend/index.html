@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="google-signin-client_id" content="895956971590-t3i15n2httd4p7h2j21gr7sk37vlv5ds.apps.googleusercontent.com">
+        <title>Fancy Todo</title>
+        <style>
+            #register-section {
+                display: none;
+            }
+            #dashboard-section {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Nanti dikasih nav ya -->
+        <div id="login-section" class="w-full mx-auto max-w-xs">
+            <form
+                id="login-form"
+                class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+            >
+                <div class="mb-4">
+                    <label
+                        class="block text-gray-700 text-sm font-bold mb-2"
+                        for="email"
+                    >
+                        Email
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Email"
+                    />
+                </div>
+                <div class="mb-6">
+                    <label
+                        class="block text-gray-700 text-sm font-bold mb-2"
+                        for="password"
+                    >
+                        Password
+                    </label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="******************"
+                    />
+                </div>
+                <div class="flex items-center justify-between">
+                    <input type="submit" value="Sign In"/>
+                    <a href="#" >Forgot Password?</a>
+                </div>
+            </form>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <button onclick="renderRegister()">Register</button>
+            <p class="text-center text-gray-500 text-xs">
+                &copy;2020 Fancy Todo. All rights reserved.
+            </p>
+        </div>
+        <div id="dashboard-section">
+            <div id="table-section">
+                <table id="todo-table" border="1"></table>
+                <button onclick="logout()" id="logout-btn">Logout</button>
+            </div>
+            <div id="todo-form-section"></div>
+        </div>
+
+        <div id="register-section">
+            <form id="register-form">
+                <div>
+                    <label for="register-email">
+                        Email
+                    </label>
+                    <input
+                        id="register-email"
+                        name="register-email"
+                        type="text"
+                        placeholder="Email"
+                    />
+                </di>
+                <div>
+                    <label for="register-password">
+                        Password
+                    </label>
+                    <input
+                        id="register-password"
+                        name="register-password"
+                        type="password"
+                        placeholder="******************"
+                    />
+                </di>
+                <div>
+                    <input type="submit" value="Register"/>
+                </div>
+            </form>
+            <button onclick="renderLogin(event)"> Back to login</button>
+        </div>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"
+        ></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="index.js"></script>
+    </body>
+</html>

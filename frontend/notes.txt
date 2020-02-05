@@ -1,0 +1,6 @@
+1. Login => localStorage
+2. List All
+3. Add todo
+4. Update todo
+5. Delete todo
+6. Logout
