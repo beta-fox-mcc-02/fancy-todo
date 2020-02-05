@@ -1,7 +1,0 @@
-prioriry :
- - standard
- - important
-
-kalau bisa pake switch on off kaya yg di alarm gitu, important switchnya ke kanan
-
-kalau ga bisa, pake dropdown list (pake select)
