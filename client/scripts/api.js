@@ -186,6 +186,12 @@ const findTodo = (id) => {
   })
     .then(todo => {
       todo = todo.data
+      if (todo.status) {
+        $('#status').prop('checked', true)
+      } else {
+        $('#status').prop('checked', false)
+      }
+      $('#todo-status-form').removeClass('hide')
       $('#modal-title').text('Edit Task')
       $('#title').val(todo.title)
       $('#description').val(todo.description)
@@ -203,6 +209,7 @@ const updateTodo = (id) => {
   const title = $('#title').val()
   const description = $('#description').val()
   const due_date = $('#due_date').val()
+  const status = $('#status').is(":checked")
   $.ajax({
     url: 'http://localhost:3000/todos/' + id,
     method: 'PUT',
@@ -212,7 +219,8 @@ const updateTodo = (id) => {
     data: {
       title,
       description,
-      due_date
+      due_date,
+      status
     }
   })
     .then(todo => {

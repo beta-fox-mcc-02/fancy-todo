@@ -18,6 +18,7 @@ const openModalNewTask = () => {
   $('#title').val('')
   $('#description').val('')
   $('#due_date').val('')
+  $('#todo-status-form').addClass('hide')
   $('#modal-add-edit').show()
   $('#modal-title').text('Add New Task')
   $('.modal .btn-success').attr('id', 'submit-new-task')
