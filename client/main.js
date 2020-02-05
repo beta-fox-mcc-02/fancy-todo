@@ -31,8 +31,10 @@ function fetchData(){
           $("ul#todo-findOne").empty()
           $("ul#todo-findOne").append(`<li>Title :${todo.data.data.title}</li>`);
           $("ul#todo-findOne").append(`<li>Description :${todo.data.data.description}</li>`);
-          $("ul#todo-findOne").append(`<li>Due date :${todo.data.data.due_date}</li>`);
-          $("div#f1").append(`<button>delete</button>`)
+          let arr = todo.data.data.due_date.split('T')
+          $("ul#todo-findOne").append(`<li>Due date :${arr[0]}</li>`);
+          $("#id-select").val(`${el.id}`)
+          // $("div#f1-action").append(``)
         })
         .catch(err=>{
           console.log(err)
@@ -59,6 +61,16 @@ function addTodo(data){
 function selectOne(id){
   return axios({
     method: 'get',
+    url: `http://localhost:3000/todos/${id}`,
+    headers : {
+      token : localStorage.token
+    }
+  });
+}
+
+function deleteTodo(id){
+  return axios({
+    method: 'delete',
     url: `http://localhost:3000/todos/${id}`,
     headers : {
       token : localStorage.token
@@ -136,7 +148,6 @@ $(document).ready(function(){
     const description = $("#d-add").val()
     const due_date = $("#due-add").val()
     const data = {title, description, due_date}
-    // console.log(data)
     addTodo(data)
     .then(todo=>{
       console.log(todo.data)
@@ -167,5 +178,35 @@ $(document).ready(function(){
       console.log('User signed out.');
       localStorage.clear();
     });
+  })
+
+  $("#delete-todo").on("click", function(){
+    let id = $("#id-select").val()
+    deleteTodo(id)
+      .then(result=>{
+        console.log(result)
+        $("#f1").hide()
+        fetchData()
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+  })
+
+  $("#edit-todo").on("click", function(){
+    let id = $("#id-select").val()
+    selectOne(id)
+    .then(result=>{
+      console.log(result.data.data.title)
+      $("ul#todo-findOne").empty()
+      $("#t-edit").val(`${result.data.data.title}`)
+      $("#d-edit").val(`${result.data.data.description}`)
+      let arr = result.data.data.due_date.split('T')
+      $("#due-edit").val(`${arr[0]}`)
+
+    })
+    .catch(err=>{
+      console.log(err)
+    })
   })
 });
