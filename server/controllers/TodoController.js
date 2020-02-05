@@ -3,8 +3,15 @@ const axios = require('axios');
 
 class TodoController{
     static findAll(req, res, next) {
+        console.log(1);
+        
         Todo.findAll()
+        // ({
+        //     include: [{ model: User }]
+        // })
             .then(data => {
+                // console.log(data);
+                
                 res.status(200).json({
                     data,
                     msg: 'Read Data success'

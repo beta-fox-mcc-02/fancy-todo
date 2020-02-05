@@ -8,6 +8,8 @@ class UserController{
 
         User.findOne({ where: { email }})
             .then(user => {
+                console.log(user);
+                
                 let isValid = compare(password, user.password);
 
                 if(isValid) {
@@ -26,8 +28,8 @@ class UserController{
         const { email, password } = req.body;
 
         User.create({ email, password})
-            .then(result=> { res.send(result) })
-            .catch(err=> res.send(err))
+            .then(result=> { res.status(201).json({result})})
+            .catch(err => { next(err) })
     }
 }
 

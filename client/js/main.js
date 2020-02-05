@@ -55,9 +55,11 @@ function getTodos(token){
     })
         .done(function(data) {
             $("#todos").empty();
+            $("#todos").append('<table id="t01"><tr><th>No</th><th>Title</th><th>Description</th></tr>')
             data.data.forEach(element => {
-                $("#todos").append("<li>" + element.title + "</li>")
+                $("#todos").append("<tr><td>"+ element.id +"</td><td>"+ element.title +"<td><td>"+ element.description +"</td></tr>")
             });
+            $("#todos").append("</table>")
         })
         .fail(function() {
             console.log("failed get all todos");
@@ -138,14 +140,14 @@ console.log(1, localStorage.getItem("token"));
         startMenu();
     })
 
-    // $("#menu-list-todos").click(function () {
-    //     menu(false);
-    //     $("#menu-home").show();
-    //     $("#menu-logout").show();
+    $("#menu-list-todos").click(function () {
+        menu(false);
+        $("#menu-home").show();
+        $("#menu-logout").show();
         
-    //     menuTrans(true);
-    //     console.log(getTodos(localStorage.getItem("token")));
-    // })
+        menuTrans(true);
+        console.log(2, getTodos(localStorage.getItem("token")));
+    })
 
     $("#login").click(function(){       
         let email = $("#email").val();
