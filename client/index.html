@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="921344250171-shfc9isl6pb5526l054jlqr2c4h4luju.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="./public/css/style.css">
     <title>Fancy Todo</title>
@@ -27,7 +29,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a id="todo-create" class="dropdown-item" href="#">Create</a>
-                <a class="dropdown-item" href="#">Read All</a>
+                <a id="todo-read-all" class="dropdown-item" href="#">Read All</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#">Credits</a>
               </div>
@@ -101,6 +103,19 @@
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        <h4>OR login with:</h4>
+        <div id="google-login" class="g-signin2" data-onsuccess="onSignIn"></div>
+    </div>
+
+    <!-- Todo cards -->
+    <div id="todo-cards" class="row">
+        
+    </div>
+    
+    <!-- No todo alert -->
+    <div id="no-todo-found">
+        <h1>No Todo Found</h1>
+        <p>It seems that you don't have and todo list yet. You can make one by clicking actions and select 'Create'</p>
     </div>
 
     <!-- New Todo Form -->

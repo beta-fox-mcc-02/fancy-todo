@@ -5,6 +5,8 @@ const apiRoutes = require('./api');
 const UserController = require('../controllers/userController');
 
 router.post('/login', UserController.login)
+//? routing untuk google sign in belum berfungsi dengan baik
+// router.post('/gLogin', UserController.gLogin)
 router.post('/register', UserController.register)
 
 router.use(apiRoutes)
