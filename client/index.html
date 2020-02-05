@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="google-signin-client_id"
+      content="160576325712-9vemqoqk95memgtu3ekldpo29vurm8ah.apps.googleusercontent.com"
+    />
+    <title>Todo List</title>
+  </head>
+
+  <body>
+    <section id="nav">
+      <ul>
+        <li id="regis">Register</li>
+        <li id="log">Login</li>
+        <li id="list">Todo list</li>
+        <li id="create">Create new todo list</li>
+      </ul>
+    </section>
+
+    <section id="welcome">
+      <span>
+        <h1>Welcome</h1>
+        To todo fancy todo list Lorem ipsum dolor, sit amet consectetur
+        adipisicing elit. Vero et odio, saepe quaerat rem atque. Dolorem nemo
+        consectetur suscipit repudiandae in! Similique beatae doloribus et iste
+        magni, maiores quaerat distinctio?
+      </span>
+      <hr />
+    </section>
+
+    <section id="register">
+      <center>
+        Register page
+        <hr width="20%" />
+        <form id="register-form">
+          <label for="">Email</label> <br />
+          <input
+            type="text"
+            name="email"
+            id="email-register"
+            placeholder="email address...."
+          />
+          <br />
+          <label for="">Password</label> <br />
+          <input
+            type="password"
+            name="password"
+            id="password-register"
+            placeholder="password..."
+          />
+          <br />
+          <input type="submit" value="register" />
+        </form>
+      </center>
+      <hr />
+    </section>
+
+    <section id="login">
+      <center>
+        Login Page
+        <hr width="20%" />
+        <form id="login-form">
+          <label for="">Email</label> <br />
+          <input
+            type="text"
+            name="email"
+            id="email-login"
+            placeholder="email address...."
+          />
+          <br />
+          <label for="">Password</label> <br />
+          <input
+            type="password"
+            name="password"
+            id="password-login"
+            placeholder="password..."
+          />
+          <br />
+          <input type="submit" value="login" />
+        </form>
+        <br />
+      </center>
+      <div id="glogin" class="g-signin2" data-onsuccess="onSignIn"></div>
+      <button id="logout" href="#">Log Out</button>
+
+      <hr />
+    </section>
+
+    <section id="list">
+      <center>
+        <h2>Todo List</h2>
+        <table border="1" id="list_value">
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+          </tr>
+        </table>
+
+        <hr />
+      </center>
+    </section>
+
+    <section id="create">
+      <center>
+        Create new todo list
+        <hr width="20%" />
+        <form id="create-form">
+          <label for="">Title</label> <br />
+          <input
+            type="text"
+            name="title"
+            id="title-create"
+            placeholder="todo list title...."
+          />
+          <br />
+          <label for="">Description</label> <br />
+          <input
+            type="text"
+            name="description"
+            id="description-create"
+            placeholder="todo description..."
+          />
+          <br />
+          <input type="submit" value="add" />
+        </form>
+        <br />
+      </center>
+      <hr />
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="main.js"></script>
+  </body>
+</html>
