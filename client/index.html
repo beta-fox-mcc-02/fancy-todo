@@ -1,0 +1,77 @@
+<html>
+    <head>
+        <title></title>
+        <meta name="google-signin-client_id" content="531857425692-sjp79llbq1dgeg6eiu7qc3mtuf6022mp.apps.googleusercontent.com">
+    </head>
+    <body>
+        <button id="logout">Log Out</button>
+        <nav id="sidenav">
+            <section>
+                <h1>SIGN IN HERE</h1>
+                <form>
+                    <input class="signin" type="email" placeholder="Your email" name="email" required><br>
+                    <input class="signin" type="password" placeholder="Your password" name="password" required><br>
+                    <input id="login" type="submit" value="Sign In">
+                    <input id="register" type="submit" value="Register">
+                </form>
+                <h1>OR</h1>
+                <h1>SIGN IN WITH</h1>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </section>
+        </nav>
+        <main>
+            <div id="todo-container"></div>
+        </main>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="index.js"></script>
+        <script src="gSignIn.js"></script>
+    </body>
+</html>
+
+<style>
+    body{
+        background-color: #f8ffd4;
+    }
+
+    #sidenav {
+        width: 30%;
+        background-color: #5da763;
+        padding: 2%;
+        box-sizing: content-box;
+        margin: 8% auto;
+        box-shadow: 1px 0px 20px 5px darkseagreen;
+    }
+
+    section{
+        text-align: -webkit-center;
+    }
+
+    .signin{
+        width: 75%;
+        padding: 3% 4%;
+    }
+
+    #register, #login{
+        padding: 3% 4%;
+        width: 36.8%;
+        cursor: pointer;
+    }
+
+    #todo-container{
+        display: grid;
+        grid-template-columns: auto auto;
+        width: 50%;
+        margin: auto;
+    }
+    .gridbox{
+        background-color: rgba(226, 217, 217, 0.8);
+        border-radius: 30px;
+        padding: 20px;
+        text-align: center;
+        width: 150px;
+        margin: auto;
+        height: 200px;
+    }
+</style>
