@@ -150,3 +150,16 @@ ul.navbar-nav {
   color: #007bff !important;
   cursor: pointer;
 }
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.badge {
+  margin-left: 10px;
+}
+
+.todo-title {
+  margin-bottom: 10px;
+}

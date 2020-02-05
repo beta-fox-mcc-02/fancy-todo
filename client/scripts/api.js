@@ -53,6 +53,7 @@ function onSignIn(googleUser) {
   })
     .done(data => {
       loginSuccess(data)
+      getAllTodo()
     })
     .fail(err => {
       loginFailed(err)
@@ -112,7 +113,12 @@ const getAllTodo = () => {
         contentHtml += '<div class="todo-wrapper">'
         for (const todo of todos.data) {
           contentHtml += '<div class="todo-title">'
-          contentHtml += '<h5>' + todo.title + '</h5>'
+          contentHtml += '<span class="heading">' + todo.title + '</span>'
+          if (todo.status) {
+            contentHtml += '<span class="badge badge-success">Completed</span>'
+          } else {
+            contentHtml += '<span class="badge badge-danger">Uncompleted</span>'
+          }
           contentHtml += '</div>'
           contentHtml += '<div class="todo-description form-group row">'
           contentHtml += '<label class="col-sm-2 col-form-label">Description</label>'
