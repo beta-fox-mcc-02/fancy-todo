@@ -46,6 +46,9 @@ $(document).ready(() => {
         hideForm()
         getAllTodo()
       }).catch((err) => {
+        $('.form-register').hide()
+        $('.form-login').removeClass('hide').show()
+        $('.todo-container').hide()
       });
   } else {
     $('.form-register').hide()
