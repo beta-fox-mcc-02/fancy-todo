@@ -24,7 +24,8 @@ class Controller {
         Todo.findAll({
             where: {
                 user_id: req.decoded.id
-            }
+            },
+            order: [['id', 'ASC']]
         })
             .then(todos => {
                 res.status(200).json({
@@ -64,7 +65,6 @@ class Controller {
         let update = {
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
             due_date: req.body.due_date
         }
         Todo.update(update, {
