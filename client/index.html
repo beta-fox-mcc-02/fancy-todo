@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Todo App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="974554864235-ahhop5hp5ml98jn04am1b3124009ql41.apps.googleusercontent.com">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" id="top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Todo App</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+      <li id="list"><a href="#">List Todo</a></li>
+      <li><a href="#">Update</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+  </div>
+</nav>
+  
+<div class="container" id="home">
+  <h3>Welcome to Todo</h3>
+  <p>let's be pruductive</p>
+</div>
+
+<div id="listTodo">
+  <ul id="todos">
+  </ul>
+</div>
+
+<div >
+  <form id="register">
+    <h2>Register</h2>
+    <label for="email" >Email :</label>
+    <input type="text" id="e-register" name="email"><br>
+    <label for="email">Password :</label>
+    <input type="password" name="password" id="p-register"><br>
+    <input type="submit" value="Register">
+  </form>
+</div>
+
+<div >
+  <form id="login">
+    <h2>Login</h2>
+    <label for="email">Email :</label>
+    <input type="text" id="e-login" name="email"><br>
+    <label for="password">Password :</label>
+    <input type="password" id="p-login" name="password"><br>
+    <input type="submit"><br>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  </form>
+  <button id="logout">logout</button>
+</div>
+
+<div >
+  <form id="addTodo">
+    <h2>Add Todo</h2>
+    <label for="title">Title :</label>
+    <input type="text" id="t-add" name="title"><br>
+    <label for="description">Description :</label>
+    <input type="text" id="d-add" name="description"><br>
+    <label for="due_date">Due Date :</label>
+    <input type="date" id="due-add" name="due_date"><br>
+    <input type="submit">
+  </form>
+</div>
+
+<div id="f1">
+  <h2 >findOne</h2>
+  <ul id="todo-findOne">
+  </ul>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="./main.js"></script>
+</body>
+</html>
