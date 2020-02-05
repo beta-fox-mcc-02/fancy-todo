@@ -58,6 +58,17 @@ function addTodo(data){
   });
 }
 
+function updateTodo(data,id){
+  return axios({
+    method: 'put',
+    url: `http://localhost:3000/todos/${id}`,
+    headers : {
+      token : localStorage.token
+    },
+    data
+  });
+}
+
 function selectOne(id){
   return axios({
     method: 'get',
@@ -203,7 +214,22 @@ $(document).ready(function(){
       $("#d-edit").val(`${result.data.data.description}`)
       let arr = result.data.data.due_date.split('T')
       $("#due-edit").val(`${arr[0]}`)
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  })
 
+  $("#editTodo").on("submit", function(el){
+    el.preventDefault()
+    let id = $("#id-select").val()
+    const title = $("#t-edit").val()
+    const description = $("#d-edit").val()
+    const due_date = $("#due-edit").val()
+    const data = {title, description, due_date}
+    updateTodo(data,id)
+    .then(result=>{
+      console.log(result.data)
     })
     .catch(err=>{
       console.log(err)
