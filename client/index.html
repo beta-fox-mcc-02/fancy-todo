@@ -9,7 +9,8 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/23f0107e08.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./assets/styles/style.css">
-  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Satisfy|Shadows+Into+Light&display=swap"
+    rel="stylesheet">
   <meta name="google-signin-client_id"
     content="176024940848-brhr4dp5uvhpt3pckpog64m2q30mjf3n.apps.googleusercontent.com">
   <title>Fancy Todo</title>
@@ -21,7 +22,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Todo</h5>
+          <h5 class="modal-title shadowFont" id="exampleModalLabel">ADD TODO</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -64,8 +65,8 @@
     <!-- -------------------------------------------- CONTENT CONTAINER -------------------------------------------- -->
     <div class="row contentContainer">
       <!-- LOGOUT BUTTON -->
-      <button type="button" class="btn btn-outline-dark btn-sm" id="logoutButton"
-        style="position: absolute; bottom: 2rem; left: 3rem; width: 200px;">LOGOUT
+      <button type="button" class="btn btn-outline-dark btn-sm shadowFont" id="logoutButton"
+        style="position: absolute; bottom: 2rem; left: 3rem; width: 200px; font-size: 16px;">LOGOUT
       </button>
       <!-- END OF LOGOUT BUTTON -->
 
@@ -78,19 +79,23 @@
 
       <!-- LEFT SIDEBAR -->
       <div class=" col-md-3" style="height: 90vh;">
-        <div class="row" id="userGreeting" style="padding: 1rem;">
+        <div class="row satisfy" id="userGreeting" style="padding: 1rem;">
           <!-- <h3>Hello, someone!</h3> -->
         </div>
         <div style="padding: 0rem 1rem; margin: 0 60px;">
           <div class="row" style="margin-bottom: 5px;">
-            <button type="button" class="btn btn-warning btn-sm" style="width: 100%;" id="ongoingTodos">To-do
+            <button type="button" class="btn btn-warning btn-sm shadowFont" style="width: 100%; font-size: 16px;"
+              id="ongoingTodos">To-do
               Tasks</button>
           </div>
           <div class="row" style="margin-bottom: 5px;">
-            <button type="button" class="btn btn-danger btn-sm" style="width: 100%;" id="doneTodos">Completed</button>
+            <button type="button" class="btn btn-danger btn-sm shadowFont" style="width: 100%; font-size: 16px"
+              id="doneTodos">Completed</button>
           </div>
           <div class="row" style="margin-bottom: 5px;">
-            <button type="button" class="btn btn-primary btn-sm" style="width: 100%;" id="allTodos">All Tasks</button>
+            <button type="button" class="btn btn-primary btn-sm shadowFont" style="width: 100%; font-size: 16px"
+              id="allTodos">All
+              Tasks</button>
           </div>
         </div>
       </div>
@@ -100,7 +105,7 @@
       <div class=" col-md-3">
         <div style=" margin: 3vh 0px; height: 90vh;">
           <div class="card text-center" style="height: 100%; border: none; background: none;">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header bg-dark text-white shadowFont">
               STANDARD
             </div>
             <div class="card-body" id="standardCard"
@@ -116,7 +121,7 @@
       <div class=" col-md-3">
         <div style="margin: 3vh 0; height: 90vh;">
           <div class="card text-center" style="height: 100%; border: none; background: none;">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header bg-dark text-white shadowFont">
               IMPORTANT
             </div>
             <div class="card-body" id="importantCard"
@@ -179,7 +184,10 @@
           id="todoDetails">
         </div>
         <!-- MAP -->
-        <div class="col contentCol" id="map"></div>
+        <div class="col contentCol mapEditContainer" style="padding: 0;">
+          <div id="map"></div>
+          <div id="editContainer" style="background: rgba(255, 255, 255, 0.8); width: 100%; height: 100%"></div>
+        </div>
         <!-- END OF MAP -->
       </div>
       <button type="button" class="btn btn-outline-dark btn-sm" id="backButton"

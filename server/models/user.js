@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {
           args: true,
           msg: "Email cannot be empty"
+        },
+        isUnique(email) {
+          return User.findOne({ where: { email } })
+            .then(data => {
+              if (data) throw new Error('Email already registered')
+            })
         }
       }
     },

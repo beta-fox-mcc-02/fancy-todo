@@ -11,7 +11,7 @@ function login() {
     .done(success => {
       localStorage.access_token = success.token
       $('#userGreeting').empty()
-      $('#userGreeting').append(`<h4>Hello, ${getUsername(success.email)}!</h4>`)
+      $('#userGreeting').append(`<h3>Hello, ${getUsername(success.email)}!</h3>`)
       Swal.fire({
         icon: 'success',
         title: 'Login Success',
@@ -83,7 +83,7 @@ function fetchOne(id) {
       $('#todoDetails').empty()
       $('#todoDetails').append(
         `<div class="card" style="width: 100%; background: rgba(10, 90, 165, 0.8);">
-            <div class="card-header text-center" style="font-weight: bold;">
+            <div class="card-header text-center shadowFont" style="font-weight: bold; font-size: 22px;">
               TODO DETAIL
             </div>
             <ul class="list-group list-group-flush">
@@ -113,7 +113,7 @@ function fetchOne(id) {
               </li>
             </ul>
             <div style="position: absolute; bottom: 5px; right: 5px;">
-              <button class="btn btn-primary btn-sm fas fa-edit"></button>
+              <button class="btn btn-primary btn-sm fas fa-edit" id="editTodo"></button>
               <button class="btn btn-danger btn-sm fas fa-trash-alt" id="deleteTodo"></button>
             </div>
           </div>
@@ -122,7 +122,18 @@ function fetchOne(id) {
       $('#deleteTodo').click(event => {
         deleteTodo(todo.id)
       })
+      $('#editTodo').click(event => {
+        editTodo(todo.id)
+      })
+
       initMap(todo.location)
+    })
+    .fail(err => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops, something\'s wrong',
+        text: err.responseJSON.msg
+      })
     })
 }
 
@@ -158,6 +169,13 @@ function addTodo() {
       $('#addTodo').modal('hide')
       showMainContent()
     })
+    .fail(err => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops, something\'s wrong',
+        text: err.responseJSON.msg
+      })
+    })
 }
 
 function deleteTodo(id) {
@@ -172,6 +190,98 @@ function deleteTodo(id) {
       showMainContent()
       $(".detailContainer").hide()
     })
+    .fail(err => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops, something\'s wrong',
+        text: err.responseJSON.msg
+      })
+    })
+}
+
+function editTodo(id) {
+  $('#map').hide()
+  $('#editContainer').show()
+  $.ajax({
+    url: "http://localhost:3000/todos/" + id,
+    method: "get",
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+    .done(todo => {
+      $('#editContainer').empty()
+      $('#editContainer').append(
+        `<div style="height: 100%; width: 100%; display: grid; justify-content: center; align-content: center;">
+          <form>
+            <div style="margin-bottom: 1rem;">
+              <input class="form-control" type="text" name="editTitle" id="editTitle" placeholder="Title" style="width: 32vw" value=${todo.title}>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <textarea class="form-control" name="editDesc" id="editDesc" placeholder="Description" rows="4" style="width: 32vw">${todo.description}</textarea>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <select class="form-control" id="editPriority" name="editPriority" style="width: 32vw" value=${todo.priority}>
+                <option value="standard" selvar dd = today.getDate();
+
+                var mm = today.getMonth()+1; 
+                var yyyy = today.getFullYear();ected>Standard</option>
+                <option value="important">Important</option>
+              </select>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <input class="form-control" type="text" name="editLoc" id="editLoc" placeholder="Location" style="width: 32vw" value="Surapati, Bandung">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              Due Date :
+              <span style="display: grid;"><input type="date" name="editDue" id="editDue" value=${datePlaceholder(todo.due_date)}></span>
+            </div>
+          </form>
+          <button type="button" class="btn btn-primary btn-sm" id="editTodoButton">EDIT</button>
+        </div>`
+      )
+      $('#editTodoButton').click(event => {
+        const title = $('#editTitle').val()
+        const description = $('#editDesc').val()
+        const priority = $('#editPriority').val()
+        const address = $('#editLoc').val()
+        const due_date = $('#editDue').val()
+
+        $.ajax({
+          url: 'http://localhost:3000/todos/' + todo.id,
+          method: 'put',
+          data: {
+            title, description, priority, address, due_date
+          },
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+          .done(todo => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Todo Edited Successfully',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            $('#title').val('')
+            $('#description').val('')
+            $('#priority').val('standard')
+            $('#location').val('')
+            $('#duedate').val('')
+            $('#map').show()
+            $('#editContainer').hide()
+            showMainContent()
+          })
+      })
+    })
+    .fail(err => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops, something\'s wrong',
+        text: err.responseJSON.msg
+      })
+    })
 }
 
 function onSignIn(googleUser) {
@@ -184,7 +294,7 @@ function onSignIn(googleUser) {
     .done(success => {
       localStorage.access_token = success.token
       $('#userGreeting').empty()
-      $('#userGreeting').append(`<h4>Hello, ${getUsername(success.email)}!</h4>`)
+      $('#userGreeting').append(`<h3>Hello, ${getUsername(success.email)}!</h3>`)
       Swal.fire({
         icon: 'success',
         title: 'Logged in with Google Account',
@@ -212,4 +322,12 @@ function getUsername(email) {
     }
   }
   return username
+}
+
+function datePlaceholder(duedate) {
+  const date = new Date(duedate)
+  const dd = date.getDate()
+  const mm = date.getMonth() + 1
+  const yyyy = date.getFullYear()
+  return `${yyyy}-${mm < 10 ? '0' + mm : mm}-${dd < 10 ? '0' + dd : dd}`
 }

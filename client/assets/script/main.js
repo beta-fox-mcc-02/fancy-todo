@@ -1,6 +1,8 @@
 $(".loginContainer").hide()
 $(".contentContainer").hide()
 $(".detailContainer").hide()
+$("#map").show()
+$("#editContainer").hide()
 
 function tokenCheck() {
   if (!localStorage.access_token) {
@@ -23,7 +25,10 @@ function showMainContent() {
   fetchStandard('ongoing')
   fetchImportant('ongoing')
   $(".loginContainer").hide()
+  $(".detailContainer").hide()
   $(".contentContainer").show()
+  $('#map').show()
+  $('#editContainer').hide()
 }
 
 function fetchStandard(status) {
@@ -50,6 +55,13 @@ function fetchStandard(status) {
             </div>
           </div>`
         )
+      })
+    })
+    .fail(err => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops, something\'s wrong',
+        text: err.responseJSON.msg
       })
     })
 }
@@ -86,22 +98,10 @@ function fetchImportant(status) {
 function showDetail() {
   $('.show-detail').click(event => {
     event.preventDefault()
-    console.log(event.target.id)
     fetchOne(event.target.id)
     $(".contentContainer").hide()
     $(".detailContainer").show()
   })
-}
-
-function initMap() {
-  let map;
-  let loc = { lat: -6.219349299999999, lng: 106.8139745 }
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: loc,
-    zoom: 17,
-    mapTypeId: 'satellite'
-  });
-  const marker = new google.maps.Marker({ position: loc, map: map });
 }
 
 const signOut = () => {

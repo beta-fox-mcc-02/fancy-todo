@@ -75,9 +75,8 @@ module.exports = {
       .catch(next)
   },
 
-  put(req, res) {
+  put(req, res, next) {
     const { title, description, address, priority, due_date } = req.body
-    const UserId = req.currentUserId
     const today = new Date()
     const created = new Date(due_date)
     let status;
@@ -107,7 +106,9 @@ module.exports = {
           })
           .catch(next)
       })
-      .catch(next)
+      .catch(err => {
+        console.log(err.message)
+      })
   },
 
   delete(req, res, next) {

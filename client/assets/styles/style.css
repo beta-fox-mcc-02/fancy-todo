@@ -1,7 +1,16 @@
 body {
   background: url("../img/todo.png");
   background-size: 100% 100%;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'EB Garamond', serif;
+}
+
+.satisfy {
+  font-family: 'Satisfy', cursive;
+}
+
+.shadowFont {
+  font-family: 'Shadows Into Light', cursive;
+  font-weight: bold;
 }
 
 .contentContainer {
