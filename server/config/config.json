@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "98765",
+    "database": "todo_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": 0
+  },
+  "test": {
+    "username": "postgres",
+    "password": "98765",
+    "database": "todo_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": 0
+  },
+  "production": {
+    "username": "postgres",
+    "password": "98765",
+    "database": "todo_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": 0
+  }
+}
