@@ -4,8 +4,8 @@ const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
 	static register(req, res, next) {
-		const { email, password } = req.body;
-		User.create({ email, password })
+		const { email, password, username } = req.body;
+		User.create({ email, password, username })
 			.then((newUser) => {
 				res.status(201).json({
 					message: 'Register successfully',
@@ -33,7 +33,8 @@ class UserController {
 					if (isValid) {
 						const payload = {
 							id: user.id,
-							email: user.email
+							email: user.email,
+							username: user.username
 						}
 						res.status(200).json({
 							message: 'Login successfully',
@@ -68,7 +69,8 @@ class UserController {
 				res.status(200).json({
 					user: {
 						id: user.id,
-						email: user.email
+						email: user.email,
+						username: user.username
 					}
 				})
 			})
@@ -82,12 +84,14 @@ class UserController {
 		const CLIENT_ID = process.env.CLIENT_ID
 		const client = new OAuth2Client(CLIENT_ID);
 		let email
+		let username
 		client.verifyIdToken({
 			idToken: token,
 			audience: CLIENT_ID
 		})
 			.then(response => {
 				email = response.payload.email
+				username = response.payload.name
 				return User.findOne({
 					where: {
 						email
@@ -98,7 +102,8 @@ class UserController {
 				if (!user) {
 					return User.create({
 						email,
-						password: process.env.SECRET_PASSWORD
+						password: process.env.SECRET_PASSWORD,
+						username
 					})
 				} else {
 					return user
@@ -107,7 +112,8 @@ class UserController {
 			.then(user => {
 				const payload = {
 					id: user.id,
-					email: user.email
+					email: user.email,
+					username: user.username
 				}
 				const token = JwtHelper.generateToken(payload)
 				res.status(200).json({

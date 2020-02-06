@@ -10,39 +10,36 @@ const errorHandler = (err, req, res, next) => {
     for (const er of err.errors) {
       errorObj.errors.push(er.message)
     }
-    res.status(status).json({
-      message: errorObj.message,
-      errors: errorObj.errors
-    })
+    res.status(status).json(errorObj)
   } else if (err.name === 'NOT FOUND') {
     status = 404
-    res.status(status).json({
-      message: 'Not Found',
-      error: err.message
-    })
+    errorObj.message = 'Not Found'
+    errorObj.errors.push(err.message)
+    res.status(status).json(errorObj)
   } else if (err.name === 'SequelizeDatabaseError') {
-    res.status(status).json({
-      message: 'Database Error',
-      error: 'Error input in database'
-    })
+    errorObj.message = 'Database Error'
+    errorObj.errors.push('Error input in database')
+    res.status(status).json(errorObj)
   } else if (err.name === 'JsonWebTokenError') {
-    res.status(401).json({
-      message: 'Please login first'
-    })
+    errorObj.message = 'JWT Error'
+    errorObj.errors.push('Please login first')
+    res.status(401).json(errorObj)
   } else if (err.type === 'entity.parse.failed') {
-    res.status(status).json({
-      message: 'Internal Server Error',
-      error: err.type
-    })
+    errorObj.message = 'Internal Server Error'
+    errorObj.errors.push(err.type)
+    res.status(status).json(errorObj)
   } else if (err.name === 'SequelizeUniqueConstraintError') {
     status = 400
-    res.status(status).json({
-      message: err.errors
-    })
+    errorObj.message = 'Bad Request'
+    for (const er of err.errors) {
+      errorObj.errors.push(er.message)
+    }
+    res.status(status).json(errorObj)
   } else {
-    res.status(err.status || 400).json({
-      message: err.message || 'Internal Server Error'
-    })
+    console.log(err)
+    errorObj.message = 'Internal Server Error'
+    errorObj.errors.push(err.message || 'Internal Server Error')
+    res.status(err.status || 400).json(errorObj)
   }
 }
 

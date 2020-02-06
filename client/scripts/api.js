@@ -10,8 +10,9 @@ const parsingDate = (date) => {
 const loginSuccess = (data) => {
   $('#error-login').addClass('hide').text()
   $('#form-login').hide()
-  $('#header-login').hide()
-  $('#header-logout').parent().removeClass('hide')
+  $('#header-login').addClass('hide')
+  $('#header-logout').removeClass('hide')
+  $('#header-username').removeClass('hide')
   $('.todo-container').show()
   localStorage.setItem('token', data.token)
   $('#input-email-login').val('')
@@ -19,8 +20,12 @@ const loginSuccess = (data) => {
 }
 
 const loginFailed = (err) => {
-  $('#header-logout').parent().addClass('hide')
-  $('#error-login').removeClass('hide').text(err.responseJSON.message)
+  $('#header-logout').addClass('hide')
+  let errorMessages = ''
+  for (const e of err.responseJSON.errors) {
+    errorMessages += e + '\n'
+  }
+  $('#error-login').removeClass('hide').text(errorMessages.substring(0, errorMessages.length))
 }
 
 const login = () => {
@@ -36,7 +41,14 @@ const login = () => {
   })
     .done(data => {
       loginSuccess(data)
-      getAllTodo()
+      findUser()
+        .done(response => {
+          $('#header-username').text(response.user.username)
+          getAllTodo()
+        })
+        .fail(err => {
+          loginFailed(err)
+        })
     })
     .fail(err => {
       loginFailed(err)
@@ -53,7 +65,20 @@ function onSignIn(googleUser) {
   })
     .done(data => {
       loginSuccess(data)
-      getAllTodo()
+      findUser()
+        .done(response => {
+          let name = response.user.username
+          name = name.split(' ')
+          let username = ''
+          for (const n of name) {
+            username += n[0].toUpperCase()
+          }
+          $('#header-username').text(username)
+          getAllTodo()
+        })
+        .fail(err => {
+          loginFailed(err)
+        })
     })
     .fail(err => {
       loginFailed(err)
@@ -65,6 +90,7 @@ const register = () => {
     url: 'http://localhost:3000/users/register',
     method: 'POST',
     data: {
+      username: $('#input-username-register').val(),
       email: $('#input-email-register').val(),
       password: $('#input-password-register').val()
     }
@@ -79,8 +105,8 @@ const register = () => {
     })
     .catch(err => {
       let errorMessage = ''
-      for (const e of err.responseJSON.message) {
-        errorMessage += e.message + '\n'
+      for (const e of err.responseJSON.errors) {
+        errorMessage += e + '\n'
       }
       errorMessage = errorMessage.substring(0, errorMessage.length)
       $('#error-register').text(errorMessage)
@@ -167,7 +193,6 @@ const createTodo = () => {
     }
   })
     .then(newTodo => {
-      console.log(newTodo)
       getAllTodo()
       closeModal()
     })
@@ -196,7 +221,7 @@ const findTodo = (id) => {
       $('#title').val(todo.title)
       $('#description').val(todo.description)
       $('#due_date').val(parsingDate(new Date(todo.due_date)))
-      $('.modal .btn-success').attr('id', 'submit-edit-task')
+      $('.modal form').attr('id', 'form-edit-task')
       $('#modal-add-edit').show()
       $('#todo-id').val(todo.id)
     })

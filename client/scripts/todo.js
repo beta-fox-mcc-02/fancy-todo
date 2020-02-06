@@ -19,9 +19,9 @@ const openModalNewTask = () => {
   $('#description').val('')
   $('#due_date').val('')
   $('#todo-status-form').addClass('hide')
+  $('.modal form').attr('id', 'form-add-new-task')
   $('#modal-add-edit').show()
   $('#modal-title').text('Add New Task')
-  $('.modal .btn-success').attr('id', 'submit-new-task')
 }
 
 const closeModal = () => {
@@ -43,6 +43,10 @@ $(document).ready(() => {
   if (isLogin) {
     findUser()
       .then((response) => {
+        $('#header-logout').removeClass('hide')
+        $('#header-login').addClass('hide')
+        $('#header-username').text(response.user.username)
+        $('#header-username').removeClass('hide')
         hideForm()
         getAllTodo()
       }).catch((err) => {
@@ -53,10 +57,10 @@ $(document).ready(() => {
   } else {
     $('.form-register').hide()
     $('.todo-container').hide()
+    $('#header-login').removeClass('hide')
+    $('#header-logout').addClass('hide')
+    $('#header-username').addClass('hide')
   }
-
-  $('#header-login').addClass('hide')
-  $('#header-logout').parent().removeClass('hide')
 
   $('#add-new-task').on('click', (e) => {
     e.preventDefault()
@@ -75,10 +79,11 @@ $(document).ready(() => {
     e.preventDefault()
     localStorage.clear()
     $('#header-login').removeClass('hide')
-    $('#header-logout').parent().addClass('hide')
+    $('#header-username').addClass('hide')
+    $('#header-logout').addClass('hide')
     $('.todo-container').hide()
-    var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(() => {
       console.log('User signed out.');
     });
     $('#form-login').show()
@@ -107,12 +112,12 @@ $(document).ready(() => {
     register()
   })
 
-  $('.modal').on('click', '#submit-new-task', (e) => {
+  $('.modal').on('submit', '#form-add-new-task', (e) => {
     e.preventDefault()
     createTodo()
   })
 
-  $('.modal').on('click', '#submit-edit-task', (e) => {
+  $('.modal').on('submit', '#form-edit-task', (e) => {
     e.preventDefault()
     const id = $('#todo-id').val()
     updateTodo(id)
