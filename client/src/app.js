@@ -1,12 +1,40 @@
-function showTodo(todos){
-  // console.log(todos);
-  if(todos.data.data.length){
+function showTodo(todos) {
+  console.log(todos);
+  if (todos.data.data.length) {
     const weather = todos.data.data[0].currentWeather;
-    todos.data.data.forEach(el => $('#find-all-todos').append(`<li>${el.title} | ${el.description}</li>`));
-    $('#find-all-todos').prepend(`Cuaca hari ini ${weather}`);
-  }else{
-    $('#find-all-todos').append('<li>No data available</li>');
+    console.log(todos.data.data);
+    console.log(weather);
+    $('.current-weather').text(`Cuaca hari ini: ${weather}`);
+
+    todos.data.data.forEach(el => {
+      console.log('isi el', el);
+      $('#todos tr:last').after(`
+      <tr>
+        <th scope="row">${el.id}</th>
+        <td>${el.title}</td>
+        <td>${el.description}</td>
+        <td>${el.status}</td>
+        <td>${new Date(el.due_date).toDateString()}</td>
+        <td>
+          <a>Edit</a> |
+          <a>Delete</a> 
+        </td>
+      </tr>
+      `)
+    });
+  } else {
+    $('#todos').append(`
+    <tr>
+      <th scope="row">#</th>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+      <td>N/A</td>
+    </tr>
+    `);
   }
+
 }
 
 // google sign in
@@ -23,48 +51,64 @@ function onSignIn(googleUser) {
     })
 }
 
-function registerPage(){
+function registerPage() {
   $('.register-user').show();
   $('#register-input-email').focus();
 
   $('.login-user').hide();
-  $('#todos').hide();
+  $('.todos-table').hide();
   $('#success-alert').hide();
   $('#error-alert').hide();
+  $('#logout').hide();
 
 }
 
-function loginPage(){
+function loginPage() {
   $('.register-user').hide();
-  
+
   $('.login-user').show();
   $('#login-input-email').focus();
 
-  $('#todos').hide();
+  $('.todos-table').hide();
   $('#success-alert').hide();
   $('#error-alert').hide();
+  $('#logout').hide();
 }
 
-function todosPage(){
+function todosPage() {
   $('.register-user').hide();
   $('.login-user').hide();
-  $('#todos').show();
+
+  $('.todos-table').show();
+
   $('#success-alert').hide();
   $('#error-alert').hide();
+  $('#logout').show();
+
+
+  findAll()
+    .then(todos => {
+      console.log(todos);
+      showTodo(todos)
+    })
+    .catch(err => {
+      console.log('tidak boleh');
+      console.log(err);
+    })
 }
 
-function getErrorMessages(err){
+function getErrorMessages(err) {
   const errMsg = [];
-  if(Array.isArray(err.response.data.message)){
+  if (Array.isArray(err.response.data.message)) {
     err.response.data.message.forEach(el => errMsg.push(el))
-  }else{
+  } else {
     errMsg.push(err.response.data.message)
   }
   $('#error-message').text(`${errMsg.join(' and ')}`);
   $('#error-alert').show();
 }
 
-function clearInput(){
+function clearInput() {
   $('#register-input-email').val('');
   $('#register-input-password').val('');
   $('#register-input-email').focus();
@@ -83,17 +127,17 @@ $(document).ready(() => {
   registerPage()
 
   // register is clicked
-  $('#register').on('click', () => registerPage())
+  $('.dont-have-account').on('click', () => registerPage())
 
   // login is clicked
-  $('#login').on('click', () => loginPage())
+  $('.already-have-account').on('click', () => loginPage())
 
   // register
   $('#register-user').on('submit', e => {
     e.preventDefault();
     const email = $('#register-input-email').val();
     const password = $('#register-input-password').val();
-    const data = {email, password};
+    const data = { email, password };
     console.log(data);
     register(data)
       .then(user => {
@@ -115,7 +159,7 @@ $(document).ready(() => {
     e.preventDefault();
     const email = $('#login-input-email').val();
     const password = $('#login-input-password').val();
-    const data = {email, password};
+    const data = { email, password };
 
     login(data)
       .then(response => {
@@ -166,7 +210,7 @@ $(document).ready(() => {
     const description = $('#create-todo .todo-description').val();
     const due_date = $('#create-todo .todo-due-date').val();
     const status = false;
-    const data = {title, description, status, due_date}
+    const data = { title, description, status, due_date }
     console.log(data);
     create(data)
       .then(response => {
