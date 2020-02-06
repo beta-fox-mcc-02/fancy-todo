@@ -7,6 +7,7 @@ module.exports = function(req, res, next) {
         console.log('MASUK AUTHENTICATION')
         console.log(req.headers.token)
         let decoded = verifyToken(req.headers.token)
+        console.log(decoded)
         req.currentUserId = decoded.id
         console.log(req.currentUserId)
         User.findByPk(req.currentUserId)

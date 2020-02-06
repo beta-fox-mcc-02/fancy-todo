@@ -58,7 +58,6 @@ class UserController {
     }
 
     static googleSign(req, res, next) {
-        console.log('MASUK')
         let id_token = req.body.id_token
         let userData= ''
         client.verifyIdToken({
@@ -88,7 +87,7 @@ class UserController {
                 }
             })
             .then(function(user) {
-                let token = generateToken(user.id)
+                let token = generateToken({id: user.id})
                 res.status(200).json({
                     accesToken : token
                 })
