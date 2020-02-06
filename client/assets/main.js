@@ -2,20 +2,34 @@ function toggleRegister() {
    $('#login').hide()
    $('#register').show()
    $('#home').hide()
+   $('fancyFeature').hide()
+
 }
 
 function toggleLogin() {
    $('#login').show()
    $('#register').hide()
    $('#home').hide()
+   $('fancyFeature').hide()
+
 }
 
-function toggleHome () {
+function toggleHome() {
    $('#login').hide()
    $('#register').hide()
    $('#home').show()
    $('#add-myTodo').hide()
    $('#edit-myTodo').empty()
+   $('fancyFeature').hide()
+}
+
+function toggleFancy() {
+   $('#login').hide()
+   $('#register').hide()
+   $('#home').hide()
+   $('#add-myTodo').hide()
+   $('#edit-myTodo').empty()
+   $('#fancyFeature').show()
 }
 // =========================================================================
 
@@ -67,6 +81,8 @@ function signOut() {
       $('#register').hide()
       $('#add-myTodo').hide()
       $('#edit-myTodo').empty()
+      $('#fancyFeature').hide()
+
 
    }
    else {
@@ -89,20 +105,20 @@ function fetchMyTodo() {
    })
       .then(({ data }) => {
          console.log(data, `fetch todooooooooo`);
-            let content = ``
+         let content = ``
 
-            for (let i = 0; i <= data.length - 1; i++) {
-               let status = ''
-               if (data[i].status) {
-                  status = `Done`
-               } else {
-                  status = `Undone`
-               }
-               let tanggalan = new Intl.DateTimeFormat('id', {
-                  weekday: `long`, year: `numeric`, month: `long`, day: `numeric`
-               }).format(new Date(data[i].due_date))
+         for (let i = 0; i <= data.length - 1; i++) {
+            let status = ''
+            if (data[i].status) {
+               status = `Done`
+            } else {
+               status = `Undone`
+            }
+            let tanggalan = new Intl.DateTimeFormat('id', {
+               weekday: `long`, year: `numeric`, month: `long`, day: `numeric`
+            }).format(new Date(data[i].due_date))
 
-               content += `
+            content += `
                <div class="card text-center shadow my-3" style="opacity: .95">
                         <div class="card-body">
                            <h5 class="card-title">${data[i].title}</h5>
@@ -116,8 +132,8 @@ function fetchMyTodo() {
                         </div>
                      </div>
                `
-            }
-            $('#content-myTodo').html(content)
+         }
+         $('#content-myTodo').html(content)
       })
       .catch(err => {
          console.log(err);
@@ -206,10 +222,10 @@ function editTodo(id) {
    axios({
       method: `PUT`,
       url: `http://localhost:3000/todos/${id}`,
-      data : {
+      data: {
          title, description, status, due_date
       },
-      headers : {
+      headers: {
          token
       }
    })
@@ -223,7 +239,7 @@ function editTodo(id) {
          )
          fetchMyTodo()
       })
-      .catch (err => {
+      .catch(err => {
          console.log(err);
       })
 }
@@ -236,13 +252,14 @@ $(document).ready(() => {
       $('#register').hide()
       $('#home').hide()
       $('#add-myTodo').hide()
-
+      $('#fancyFeature').hide()
    }
    else {
       $('#login').hide()
       $('#register').hide()
       $('#home').show()
       $('#add-myTodo').hide()
+      $('#fancyFeature').hide()
       fetchMyTodo()
    }
 
@@ -344,6 +361,11 @@ $(document).ready(() => {
             )
          })
          .catch(err => {
+            Swal.fire({
+               icon: 'error',
+               title: 'hloohh...',
+               text: 'isinya yang lengkap dong!',
+            })
             next(err)
          })
    })

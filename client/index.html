@@ -15,7 +15,7 @@
 </head>
 
 <body>
-   
+
    <section id="home">
       <nav class="navbar navbar-expand-lg navbar-light shadow" style="background-color: #ECF0F1; max-height: 50px;">
          <img src="https://cdn.dribbble.com/users/285803/screenshots/1066705/dribbble.gif" class="p-0" alt=""
@@ -28,7 +28,7 @@
                   <p class="nav-link" onclick="toggleHome()" style="cursor: pointer">My todo</p>
                </li>
                <li class="nav-item">
-                  <p class="nav-link" href="#" style="cursor: pointer">Fancy feature</p>
+                  <p class="nav-link" onclick="toggleFancy()" style="cursor: pointer">Fancy feature</p>
                </li>
             </ul>
             <button type="button" class="btn btn-outline-info mr-4" onclick="toggleAddTodo()">Add Todo</button>
@@ -43,7 +43,7 @@
                <div class="col-6 text-center">
 
                   <div id="content-myTodo" style="overflow: auto; max-height: 83vh;">
-                     
+
                   </div>
 
 
@@ -79,9 +79,58 @@
 
                   <div id="edit-myTodo" class="mt-3">
                      <!-- content add disini -->
-                     
+
                   </div>
 
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+
+   <section id="fancyFeature">
+      <nav class="navbar navbar-expand-lg navbar-light shadow" style="background-color: #ECF0F1; max-height: 50px;">
+         <img src="https://cdn.dribbble.com/users/285803/screenshots/1066705/dribbble.gif" class="p-0" alt=""
+            style="max-width: 60px">
+         <a class="navbar-brand pl-0 ml-0" href="#">Fancy kuy</a>
+
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto justify-content-center">
+               <li class="nav-item">
+                  <p class="nav-link" onclick="toggleHome()" style="cursor: pointer">My todo</p>
+               </li>
+               <li class="nav-item">
+                  <p class="nav-link" onclick="toggleFancy()" style="cursor: pointer">Fancy feature</p>
+               </li>
+            </ul>
+            <button type="button" class="btn btn-outline-info mr-4" onclick="toggleAddTodo()">Add Todo</button>
+            <button type="button" class="btn btn-danger mr-4" onclick="signOut()"><i
+                  class="fas fa-sign-out-alt"></i></button>
+         </div>
+      </nav>
+
+      <div id="content-fancy" class="mt-5">
+         <div class="container">
+            <div class="row">
+               <div class="col-5">
+                  <div class="card text-center shadow">
+                     <div class="card-header">
+                        Fancy Weather
+                     </div>
+                     <div class="card-body">
+                        <h5 class="card-title">Forecast the weather in your city</h5>
+
+                        <form class="form-inline justify-content-center" id="form-weather">   
+                           <div class="form-group mr-2 mb-2">
+                              <input type="text" class="form-control" id="form-city-weather" placeholder="input your city...">
+                           </div>
+                           <button type="submit" class="btn btn-info mb-2"><i class="fas fa-search"></i></button>
+                        </form>
+                     </div>
+                     <div class="card-footer text-muted">
+                        <small>Incase you want to do something outside.</small>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
