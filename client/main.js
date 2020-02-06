@@ -40,7 +40,6 @@ function onSignIn(googleUser) {
 }
 
 function remove(id) {
-    // console.log(`masuk!`) 
     let token = localStorage.getItem('token')
 
     $.ajax(`http://localhost:3000/todos/${id}`, {
@@ -76,11 +75,11 @@ function showFormUpdate(id){
                 // showHome()
                 console.log(`berhasil find one`)
                 let input = todo.data
+                $('#editId').val(input.id),
                 $('#editTitle').val(input.title),
                 $('#editDescription').val(input.description),
                 $('#edit_due_date').val(Date(due_date))
                 $('#editTodo').show()
-                // console.log(todo.data)
             })
             .fail( err => {
                 console.log(err)
@@ -88,8 +87,6 @@ function showFormUpdate(id){
             .always( result => {
                 console.log(`success`)
             })
-
-    
 }
 
 
@@ -257,32 +254,33 @@ $(document).ready(() => {
      // EDIT ==================================================
 
      $('#editTodo').on("submit", (event) => {
-        console.log($('#editTitle').val(),)
+         event.preventDefault()
+         let token = localStorage.getItem('token') 
 
-    //     let updateData = {
-    //         title : $('#editTitle').val(),
-    //         description : $('#editDescription').val(),
-    //         due_date : $('#edit_due_date').val()
-    //     } 
+        let updateData = {
+            title : $('#editTitle').val(),
+            description : $('#editDescription').val(),
+            due_date : $('#edit_due_date').val()
+        } 
         
-    //     $.ajax(`http://localhost:3000/todos/${id}`, {
-    //         method : 'put',
-    //         data : data,
-    //         headers : {
-    //             token : token
-    //         }
-    //     })
-    //         .done(result => {
-    //             showHome()
-    //             console.log(result.data)
-    //             console.log(`berhasil update`)
-    //         })
-    //         .fail( err => {
-    //             console.log(err)
-    //         })
-    //         .always( result => {
-    //             console.log(`success`)
-    //         })
+        $.ajax(`http://localhost:3000/todos/${$('#editId').val()}`, {
+            method : 'put',
+            data : updateData,
+            headers : {
+                token : token
+            }
+        })
+            .done(result => {
+                showHome()
+                console.log(result.data)
+                console.log(`berhasil update`)
+            })
+            .fail( err => {
+                console.log(err)
+            })
+            .always( result => {
+                console.log(`success`)
+            })
     })
 
 
