@@ -22,19 +22,27 @@ function fetchData(){
   }
 })
   .done(function(todos){
-    $("ul#todos").empty()
+    $("#todos").empty()
     todos.data.forEach(el => {
-      $("ul#todos").append(`<li id="li-${el.id}">${el.title}</li>`);
-      $(`li#li-${el.id}`).on("click", function(){
+      $("#todos").append(
+        // `<li id="li-${el.id}">${el.title}</li>`
+      `<tr>
+        <td>${el.title}</td>
+        <td>${el.due_date}</td>
+        <td><a id="li-${el.id}" href="#">detail</a></td>
+       </tr>`
+        );
+      $(`#li-${el.id}`).on("click", function(){
         selectOne(el.id)
         .then(todo=>{
+          $("#listTodo").hide()
+          $("#div-f1").show()
           $("ul#todo-findOne").empty()
           $("ul#todo-findOne").append(`<li>Title :${todo.data.data.title}</li>`);
           $("ul#todo-findOne").append(`<li>Description :${todo.data.data.description}</li>`);
           let arr = todo.data.data.due_date.split('T')
           $("ul#todo-findOne").append(`<li>Due date :${arr[0]}</li>`);
           $("#id-select").val(`${el.id}`)
-          // $("div#f1-action").append(``)
         })
         .catch(err=>{
           console.log(err)
@@ -105,22 +113,76 @@ function onSignIn(googleUser) {
   .then(user=>{
     const token = user.data.accesToken
     localStorage.setItem('token',token)
+    $("#listTodo").hide()
     fetchData()
+    afterLogin()
   })
   .catch(err =>{
     console.log(err)
   })
 }
 
+function showHome(){
+  $("#listTodo").hide()
+  $("#div-register").hide()
+  $("#div-login").hide()
+  $("#div-add").hide()
+  $("#div-edit").hide()
+  $("#div-f1").hide() 
+  $("#div-home").show()
+}
+
+function afterLogin(){
+  $("ul#todo-findOne").empty()
+  $("#div-login").hide()
+  $("#click-register").hide()
+  $("#click-login").hide()
+  $("#click-logout").show()
+  $("#click-list").show()
+  $("#listTodo").hide()
+  $("#div-home").show()
+}
+
 $(document).ready(function(){
-  $("li#list").click(function(){
-    $("#listTodo").show();
-    $("#home").hide();
+  if(!localStorage.token){
+    $("#div-register").hide()
+    $("#div-login").hide()
+    $("#div-add").hide()
+    $("#div-edit").hide()
+    $("#div-f1").hide()
+    $("#click-list").hide()
+    $("#listTodo").hide() 
+    $("#click-logout").hide() 
+  } else {
+    $("#click-register").hide()
+    $("#click-login").hide()
+  }
+
+  $("#click-login").on("click", function(){
+    $("#div-home").hide()
+    $("#div-login").show()
+  })
+
+  $("#click-register").on("click", function(){
+    $("#div-home").hide()
+    $("#div-register").show()
+  })
+
+  $("#click-list").click(function(){
+    fetchData()
+    $("#listTodo").show()
+    $("#div-home").hide()
+    $("#div-register").hide()
+    $("#div-login").hide()
+    $("#div-add").hide()
+    $("#div-edit").hide()
+    $("#div-f1").hide() 
+    $("#click-logout").show() 
   });
 
-  if(localStorage.token){
-    fetchData()
-  }
+  $("#click-home").click(function(){
+    showHome()
+  });
 
   $("#register").on("submit",function(el){
     el.preventDefault()
@@ -130,6 +192,8 @@ $(document).ready(function(){
     regiter(data)
       .then(user=>{
         console.log(user.data)
+        $("#div-login").show()
+        $("#div-register").hide()
       })
       .catch(err=>{
         console.log(err)
@@ -147,6 +211,7 @@ $(document).ready(function(){
       const token = user.data.accesToken
       localStorage.setItem('token',token)
       fetchData()
+      afterLogin()
     })
     .catch(err=>{
       console.log(err)
@@ -169,25 +234,16 @@ $(document).ready(function(){
     })
   })
 
-  $("#f1").on("click", function(){
-    let id = 4
-    selectOne(id)
-      .then(todo=>{
-        console.log(todo)
-        $("ul#todo-findOne").append(`<li>Title :${todo.data.data.title}</li>`);
-        $("ul#todo-findOne").append(`<li>Description :${todo.data.data.description}</li>`);
-        $("ul#todo-findOne").append(`<li>Due date :${todo.data.data.due_date}</li>`);
-      })
-      .catch(err=>{
-        console.log(err)
-      })
-  })
-
-  $("#logout").on("click", function(){
+  $("#click-logout").on("click", function(){
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
       console.log('User signed out.');
       localStorage.clear();
+      showHome()
+      $("#click-register").show()
+      $("#click-login").show()
+      $("#click-logout").hide()
+      $("#click-list").hide()
     });
   })
 
@@ -208,6 +264,8 @@ $(document).ready(function(){
     let id = $("#id-select").val()
     selectOne(id)
     .then(result=>{
+      $("#div-f1").hide()
+      $("#div-edit").show()
       console.log(result.data.data.title)
       $("ul#todo-findOne").empty()
       $("#t-edit").val(`${result.data.data.title}`)
