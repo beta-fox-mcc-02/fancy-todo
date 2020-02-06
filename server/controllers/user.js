@@ -1,6 +1,9 @@
 const { User } = require('../models/index')
 const { comparePass } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
+const { OAuth2Client } = require('google-auth-library');
+
+let secretPasswordGoogle = 'qwertymnbvcxzasd12345'
 
 class Controller {
     static register(req, res, next) {
@@ -50,6 +53,61 @@ class Controller {
                         message: 'Bad request',
                         type: 'email / password wrong'
                     })
+                }
+            })
+            .catch(err => {
+                next(err)
+            })
+    }
+    static loginGoogle(req, res, next) {
+        let payload;
+        const client = new OAuth2Client("539169343052-ck6st9oeel1c00ope1scvr4bfk6nalt1.apps.googleusercontent.com");
+        client.verifyIdToken({
+            idToken: req.headers.access_token,
+            audience: "539169343052-ck6st9oeel1c00ope1scvr4bfk6nalt1.apps.googleusercontent.com",
+        })
+            .then(response => {
+                payload = {
+                    first_name: response.payload.given_name,
+                    last_name: response.payload.family_name,
+                    email: response.payload.email,
+                    picture: response.payload.picture
+                }
+                return User.findOne({
+                    where: {
+                        email: response.payload.email
+                    }
+                })
+            })
+            .then(user => {
+                if (user) {
+                    let payload = {
+                        id: user.id,
+                        email: user.email,
+                    }
+                    let token = generateToken(payload);
+                    res.status(200).json({
+                        accessToken: token
+                    })
+                } else {
+                    let newUser = {
+                        email: payload.email,
+                        password: secretPasswordGoogle
+                    }
+                    User.create(newUser)
+                        .then(user => {
+                            let payload = {
+                                id: user.id,
+                                email: user.email,
+                            }
+                            let token = generateToken(payload);
+                            res.status(200).json({
+                                accessToken: token
+                            })
+                        })
+                        .catch(err => {
+                            next(err);
+                        })
                 }
             })
             .catch(err => {

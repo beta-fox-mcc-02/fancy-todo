@@ -217,6 +217,28 @@ function showEditTodo(id) {
         })
 }
 
+
+//google-sign-in
+function onSignIn(googleUser) {
+    var id_token = googleUser.getAuthResponse().id_token;
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:3000/login/google",
+        headers: {
+            "access_token": id_token
+        }
+    })
+        .done(response => {
+            console.log(response)
+            localStorage.token = response.accessToken
+            isLogin()
+            showHome()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
 $(document).ready(function () {
     isLogin()
     showHome()
@@ -234,6 +256,10 @@ $(document).ready(function () {
     })
     //klik logout
     $("#navLogout").click(function () {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
         showHome()
         localStorage.clear()
         isLogin()
