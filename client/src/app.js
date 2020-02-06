@@ -1,23 +1,23 @@
 function showTodo(todos) {
-  console.log(todos);
   if (todos.data.data.length) {
     const weather = todos.data.data[0].currentWeather;
-    console.log(todos.data.data);
-    console.log(weather);
-    $('.current-weather').text(`Cuaca hari ini: ${weather}`);
+    $('.current-weather').html(`<p>Cuaca hari ini: <strong>${weather.toUpperCase()}</strong></p>`);
+    $('#todos tbody').empty();
 
     todos.data.data.forEach(el => {
-      console.log('isi el', el);
-      $('#todos tr:last').after(`
+      const todoStatus = el.status ? 'Completed' : 'Uncomplete';
+      $('#todos tbody').append(`
       <tr>
         <th scope="row">${el.id}</th>
         <td>${el.title}</td>
         <td>${el.description}</td>
-        <td>${el.status}</td>
+        <td>
+          <strong>${todoStatus}</strong>
+        </td>
         <td>${new Date(el.due_date).toDateString()}</td>
         <td>
-          <a>Edit</a> |
-          <a>Delete</a> 
+          <a href="#" class="edit-todos">Edit</a> |
+          <a href="#" class="delete-todos">Delete</a> 
         </td>
       </tr>
       `)
@@ -85,7 +85,7 @@ function todosPage() {
   $('#error-alert').hide();
   $('#logout').show();
 
-
+  console.log('dari todosPage')
   findAll()
     .then(todos => {
       console.log(todos);
@@ -124,7 +124,11 @@ function clearInput() {
 $(document).ready(() => {
 
   // default view
-  registerPage()
+  if (!localStorage.access_token) {
+    registerPage()
+  } else {
+    todosPage()
+  }
 
   // register is clicked
   $('.dont-have-account').on('click', () => registerPage())
@@ -204,22 +208,21 @@ $(document).ready(() => {
   })
 
   // create new todo
-  $('#create-todo').on('submit', (e) => {
-    e.preventDefault();
-    const title = $('#create-todo .todo-title').val();
-    const description = $('#create-todo .todo-description').val();
-    const due_date = $('#create-todo .todo-due-date').val();
-    const status = false;
-    const data = { title, description, status, due_date }
-    console.log(data);
-    create(data)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      })
 
-
-  })
+  // $('#create-todo').on('submit', (e) => {
+  //   e.preventDefault();
+  //   const title = $('#create-todo .todo-title').val();
+  //   const description = $('#create-todo .todo-description').val();
+  //   const due_date = $('#create-todo .todo-due-date').val();
+  //   const status = false;
+  //   const data = { title, description, status, due_date }
+  //   console.log(data);
+  //   create(data)
+  //     .then(response => {
+  //       console.log(response);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+  // })
 })
