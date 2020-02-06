@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="686997214713-pkb3iaciqoch137dpbm3e4ag9kgrm60p.apps.googleusercontent.com">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>TODO!</title>
+
+    <!-- NAVBAR -->
+    <!-- As a link -->
+    
+</head>
+
+<body>
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" id="home">TODO!</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="commonFormSignIn">Sign In</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="commonFormSignUp">Sign Up</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Log Out</a>
+        </li>
+        <li class="nav-item">
+            <a class="g-signin2" data-onsuccess="onSignIn"></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Log Out</a>
+            <script>
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                console.log('User signed out.');
+                });
+            }
+            </script>
+        </li>
+      </ul>
+    
+    
+
+    <a href="#" onclick="signOut();">Sign out</a>
+
+
+
+    <!-- HOME -->
+    <div id="welcomeGreet" >
+    </div>
+    
+    <!-- BUTTON TODO -->
+    <div id="buttonTodos">
+        <div class="row">
+            <div class="col-sm">
+            </div>
+            <div class="col-sm">
+                <center>
+                    <h1> WELCOME TO TODOS!</h1>
+                    <br>
+                    <h3> You can manage all your bussines here!</h3>
+                </center>
+            </div>
+            <div class="col-sm">
+                <div class="card">
+                  <h5 class="card-header">Featured</h5>
+                  <div class="card-body">
+                    <a href="#" class="btn btn-secondary" id="showForm">Create Todo</a>
+                    <a href="#" class="btn btn-secondary" id="readAll">View All Todo</a>
+                    <a href="#" class="btn btn-secondary" id="delete">Delete Todo</a>
+                  </div>
+                </div></div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- SIGN UP -->
+    <div id="signUp" class="container">
+        <center>
+            <h3> SIGN UP</h3>
+        </center>
+        <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" name="emailSignUp" id="emailSignUp" aria-describedby="emailHelp">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="passwordSignUp">Password</label>
+              <input type="password" class="form-control" name="passwordSignUp" id="passwordSignUp">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+    <br>
+    <br>
+
+
+
+    <!-- SIGN IN-->
+    <div id="signIn" class="container">
+        <center>
+            <h3> SIGN IN</h3>
+        </center>
+        <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" name="emailSignIn" id="emailSignIn" aria-describedby="emailHelp">
+              <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="passwordSignIn">Password</label>
+              <input type="password" class="form-control" name="passwordSignIn" id="passwordSignIn">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+
+    <!-- LIST TODOS -->
+    <div class="container" id="showTodos">
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Due Date</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+                <tr>
+                    <td id="update">Update</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- CREATE TODO -->
+    <div class="container">
+        <form id="createTodo">
+            <center>
+                <h3> New Todo</h3>
+            </center>
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" name="title" id="title">
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="description" id="description">
+            </div>
+
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" class="form-control" name="due_date" id="due_date" >
+                <small class="form-text text-muted">Please input with this format, example : 02/01/2019</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+    <!-- EDIT TODO -->
+    <div class="container">
+        <form id="editTodo">
+            <center>
+                <h3> EDIT TODO</h3>
+            </center>
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input type="text" class="form-control" name="editTitle" id="editTitle">
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="editDescription" id="editDescription">
+            </div>
+
+            <div class="form-group">
+                <label for="due_date">Due Date</label>
+                <input type="date" class="form-control" name="edit_due_date" id="edit_due_date" >
+                <small class="form-text text-muted">Please input with this format, example : 02/01/2019</small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="./main.js"></script>
+  </body>
+</html>
