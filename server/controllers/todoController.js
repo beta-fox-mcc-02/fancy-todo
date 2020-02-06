@@ -8,6 +8,7 @@ class TodoController {
       due_date: req.body.due_date,
       UserId: req.decoded.id
     }
+    
     Todo
       .create(data)
       .then(todo => {

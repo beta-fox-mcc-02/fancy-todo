@@ -127,20 +127,37 @@ function fetchTodo () {
     }
   })
   .done(({ data }) => {
-    $('#content').empty()
+    $('#content-done').empty()
+    $('#content-todo').empty()
     data.forEach((todo, i) => {
-      $('#content').append(`
+      if(!todo.status) {
+        $('#content-todo').append(`
+          <tr>
+            <th scope="row">${i + 1}</th>
+            <td>${todo.title}</td>
+            <td>${todo.due_date}</td>
+            <td>
+            <span style="cursor: pointer;" onclick="editTodo(${todo.id})">Edit</span> |
+            <span style="cursor: pointer;" onclick="doneTodo((${todo.id}), true)">Done</span> | 
+            <span style="cursor: pointer;" onclick="deleteTodo(${todo.id})">Delete</span>
+            </td>
+          </tr>
+        `)
+      } else {
+        
+        $('#content-done').append(`
         <tr>
           <th scope="row">${i + 1}</th>
           <td>${todo.title}</td>
           <td>${todo.due_date}</td>
           <td>
           <span style="cursor: pointer;" onclick="editTodo(${todo.id})">Edit</span> |
-          <span style="cursor: pointer;" onclick="doneTodo((${todo.id}), true)">Done</span> | 
+          <span style="cursor: pointer;" onclick="doneTodo((${todo.id}), false)">Undone</span> | 
           <span style="cursor: pointer;" onclick="deleteTodo(${todo.id})">Delete</span>
           </td>
         </tr>
       `)
+      }
     })
   })
   .fail(err => {
@@ -163,13 +180,16 @@ function addTodo () {
         token: localStorage.token
       }
     })
-    .done( ({ data }) => {
+    .done(({ data }) => {
       Swal.fire({
         title: 'Yuhuuu..',
         text: `Adding ${data.title} Success !`,
         icon: 'success',
         confirmButtonText: 'OK'
       })
+      $('#title').val('')
+      $('#description').val('')
+      $('#due_date').val('')
       fetchTodo()
     })
     .fail( err => {
@@ -179,15 +199,31 @@ function addTodo () {
 }
 
 function editTodo (id) {
-  // $.ajax({
-  //   method: 'PUT',
-
-  // })
   console.log('edit ', id)
+  $('#contentPage').hide()
+  $('#formEdit').show()
 }
 
 function doneTodo (id, v) {
   console.log('done ', id, v)
+  $.ajax({
+    method: 'PUT',
+    url: `http://localhost:3000/todos/${id}`,
+    data: {
+      status: v
+    },
+    headers: {
+      token: localStorage.token
+    }
+  })
+  .done( todo => {
+    console.log(todo)
+    fetchTodo()
+  })
+  .fail(err => {
+    console.log(err)
+  })
+
 }
 
 function deleteTodo (id) {
@@ -222,6 +258,7 @@ function contentPage () {
   fetchName()
   $('#contentPage').show()
   $('#landingPage').hide()
+  $('#formEdit').hide()
 }
 
 function fetchName () {
