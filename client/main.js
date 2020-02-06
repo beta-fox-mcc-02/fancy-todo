@@ -230,10 +230,7 @@ $(document).ready(function(){
     updateTodo(data,id)
     .then(result=>{
       console.log(result.data)
-      return selectOne(id)
-    })
-    .then(todo=>{
-      console.log(todo)
+      fetchData()
     })
     .catch(err=>{
       console.log(err)
