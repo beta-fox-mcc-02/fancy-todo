@@ -1,4 +1,5 @@
 let currentUser = localStorage.currentUser
+let updateId
 // USER QUERY
 function onSignIn(googleUser) {
   const token = googleUser.getAuthResponse().id_token;
@@ -130,12 +131,15 @@ function fetchTodo () {
     $('#content-done').empty()
     $('#content-todo').empty()
     data.forEach((todo, i) => {
+      const date = todo.due_date.split('-')
+      const fixDate = `${date[2]}-${date[1]}-${date[0]}`
       if(!todo.status) {
         $('#content-todo').append(`
           <tr>
             <th scope="row">${i + 1}</th>
             <td>${todo.title}</td>
-            <td>${todo.due_date}</td>
+            <td>${todo.description}</td>
+            <td>${fixDate}</td>
             <td>
             <span style="cursor: pointer;" onclick="editTodo(${todo.id})">Edit</span> |
             <span style="cursor: pointer;" onclick="doneTodo((${todo.id}), true)">Done</span> | 
@@ -144,12 +148,12 @@ function fetchTodo () {
           </tr>
         `)
       } else {
-        
         $('#content-done').append(`
         <tr>
           <th scope="row">${i + 1}</th>
           <td>${todo.title}</td>
-          <td>${todo.due_date}</td>
+          <td>${todo.description}</td>
+          <td>${fixDate}</td>
           <td>
           <span style="cursor: pointer;" onclick="editTodo(${todo.id})">Edit</span> |
           <span style="cursor: pointer;" onclick="doneTodo((${todo.id}), false)">Undone</span> | 
@@ -199,13 +203,63 @@ function addTodo () {
 }
 
 function editTodo (id) {
-  console.log('edit ', id)
+  updateId = id
+  // console.log('edit ', id)
   $('#contentPage').hide()
   $('#formEdit').show()
+  $('#Navbar').show()
+  $.ajax({
+    method: 'GET',
+    url: `http://localhost:3000/todos/${id}`,
+    headers: {
+      token: localStorage.token
+    }
+  })
+  .done(({ data }) => {
+    // console.log(data)
+    $('#title-update').val(`${data.title}`)
+    $('#description-update').val(`${data.description}`)
+    $('#due_date-update').val(`${data.due_date}`)
+  })
+  .fail(err => console.log(err))
+}
+
+function updateTodo () {
+  $('#update-todo').on('submit', (e) => {
+    e.preventDefault()
+    $.ajax({
+      method: 'PUT',
+      url: `http://localhost:3000/todos/${updateId}`,
+      data: {
+        title: $('#title-update').val(),
+        description: $('#description-update').val(),
+        due_date: $('#due_date-update').val()
+      },
+      headers: {
+        token: localStorage.token
+      }
+    })
+    .done(({ data }) => {
+      Swal.fire({
+        title: 'Yuhuuu..',
+        text: `Update ${data.title} Success !`,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      })
+      $('#title-update').val('')
+      $('#description-update').val('')
+      $('#due_date-update').val('')
+      updateId = ''
+      fetchTodo()
+      contentPage()
+      
+    })
+    .fail(err => console.log(err))
+  })
 }
 
 function doneTodo (id, v) {
-  console.log('done ', id, v)
+  // console.log('done ', id, v)
   $.ajax({
     method: 'PUT',
     url: `http://localhost:3000/todos/${id}`,
@@ -217,7 +271,7 @@ function doneTodo (id, v) {
     }
   })
   .done( todo => {
-    console.log(todo)
+    // console.log(todo)
     fetchTodo()
   })
   .fail(err => {
@@ -256,6 +310,7 @@ function landingPage () {
 
 function contentPage () {
   fetchName()
+  $('#Navbar').show()
   $('#contentPage').show()
   $('#landingPage').hide()
   $('#formEdit').hide()
@@ -266,6 +321,9 @@ function fetchName () {
   $('#currentUser').append(`Welcome ${currentUser}`)
 }
 
+function fetchWeather (){
+  
+}
 // DOCUMENT READY
 $(document).ready(() => {
   if(localStorage.getItem('token')) {
@@ -281,4 +339,5 @@ $(document).ready(() => {
   signUpFancy()
 
   addTodo()
+  updateTodo()
 })

@@ -1,9 +1,10 @@
 const { User } = require('../models')
-const{ verifyToken } = require('../helpers/jwt')
+const jwt = require('jsonwebtoken')
+const SECRET = process.env.JWT_SECRET
 
 module.exports = (req, res, next) => {
   try {
-    const decoded = verifyToken(req.headers.token)
+    const decoded = jwt.verify(req.headers.token, SECRET)
     req.decoded = decoded
     User
       .findOne({

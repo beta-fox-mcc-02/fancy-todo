@@ -17,51 +17,15 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Username length minimal is 4'
         }
       }
-      // unique: true,
-      // validate: {
-      //   isUnique(value, next) {
-      //     User
-      //       .findOne({
-      //         where: {
-      //           username: value
-      //         }
-      //       })
-      //       .then(user => {
-      //         if(user){
-      //           next('Username Already Used')
-      //         } else {
-      //           next()
-      //         }
-      //       })
-      //       .catch(next)
-      //   }
-      // }
     },
     email: {
       type: DataTypes.STRING,
-      // unique: true,
       allowNull: false,
       validate: {
         isEmail: {
           args: true,
           msg: 'Email Format is Invalid, Please Check Your Email Format Again !'
         },
-        // isUnique(value, next) {
-        //   User
-        //     .findOne({
-        //       where: {
-        //         email: value
-        //       }
-        //     })
-        //     .then(user => {
-        //       if(user){
-        //         next('Email Already Used')
-        //       } else {
-        //         next()
-        //       }
-        //     })
-        //     .catch(next)
-        // },
         notNull: {
           args: true,
           msg: 'Email cannot be empty'

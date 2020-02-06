@@ -1,10 +1,15 @@
 const { User } = require('../models')
 const { comparePassword } = require('../helpers/bcrypt')
-const { generateToken } = require('../helpers/jwt')
+
+// GOOGLE
 const { OAuth2Client } = require('google-auth-library')
 const CLIENT_ID = process.env.CLIENT_ID
 const SECRET_PASSWORD = process.env.SECRET_PASSWORD
 const client = new OAuth2Client(CLIENT_ID)
+
+// JWT
+const jwt = require('jsonwebtoken')
+const SECRET = process.env.JWT_SECRET
 
 class UserController {
   static register (req, res, next) {
@@ -45,7 +50,7 @@ class UserController {
               email: user.email,
               username: user.username
             }
-            const token = generateToken(payload)
+            const token = jwt.sign(payload, SECRET)
             res.status(200).json({
               token,
               name: payload.username
@@ -103,7 +108,7 @@ class UserController {
           email: user.email,
           username: user.username
         }
-        const token = generateToken(payload)
+        const token = jwt.sign(payload, SECRET)
         res.status(200).json({
           name: payload.username,
           token

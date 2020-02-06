@@ -72,8 +72,8 @@
     </section>
 
 
-    <section id="contentPage">
-      <!-- navbar -->
+    <!-- navbar -->
+    <section id="Navbar">
       <nav class="navbar navbar-expand-sm navbar-dark bg-primary fixed-top">
         <a class="navbar-brand" href="#">Fancy-Todo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,10 +86,12 @@
           </div>
         </div>
       </nav>
-      <!-- data -->
-      <div class="container">
+    </section>
+    <!-- data -->
+    <section id="contentPage">
+      <div class="container" style="max-width: 95%;">
         <div class="row" style="padding-top: 5rem;">
-          <div class="col-md-5">
+          <div class="col-md-4">
             <div class="row">
               <div class="container">
                 <div class="card">
@@ -115,16 +117,17 @@
               </div>
             </div>
           </div>
-          <div class="col-md-7">
+          <div class="col-md-8">
             <div class="text-center" style="min-height: 100vh; max-height: 100vh;">
               <!-- Todo List -->
               <div class="card">
                 <h2 class="mt-2">My Todo List</h2>
-                <table class="table table-hover">
+                <table class="table table-hover table-responsive-md">
                   <thead>
                     <tr>
                       <th scope="col">No.</th>
                       <th scope="col">Title</th>
+                      <th scope="col">Description</th>
                       <th scope="col">Due Date</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -137,11 +140,12 @@
               <!-- Done List -->
               <div class="card my-2">
                 <h2 class="mt-2">Done List</h2>
-                <table class="table table-hover">
+                <table class="table table-hover table-responsive-md">
                   <thead>
                     <tr>
                       <th scope="col">No.</th>
                       <th scope="col">Title</th>
+                      <th scope="col">Description</th>
                       <th scope="col">Due Date</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -155,27 +159,28 @@
           </div>
         </div>
       </div>
-
-      <div id="formEdit">
-        <div class="container">
-          <div class="card">
-            <h2 class="mt-2"> Add Todo</h2>
-            <form class="text-center" id="add-todo">
-              <div class="form-group">
-                <input type="text" class="form-control" id="title" placeholder="Todo Title">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" id="description" placeholder="description">
-              </div>
-              <div class="form-group">
-                <input type="date" class="form-control" id="due_date" placeholder="date">
-              </div>
-              <button type="submit" class="btn btn-primary mb-2">Submit</button>
-            </form>
-          </div>
-      </div>
     </section>
-
+      
+      
+    <section id="formEdit" class="mt-5 pt-5">
+      <div class="container">
+        <div class="card">
+          <h2 class="mt-2"> Update Todo</h2>
+          <form class="text-center" id="update-todo">
+            <div class="form-group">
+              <input type="text" class="form-control" id="title-update" value="">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" id="description-update" value="">
+            </div>
+            <div class="form-group">
+              <input type="date" class="form-control" id="due_date-update" value="">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Submit</button>
+          </form>
+        </div>
+        
+    </section>
     <!-- Optional JavaScript -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
