@@ -85,47 +85,63 @@
     </div>
 
     <div id="todo" class="my-4">
-      <!-- Add todo -->
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#addTodoModal">
-        Add Todo
-      </button>
-      <!-- Modal -->
-      <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="addTodoLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="addTodoLabel">Add Todo</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="addTitleTodo">Title</label>
-                  <input type="text" class="form-control" id="addTitleTodo" aria-describedby="emailHelp">
-                </div>
-                <div class="form-group">
-                  <label for="addDescriptionTodo">Description</label>
-                  <input type="text" class="form-control" id="addDescriptionTodo">
-                </div>
-                <div class="form-group">
-                  <label for="due_date">Due date</label>
-                  <input type="date" class="form-control" id="due_date">
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button id="saveTodo" data-dismiss="modal" type="button" class="btn btn-primary">Save</button>
+      <div>
+        <!-- Add todo -->
+        <!-- Button trigger modal -->
+        <div class="d-flex justify-content-between ">
+          <h3 class="m-2">Todo List:</h3>
+          <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#addTodoModal">
+            Add Todo
+          </button>
+        </div>
+        <hr>
+        <!-- Modal -->
+        <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="addTodoLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="addTodoLabel">Add Todo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="addTitleTodo">Title</label>
+                    <input type="text" class="form-control" id="addTitleTodo" aria-describedby="emailHelp">
+                  </div>
+                  <div class="form-group">
+                    <label for="addDescriptionTodo">Description</label>
+                    <input type="text" class="form-control" id="addDescriptionTodo">
+                  </div>
+                  <div class="form-group">
+                    <label for="due_date">Due date</label>
+                    <input type="date" class="form-control" id="due_date">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="saveTodo" data-dismiss="modal" type="button" class="btn btn-primary">Save</button>
+              </div>
             </div>
           </div>
         </div>
+        <!-- end add todo -->
+        <div id="listTodos" class="row"></div>
+        <hr>
       </div>
-      <!-- end add todo -->
-      <div id="listTodos" class="row"></div>
 
+      <div class="listDone">
+        <div class="d-flex justify-content-between ">
+          <h3 class="m-2">Done List:</h3>
+          <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#addTodoModal">
+            Add Todo
+          </button>
+        </div>
+        <hr>
+      </div>
     </div>
     
   </div>

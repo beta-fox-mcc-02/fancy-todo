@@ -179,20 +179,22 @@ function fetchTodos () {
 
 function displayTodos (todos) {
   todos.forEach(todo => {
-    $('#listTodos').append(`
-    <div class="col-sm-4">
-      <div class="card m-1">
-        <div class="card-header">
-          <h3>${todo.title}</h3>
-        </div>
-        <div class="card-body">
-          <p class="card-text">${todo.description}</p>
-          <a href="#" id="updateTodo${todo.id}" class="btn btn-primary">Update</a>
-          <a href="#" id="deleteTodo${todo.id}" class="btn btn-primary">Delete</a>
+    const cardTodo = `
+      <div class="col-sm-6">
+        <div class="card m-1">
+          <div class="card-header">
+            <h3>${todo.title}</h3>
+          </div>
+          <div class="card-body">
+            <p class="card-text">${todo.description}</p>
+            <a href="#" id="updateTodo${todo.id}" class="btn btn-primary">Update</a>
+            <a href="#" id="deleteTodo${todo.id}" class="btn btn-primary">Delete</a>
+          </div>
         </div>
       </div>
-    </div>
-    `)
+      `
+    
+    $('#listTodos').append()
 
     $(`#updateTodo${todo.id}`).click(function(e){
       e.preventDefault()
@@ -205,3 +207,4 @@ function displayTodos (todos) {
     })
   })
 }
+
