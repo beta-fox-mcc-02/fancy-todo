@@ -5,12 +5,12 @@ module.exports = (req, res, next) => {
     try {
         const token = req.headers.token
         const decoded = verify(token)
-        // console.log(decoded)
+        // console.log(decoded, "DARI AUTH")
         if (token) {
             User.findByPk(decoded.id)
             .then(user => {
                 if (user) {
-                    // console.log(user)
+                    // console.log(user, "USEERRRRR")
                     req.currentUserId = decoded.id
                     next()
                 } else {

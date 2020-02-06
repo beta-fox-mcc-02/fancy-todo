@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="google-signin-client_id" content="769420659096-7nmb1mlj15uaocjaee57tlng203ufjft.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+        content="769420659096-7nmb1mlj15uaocjaee57tlng203ufjft.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="./src/style.css">
@@ -31,7 +32,7 @@
         </ul>
     </nav>
 
-    
+
     <!-- <a href="#" onclick="signOut();">Sign out</a> -->
 
     <!-- LANDING PAGE -->
@@ -112,28 +113,44 @@
             <form>
                 <div class="form-group">
                     <label for="title-add">TITLE</label>
-                    <input type="text" class="form-control" id="title-add"
-                        placeholder="title - todos">
+                    <input type="text" class="form-control" id="title-add" placeholder="title - todos">
                 </div>
                 <div class="form-group">
                     <label for="description-add">DESCRIPTION</label>
-                    <textarea class="form-control" id="description-add" rows="3" placeholder="description of todos"></textarea>
+                    <textarea class="form-control" id="description-add" rows="3"
+                        placeholder="description of todos"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="date-add">DUE DATE</label>
-                    <input type="date" class="form-control" id="date-add"
-                        placeholder="due date todos">
+                    <input type="date" class="form-control" id="date-add" placeholder="due date todos">
                 </div>
                 <button type="submit" class="btn btn-success">ADD TODO</button>
             </form>
         </center>
     </div>
 
-    <div class="container" id="delete-oy">
-        <h1>HAY MARO</h1>
-    </div>
 
-    
+    <!-- EDIT TODOOO -->
+    <div class="container" id="form-edit-todo">
+        <center>
+            <form>
+                <div class="form-group">
+                    <label for="title-add">TITLE</label>
+                    <input type="text" class="form-control" id="title-edit" placeholder="title - todos" value="">
+                </div>
+                <div class="form-group">
+                    <label for="description-add">DESCRIPTION</label>
+                    <textarea class="form-control" id="description-edit" rows="3"
+                        placeholder="description of todos"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="date-add">DUE DATE</label>
+                    <input type="date" class="form-control" id="date-edit" placeholder="due date todos">
+                </div>
+                <button type="submit" class="btn btn-success">EDIT TODO</button>
+            </form>
+        </center>
+    </div>
 
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

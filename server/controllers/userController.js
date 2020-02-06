@@ -25,6 +25,8 @@ class UserController {
 
     static login (req, res, next) {
         const {email, password} = req.body
+        // console.log(req.body);
+        
         User.findOne({
             where: {
                 email
@@ -37,12 +39,15 @@ class UserController {
                     msg: 'username/password wrong'
                 })
             } else {
+                
                 const pass = comparePassword(password, user.password)
                 if (pass) {
+                    console.log(pass, 'ini password')
                     const data = generateToken({
                         email,
                         id: user.id
                     })
+                    console.log(data, 'QOOOYYY')
                     res.status(200).json({
                         token: data
                     })
@@ -82,7 +87,7 @@ class UserController {
                 })
             })
             .then(data => {
-                console.log("masuk dari hasil cari email yang sama")
+                // console.log("masuk dari hasil cari email yang sama")
                 // console.log(data, "SETELAH FIND ONE")
                 // res.status(200).json()
                 if(!data) {

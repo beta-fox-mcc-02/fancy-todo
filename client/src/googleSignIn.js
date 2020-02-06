@@ -9,7 +9,7 @@ function onSignIn(googleUser) {
         }
     })
         .then(data => {
-            console.log(data.data.token, "INIII TOKEEENNNNNN")
+            // console.log(data.data.token, "INIII TOKEEENNNNNN")
             localStorage.setItem('token', data.data.token)
             readTodo(data.data.token)
             $('#signIn').hide()

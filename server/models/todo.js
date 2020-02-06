@@ -20,7 +20,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     description: DataTypes.STRING,
     status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATE
+    due_date: {
+      type: DataTypes.DATE,
+      validate: {
+        notToday(value) {
+          console.log(value, 'ini dari value validate')
+          const dateUser = new Date(value)
+          console.log(dateUser, 'ini konvert tanggal')
+          console.log(dateUser <= new Date())
+          if (dateUser <= new Date()) {
+            throw new Error ('expired date')
+          }
+        }
+      }
+    }
   }, {
     sequelize
   })

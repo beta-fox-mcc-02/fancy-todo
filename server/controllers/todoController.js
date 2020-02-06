@@ -102,25 +102,30 @@ l
     }
 
     static delete(req, res, next) {
+        const pk = req.params.id
         Todo.destroy({
             where: {
-                id: req.params.id
+                id: pk
             }
         })
             .then(todo => {
+                console.log(todo)
                 if (todo === 0) {
+                    console.log('YOOOOOOO')
                     next({
                         status: 404,
                         msg: "Data not found"
                     })
                 } else {
-                    res.status(200).json({
-                        data: todo,
-                        msg: `id ${req.params.id} succesfully deleted`
-                    })
+                    console.log('YEEEEEEE')
+                    res.status(200).json('balik')
+                    // res.status(200).json({
+                    //     data: todo,
+                    //     msg: `id ${pk} succesfully deleted`
+                    // })
                 }
             })
-            .catch(next({
+            .catch(err => next({
                 status: 400,
                 msg: 'validations errors'
             }))
