@@ -17,42 +17,45 @@
 
 <body>
 
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" id="home">TODO!</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="commonFormSignIn">Sign In</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="commonFormSignUp">Sign Up</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Log Out</a>
-        </li>
-        <li class="nav-item">
-            <a class="g-signin2" data-onsuccess="onSignIn"></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Log Out</a>
-            <script>
-            function signOut() {
-                var auth2 = gapi.auth2.getAuthInstance();
-                auth2.signOut().then(function () {
-                console.log('User signed out.');
-                });
-            }
-            </script>
+<!-- DUMMY -->
+
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" id="home">TODO!</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="commonFormSignIn">Sign In</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="commonFormSignUp">Sign Up</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Log Out</a>
+  </li>
+  <li class="nav-item">
+    <a class="g-signin2" data-onsuccess="onSignIn"></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#">Log Out</a>
+    <script>
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+      </script>
         </li>
       </ul>
-    
-    
-
-    <a href="#" onclick="signOut();">Sign out</a>
-
-
-
-    <!-- HOME -->
+      
+      
+      
+      <a href="#" onclick="signOut();">Sign out</a>
+      
+      
+      <h1 id="checkUpdate">CHECK UPDATE</h1>
+      
+      <!-- HOME -->
     <div id="welcomeGreet" >
     </div>
     
@@ -143,9 +146,6 @@
             </tr>
             </thead>
             <tbody id="tbody">
-                <tr>
-                    <td id="update">Update</td>
-                </tr>
             </tbody>
         </table>
     </div>

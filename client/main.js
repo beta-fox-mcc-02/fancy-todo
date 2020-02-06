@@ -1,3 +1,15 @@
+function hideAll(){
+    $("#welcomeGreet").hide()
+    $("#buttonTodos").hide()
+    $("#signUp").hide()
+    $("#signIn").hide()
+    $("#showTodos").hide()
+    $("#createTodo").hide()
+    $("#editTodo").hide()
+    $("#checkUpdate").hide()
+}
+
+
 function showHome() {
     $("#welcomeGreet").show()
     $("#buttonTodos").show()
@@ -6,6 +18,7 @@ function showHome() {
     $("#showTodos").hide()
     $("#createTodo").hide()
     $("#editTodo").hide()
+    $("#checkUpdate").hide()
 }
 
 function onSignIn(googleUser) {
@@ -16,7 +29,6 @@ function onSignIn(googleUser) {
         })
         .done(result => {
             showHome()
-            console.log(register)
             console.log(result.data)
         })
         .fail( err => {
@@ -25,17 +37,61 @@ function onSignIn(googleUser) {
         .always( result => {
             console.log(`success`)
         })
-  }
-
-function hideAll(){
-    $("#welcomeGreet").hide()
-    $("#buttonTodos").hide()
-    $("#signUp").hide()
-    $("#signIn").hide()
-    $("#showTodos").hide()
-    $("#createTodo").hide()
-    $("#editTodo").hide()
 }
+
+function remove(id) {
+    // console.log(`masuk!`) 
+    let token = localStorage.getItem('token')
+
+    $.ajax(`http://localhost:3000/todos/${id}`, {
+            method : 'delete',
+            headers : {
+                token : token
+            }
+        })
+        .done(result => {
+            showHome()
+            console.log(result.data)
+            console.log(`berhasil hapus`)
+        })
+        .fail( err => {
+            console.log(err)
+        })
+        .always( result => {
+            console.log(`success`)
+        })
+}
+
+function showFormUpdate(id){
+    let token = localStorage.getItem('token')  
+    hideAll()
+    // $('#editTodo').
+    $.ajax(`http://localhost:3000/todos/${id}`, {
+            method : 'get',
+            headers : {
+                token : token
+            }
+        })
+            .done(todo => {
+                // showHome()
+                console.log(`berhasil find one`)
+                let input = todo.data
+                $('#editTitle').val(input.title),
+                $('#editDescription').val(input.description),
+                $('#edit_due_date').val(Date(due_date))
+                $('#editTodo').show()
+                // console.log(todo.data)
+            })
+            .fail( err => {
+                console.log(err)
+            })
+            .always( result => {
+                console.log(`success`)
+            })
+
+    
+}
+
 
 function isLogin(){
     if(localStorage.token){
@@ -49,20 +105,43 @@ function isLogin(){
 $(document).ready(() => {
     isLogin()
     
-    $("#Sign").on("click", function () {
-        // console.log(`masuk`)
-        showHome()
-    })
-    
+    // SIGN IN ==================================================
     $("#commonFormSignIn").on("click", function () {
         hideAll()
         $("#signIn").show()
-        // $("#buttonTodos").hide()
-        // $("#signUp").hide()
-        // $("#welcomeGreet").hide()
-        // $("#showTodos").hide()
     })
     
+    $("#Sign").on("click", function () {
+        showHome()
+    })
+    
+    // Google Sign in ==========
+    $('#signIn').submit( (event) => {
+      event.preventDefault()
+      let loginData = {
+              email : $("#emailSignIn").val(),
+              password : $("#passwordSignIn").val()
+          }
+          // console.log(loginData)
+          $.ajax('http://localhost:3000/login', {
+                  method : 'post',
+                  data : loginData
+              })
+              .done(result => {
+                  $("#signIn").hide()
+                  $("#buttonTodos").show()
+                  localStorage.setItem('token', result.token)
+                  // console.log(`MASOOOOOK+++=+++++++++++++++++++`)
+              })
+              .fail( err => {
+                  console.log(err)
+              })
+              .always( result => {
+                  console.log(`success`)
+              })
+    });
+
+    // SIGN UP ==================================================
     $("#commonFormSignUp").on("click", function () {
         $("#signUp").show()
         $("#buttonTodos").hide()
@@ -70,7 +149,6 @@ $(document).ready(() => {
         $("#welcomeGreet").hide()
         $("#showTodos").hide()
     })
-    
     
     $('#signUp').submit( (event) => {
         event.preventDefault()
@@ -97,31 +175,7 @@ $(document).ready(() => {
       });
 
 
-      $('#signIn').submit( (event) => {
-        event.preventDefault()
-        let loginData = {
-                email : $("#emailSignIn").val(),
-                password : $("#passwordSignIn").val()
-            }
-            // console.log(loginData)
-            $.ajax('http://localhost:3000/login', {
-                    method : 'post',
-                    data : loginData
-                })
-                .done(result => {
-                    $("#signIn").hide()
-                    $("#buttonTodos").show()
-                    localStorage.setItem('token', result.token)
-                    // console.log(`MASOOOOOK+++=+++++++++++++++++++`)
-                })
-                .fail( err => {
-                    console.log(err)
-                })
-                .always( result => {
-                    console.log(`success`)
-                })
-      });
-
+    // READ ALL ==================================================
       $('#readAll').on("click", (event) => {
         event.preventDefault()
         let token = localStorage.getItem('token')
@@ -146,7 +200,7 @@ $(document).ready(() => {
                             <td>${todo.description}</td>
                             <td>${todo.status}</td>
                             <td>${todo.due_date}</td>
-                            <td> <a href="#" id="update" value=${todo.id} >EDIT</a>  | <a href="">DELETE</a> </td>
+                            <td> <a href="#" onclick="showFormUpdate(${todo.id})" value=${todo.id} >EDIT</a>  | <a href="#" onclick="remove(${todo.id})" value=${todo.id}>REMOVE</a> </td>
                         </tr>
                     `)                    
                 });
@@ -160,48 +214,76 @@ $(document).ready(() => {
 
       });
 
-      $('#showForm').on("click", (event) => {
-          hideAll()
-          $("#createTodo").show()
-      });
 
-      $('#createTodo').on("submit", (event) => {
-        event.preventDefault()
-        let newTodo = {
-            title : $('#title').val(),
-            description : $('#description').val(),
-            due_date : $('#due_date').val()
-        }
-        let token = localStorage.getItem('token')
-        console.log(token)
-        $.ajax('http://localhost:3000/todos', {
-                method : 'post',
-                data : newTodo,
-                headers : {
-                    token : token
-                }
-        })
-            .done(todos => {
-                $("#signIn").hide()
-                $("#buttonTodos").show()
-                // $("#showTodos").show()
-                console.log(todos.data)
-                
-            })
-            .fail( err => {
-                console.log(err)
-            })
-            .always( result => {
-                console.log(`success`)
-            })
+     // CREATE ==================================================
 
-      });
-
-
-      $('#update').on("click", (event) => {
-       console.log(update.val())
-      //   $("#createTodo").show()
+    $('#showForm').on("click", (event) => {
+        hideAll()
+        $("#createTodo").show()
     });
+
+    $('#createTodo').on("submit", (event) => {
+    event.preventDefault()
+    let newTodo = {
+        title : $('#title').val(),
+        description : $('#description').val(),
+        due_date : $('#due_date').val()
+    }
+    let token = localStorage.getItem('token')
+    console.log(token)
+    $.ajax('http://localhost:3000/todos', {
+            method : 'post',
+            data : newTodo,
+            headers : {
+                token : token
+            }
+    })
+        .done(todos => {
+            hideAll()
+            showHome()
+            // $("#showTodos").show()
+            console.log(todos.data)
+            
+        })
+        .fail( err => {
+            console.log(err)
+        })
+        .always( result => {
+            console.log(`success`)
+        })
+
+    });
+
+     // EDIT ==================================================
+
+     $('#editTodo').on("submit", (event) => {
+        console.log($('#editTitle').val(),)
+
+    //     let updateData = {
+    //         title : $('#editTitle').val(),
+    //         description : $('#editDescription').val(),
+    //         due_date : $('#edit_due_date').val()
+    //     } 
+        
+    //     $.ajax(`http://localhost:3000/todos/${id}`, {
+    //         method : 'put',
+    //         data : data,
+    //         headers : {
+    //             token : token
+    //         }
+    //     })
+    //         .done(result => {
+    //             showHome()
+    //             console.log(result.data)
+    //             console.log(`berhasil update`)
+    //         })
+    //         .fail( err => {
+    //             console.log(err)
+    //         })
+    //         .always( result => {
+    //             console.log(`success`)
+    //         })
+    })
 
 
 
