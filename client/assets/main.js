@@ -9,6 +9,14 @@ function toggleLogin() {
    $('#register').hide()
    $('#home').hide()
 }
+
+function toggleHome () {
+   $('#login').hide()
+   $('#register').hide()
+   $('#home').show()
+   $('#add-myTodo').hide()
+   $('#edit-myTodo').empty()
+}
 // =========================================================================
 
 function onSignIn(googleUser) {
@@ -81,8 +89,8 @@ function fetchMyTodo() {
    })
       .then(({ data }) => {
          console.log(data, `fetch todooooooooo`);
-         if (data.length > 0) {
             let content = ``
+
             for (let i = 0; i <= data.length - 1; i++) {
                let status = ''
                if (data[i].status) {
@@ -90,6 +98,10 @@ function fetchMyTodo() {
                } else {
                   status = `Undone`
                }
+               let tanggalan = new Intl.DateTimeFormat('id', {
+                  weekday: `long`, year: `numeric`, month: `long`, day: `numeric`
+               }).format(new Date(data[i].due_date))
+
                content += `
                <div class="card text-center shadow my-3" style="opacity: .95">
                         <div class="card-body">
@@ -100,16 +112,12 @@ function fetchMyTodo() {
                            <a href="#" class="btn btn-danger mx-1" onclick="deleteTodo(${data[i].id})"><i class="fas fa-trash"></i></a>
                         </div>
                         <div class="card-footer text-muted">
-                           Due date: ${data[i].due_date}
+                           Due date: ${tanggalan}
                         </div>
                      </div>
                `
             }
             $('#content-myTodo').html(content)
-         }
-         else {
-
-         }
       })
       .catch(err => {
          console.log(err);
@@ -132,13 +140,13 @@ function deleteTodo(id) {
    })
       .then(_ => {
          console.log(`deleted`);
+         fetchMyTodo()
          $('#edit-myTodo').empty()
          Swal.fire(
             'Data deleted bosq!',
             '',
             'success'
          )
-         fetchMyTodo()
       })
       .catch(err => {
          console.log(err);
@@ -157,22 +165,22 @@ function toggleEditTodo(id) {
                         <h3 class="text-center p-3 mt-3">Edit todo</h3>
                         <form id="editTodo-form" class="pl-5 pr-5 pb-4">
                            <div class="form-group">
-                              <input type="text" class="form-control" id="form-editTodo-title" placeholder="${data.title}">
+                              <input type="text" class="form-control" id="form-editTodo-title" value="${data.title}">
                               <small id="emailHelp" class="form-text text-muted">Please explain your title
                                  briefly.</small>
                            </div>
                            <div class="form-group">
                               <input type="text" class="form-control" id="form-editTodo-description"
-                                 placeholder="${data.description}">
+                                 value="${data.description}">
                               <small id="emailHelp" class="form-text text-muted">Specific description for your
                                  todo.</small>
                            </div>
                            <div class="form-group">
-                              <input type="date" class="form-control" id="form-editTodo-dueDate" placeholder="due date">
+                              <input type="date" class="form-control" id="form-editTodo-dueDate" value="${data.due_date}">
                               <small id="emailHelp" class="form-text text-muted">Due date for your todo.</small>
                            </div>
                            <div class="form-group form-check">
-                              <input type="checkbox" class="form-check-input" id="form-editTodo-status">
+                              <input type="checkbox" class="form-check-input" id="form-editTodo-status" value="${data.status}">
                               <label class="form-check-label" for="form-editTodo-status">Done</label>
                             </div>
                            <div class="text-center">

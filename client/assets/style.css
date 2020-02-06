@@ -1,9 +1,19 @@
+#home {
+   height: 100%;
+   background-image: url('https://steamuserimages-a.akamaihd.net/ugc/992388073545342697/CFDC3BBA61409457E799DE0946791C6EAA9F9D2A/') ;
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+   min-height: 650px;
+}
+
 body {
    height: 100%;
    background-image: url('https://steamuserimages-a.akamaihd.net/ugc/992388073545342697/CFDC3BBA61409457E799DE0946791C6EAA9F9D2A/') ;
    background-position: center;
    background-repeat: no-repeat;
    background-size: cover;
+   min-height: 650px;
 }
 
 .login-container{
@@ -41,4 +51,8 @@ body {
    color: #0062cc;
    font-weight: 600;
    text-decoration: none;
+}
+
+.nav-item {
+   margin-top: 17px;
 }
