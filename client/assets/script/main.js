@@ -104,6 +104,13 @@ function initMap() {
   const marker = new google.maps.Marker({ position: loc, map: map });
 }
 
+const signOut = () => {
+  var auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
+}
+
 
 
 // DOCUMENT MANIPULATION
@@ -146,6 +153,7 @@ $(document).ready(function () {
 
   $('#logoutButton').click(event => {
     localStorage.clear()
+    signOut()
     tokenCheck()
     Swal.fire({
       icon: 'success',

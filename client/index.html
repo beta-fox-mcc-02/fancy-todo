@@ -9,6 +9,9 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/23f0107e08.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./assets/styles/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+  <meta name="google-signin-client_id"
+    content="176024940848-brhr4dp5uvhpt3pckpog64m2q30mjf3n.apps.googleusercontent.com">
   <title>Fancy Todo</title>
 </head>
 
@@ -29,7 +32,8 @@
               <input class="form-control" type="text" name="title" id="title" placeholder="Title">
             </div>
             <div style="margin-bottom: 1rem;">
-              <input class="form-control" type="text" name="description" id="description" placeholder="Description">
+              <textarea class="form-control" name="description" id="description" placeholder="Description"
+                rows="4"></textarea>
             </div>
             <div style="margin-bottom: 1rem;">
               <select class="form-control" id="priority" name="priority">
@@ -74,8 +78,8 @@
 
       <!-- LEFT SIDEBAR -->
       <div class=" col-md-3" style="height: 90vh;">
-        <div class="row" style="padding: 1rem;">
-          <h3>Hello, someone!</h3>
+        <div class="row" id="userGreeting" style="padding: 1rem;">
+          <!-- <h3>Hello, someone!</h3> -->
         </div>
         <div style="padding: 0rem 1rem; margin: 0 60px;">
           <div class="row" style="margin-bottom: 5px;">
@@ -102,30 +106,6 @@
             <div class="card-body" id="standardCard"
               style="background-color: rgba(20, 100, 170, 1); border-radius: 0 0 5px 5px; overflow: auto;">
 
-              <!-- <div class="card" style="margin-bottom: 1rem">
-                <div class="card-body">
-                  <h5 class="card-title">Todo 1</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text.</p>
-                </div>
-              </div> -->
-
-              <!-- <div class="card" style="margin-bottom: 1rem">
-                <div class="card-body">
-                  <h5 class="card-title">Todo 1</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text.</p>
-                </div>
-              </div>
-
-              <div class="card" style="margin-bottom: 1rem">
-                <div class="card-body">
-                  <h5 class="card-title">Todo 1</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text.</p>
-                </div>
-              </div> -->
-
             </div>
           </div>
         </div>
@@ -141,30 +121,6 @@
             </div>
             <div class="card-body" id="importantCard"
               style="background-color: rgba(20, 100, 170, 1); border-radius: 0 0 5px 5px; overflow: auto;">
-
-              <!-- <div class="card" style="margin-bottom: 1rem">
-                <div class="card-body">
-                  <h5 class="card-title">Todo 1</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text.</p>
-                </div>
-              </div>
-
-              <div class="card" style="margin-bottom: 1rem">
-                <div class="card-body">
-                  <h5 class="card-title">Todo 1</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text.</p>
-                </div>
-              </div>
-
-              <div class="card" style="margin-bottom: 1rem">
-                <div class="card-body">
-                  <h5 class="card-title">Todo 1</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text.</p>
-                </div>
-              </div> -->
 
             </div>
           </div>
@@ -189,7 +145,6 @@
     </div>
     <!-- ----------------------------------------- END OF CONTENT CONTAINER ----------------------------------------- -->
 
-
     <!-- ---------------------------------------------- LOGIN CONTAINER --------------------------------------------- -->
     <div class="row loginContainer">
       <div class=" col-md-8">
@@ -209,6 +164,8 @@
             <button type="submit" class="btn btn-danger" id="registerButton" style="width: 250px;">REGISTER</button>
             <p id="registerLink">Don't have Account? <a href="">Register here</a></p>
             <p id="loginLink">Have an Account? <a href="">Login here</a></p>
+            <p class="mb-0">Sign in with your Google Account</p>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-width="250" data-theme="dark"></div>
           </form>
         </div>
       </div>
@@ -230,37 +187,7 @@
       </button>
     </div>
     <!-- ------------------------------------------ END OF DETAIL CONTAINER ------------------------------------------ -->
-
-
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   <!-- JQUERY -->
@@ -295,6 +222,9 @@
   <script src="./assets/script/ajaxjobs.js"></script>
   <!--  -->
 
+  <!-- GOOGLE SIGN IN -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!--  -->
 </body>
 
 </html>

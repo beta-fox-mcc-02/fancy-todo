@@ -10,6 +10,8 @@ function login() {
   })
     .done(success => {
       localStorage.access_token = success.token
+      $('#userGreeting').empty()
+      $('#userGreeting').append(`<h4>Hello, ${getUsername(success.email)}!</h4>`)
       Swal.fire({
         icon: 'success',
         title: 'Login Success',
@@ -54,7 +56,7 @@ function register() {
       Swal.fire({
         icon: 'error',
         title: 'Register Failed',
-        text: `${err.responseJSON.msg}: ${err.responseJSON.errors[0]}`
+        text: err.responseJSON.errors[0]
       })
     })
 }
@@ -170,4 +172,44 @@ function deleteTodo(id) {
       showMainContent()
       $(".detailContainer").hide()
     })
+}
+
+function onSignIn(googleUser) {
+  const google_token = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    method: 'POST',
+    url: 'http://localhost:3000/google-auth',
+    data: { google_token }
+  })
+    .done(success => {
+      localStorage.access_token = success.token
+      $('#userGreeting').empty()
+      $('#userGreeting').append(`<h4>Hello, ${getUsername(success.email)}!</h4>`)
+      Swal.fire({
+        icon: 'success',
+        title: 'Logged in with Google Account',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      tokenCheck()
+    })
+    .fail(err => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: err.responseJSON.msg
+      })
+    })
+}
+
+function getUsername(email) {
+  let username = ''
+  for (let i = 0; i < email.length; i++) {
+    if (email[i] === '@') {
+      break
+    } else {
+      username += email[i]
+    }
+  }
+  return username
 }
