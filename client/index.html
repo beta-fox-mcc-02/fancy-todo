@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="676017129086-c7ud8jk4km2rj77j88o10icq6mp75mes.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./assets/icon.png">
+    <title>Fancy Todo by Adino Eleazar Manoppo</title>
+</head>
+<body>
+    <div class="container">
+        <div id="navbar" class="navbar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a class="nav-item nav-link active" style="width: 8rem;" href="#">Todos<span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link" id="addTodo">Add Todo</a>
+                  </div>
+                </div>
+            </nav>
+        </div>
+        <center>
+            <div id="addTodo-form" class="addTodo-form">
+                <form>
+                    <div class="form-group">
+                      <h4>Title</h4>
+                      <input type="text" class="form-control" style="width: auto;">
+                    </div>
+                    <div class="form-group">
+                      <h4>Description</h4>
+                      <textarea rows="4" cols="50"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <h4>Due Date</h4>
+                        <input type="date">
+                      </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+            </div>
+            <div id="register" class="card" style="width: 18rem;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link active" >Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="login-btn" href="#">Login</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <h4>Register</h4>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Email</label>
+                          <input id="register-email" type="email" class="form-control" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Password</label>
+                          <input id="register-password" type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
+                </div>
+                <h5>OR</h5>
+                <div id="gOAuth" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            <div id="login" class="card" style="width: 18rem;">
+                <div class="card-header">
+                    <ul class="nav nav-tabs nav-fill">
+                        <li class="nav-item">
+                            <a class="nav-link" id="register-btn" href="#">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active">Login</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <h4>Login</h4>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Email</label>
+                          <input id="login-email" type="email" class="form-control" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputPassword1">Password</label>
+                          <input id="login-password" type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      </form>
+                </div>
+                <h5>OR</h5>
+                <div id="gOAuth" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            <div id="todos" class="todos">
+                <ul class="list-group" style="width: 18rem;">
+                </ul>
+            </div>
+        </center>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="main.js"></script>
+</body>
+</html>
