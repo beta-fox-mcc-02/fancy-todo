@@ -1,5 +1,6 @@
 let currentUser = localStorage.currentUser
 let updateId
+let city = localStorage.city || 'Jakarta'
 // USER QUERY
 function onSignIn(googleUser) {
   const token = googleUser.getAuthResponse().id_token;
@@ -16,6 +17,7 @@ function onSignIn(googleUser) {
     currentUser = data.name
     contentPage()
     fetchTodo()
+    fetchWeather()
   })
   .fail( err => {
     landingPage()
@@ -47,6 +49,7 @@ function signInFancy () {
       })
       contentPage()
       fetchTodo()
+      fetchWeather()
     })
     .fail(() => {
       Swal.fire({
@@ -321,9 +324,71 @@ function fetchName () {
   $('#currentUser').append(`Welcome ${currentUser}`)
 }
 
-function fetchWeather (){
-  
+function backHome () {
+  $('#cancel').on('click', (e) => {
+    contentPage()
+  })
 }
+
+// weather
+function checkWeather () {
+  $('#weather').on('submit', (e) => {
+    e.preventDefault()
+    city = $('#city').val()
+    localStorage.city = $('#city').val()
+    $('#city').val('')
+    fetchWeather()
+  })
+}
+
+function fetchWeather (){
+    $.ajax({
+      method: 'GET',
+      url: `http://localhost:3000/weathers/${city}`
+    })
+    .done( data => {
+      console.log(data)
+      let weather = {
+        main: data.weather[0].main,
+        description: data.weather[0].description,
+        temp: data.main.temp,
+        temp_min: data.main.temp_min,
+        temp_max: data.main.temp_max,
+        humidity: data.main.humidity,
+        city: data.name
+      }
+      $('#weather-detail').empty()
+      $('#weather-detail').append(`
+      <tr>
+        <td>City</td>
+        <td>${city}</td>
+      </tr>
+      <tr>
+        <td>${weather.main}</td>
+        <td>${weather.description}</td>
+      </tr>
+      <tr>
+        <td>Temp</td>
+        <td>${weather.temp} &#8457</td>
+      </tr>
+      <tr>
+        <td>Temp Min</td>
+        <td>${weather.temp_min} &#8457</td>
+      </tr>
+      <tr>
+        <td>Temp Max</td>
+        <td>${weather.temp_max} &#8457</td>
+      </tr>
+      <tr>
+        <td>Humidity</td>
+        <td>${weather.humidity}%</td>
+      </tr>
+      `)
+    })
+    .fail(err => console.log(err))
+}
+
+
 // DOCUMENT READY
 $(document).ready(() => {
   if(localStorage.getItem('token')) {
@@ -333,11 +398,19 @@ $(document).ready(() => {
   } else {
     landingPage()
   }
-
+  // user
   signOut()
   signInFancy()
   signUpFancy()
-
+  
+  // todo
   addTodo()
   updateTodo()
+
+  // 3rd party
+  checkWeather()
+  fetchWeather()
+
+  // asd
+  backHome()
 })
