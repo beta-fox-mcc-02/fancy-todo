@@ -11,22 +11,23 @@ module.exports = (sequelize, DataTypes) => {
   Todo.init({
     title: {
       type: DataTypes.STRING,
-      // validate: {
-      //   notEmpty: {args: true, msg: "Title should not be empty"}
-      // }
+      validate: {
+        notEmpty: { args: true, msg: "Title should not be empty" }
+      }
     },
     description: {
       type: DataTypes.STRING,
-      // validate: {
-      //   notEmpty: {args: true, msg: "Description should not be empty"}
-      // }
+      validate: {
+        notEmpty: { args: true, msg: "Description should not be empty" }
+      }
     },
     status: DataTypes.BOOLEAN,
     due_date: {
       type: DataTypes.DATE,
-      // validate: {
-      //   isDate: {args: true, msg: "Only accept date"}
-      // }
+      validate: {
+        isDate: { args: true, msg: "Only accept date" },
+        isAfter: { args: new Date().toISOString(), msg: "Invalid date" }
+      }
     }
   }, {
     sequelize

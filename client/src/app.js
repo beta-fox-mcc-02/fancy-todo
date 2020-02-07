@@ -22,7 +22,7 @@ function showTodo(todos) {
       `)
     });
   } else {
-    $('#todos').append(`
+    $('#todos tbody ').append(`
     <tr>
       <th scope="row">#</th>
       <td>N/A</td>
@@ -242,29 +242,36 @@ $(document).ready(() => {
     todosPage();
   })
 
-  // create new todo
+  // form new todo
   $('#btn-create-form').on('click', () => {
     console.log('Masuk form');
+    clearInput();
     createPage();
-    $('#create-form').on('submit', (e) => {
-      e.preventDefault();
-      const title = $('#title-create-form').val();
-      const description = $('#desc-create-form').val();
-      const status = false;
-      const due_date = $('#due-date-create-form').val();
-      clearInput();
-      const data = { title, description, status, due_date };
-
-      create(data)
-        .then(res => {
-          console.log(res.data);
-          todosPage();
-        })
-        .catch(err => {
-          console.log(err.response);
-        })
-      console.log('Tersubmit');
-
-    })
   })
+
+  // create new todo
+  $('#create-form').on('submit', e => {
+    e.preventDefault();
+    const title = $('#title-create-form').val();
+    const description = $('#desc-create-form').val();
+    const status = false;
+    const due_date = $('#due-date-create-form').val();
+    const data = { title, description, status, due_date };
+
+    console.log('di luar create');
+    create(data)
+      .then(res => {
+        console.log('dieksekusi di dalam create');
+        console.log(res.data);
+        todosPage();
+      })
+      .catch(err => {
+        getErrorMessages(err);
+        clearInput();
+        console.log(err.response);
+      })
+    console.log('Tersubmit');
+
+  })
+
 })
