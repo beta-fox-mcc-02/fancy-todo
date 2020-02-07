@@ -16,10 +16,7 @@ class UserController {
             })
             .catch(err => {
                 // console.log(err)
-                next({
-                    status: 400,
-                    msg: "errors"
-                })
+                next(err)
             })
     }
 

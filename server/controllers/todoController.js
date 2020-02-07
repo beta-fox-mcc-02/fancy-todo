@@ -2,12 +2,12 @@ const { Todo } = require('../models')
 
 class TodoController {
     static create(req, res, next) {
-        // console.log(req.body)
+        console.log(req.body.due_date)
         Todo.create({
             title: req.body.title,
             description: req.body.description,
             status: req.body.status || false,
-            due_date: req.body.due_date,
+            due_date: new Date(req.body.due_date),
             UserId: req.currentUserId
         })
             .then(todo => {
@@ -16,11 +16,8 @@ class TodoController {
                     msg: 'create success'
                 })
             })
-            .catch(() => {
-                next({
-                    status: 400,
-                    msg: 'errors'
-                })
+            .catch(err => {
+                next(err)
             })
     }
 l
@@ -93,11 +90,8 @@ l
                     })
                 }
             })
-            .catch(() => {
-                next({
-                    status: 400,
-                    msg: 'validations errors'
-                })
+            .catch(err => {
+                next(err)
             })
     }
 

@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       validate: {
         notToday(value) {
-          console.log(value, 'ini dari value validate')
+          // console.log(value, 'ini dari value validate')
           const dateUser = new Date(value)
-          console.log(dateUser, 'ini konvert tanggal')
-          console.log(dateUser <= new Date())
+          // console.log(dateUser, 'ini konvert tanggal')
+          // console.log(dateUser <= new Date())
           if (dateUser <= new Date()) {
             throw new Error ('expired date')
           }

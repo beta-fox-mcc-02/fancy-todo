@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isEmail: {
           args: true,
-          msg: 'Email wrong'
+          msg: 'Format Email wrong'
         }
       }
     },
@@ -31,6 +31,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
+    validate: {
+      uniqueEmail(next) {
+        User.findAll({
+          where: {
+            email: this.email
+          }
+        })
+          .then(user => {
+            if (user.length > 0) {
+              next('Email Already Taken')
+            } else {
+              next()
+            }
+          })
+          .catch(err => {
+            next(err)
+          })
+      }
+    },
     hooks: {
       beforeCreate: (user, options) => {
         const hash = hassPassword(user.password)
