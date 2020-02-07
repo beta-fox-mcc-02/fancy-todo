@@ -4,8 +4,8 @@ const {User} = require('../models')
 class todoController {
 
   static add(req, res, next){
-    console.log(req.body, 'ini body ');
-    console.log(req.currentUserId, 'ini di controller');
+    // console.log(req.body, 'ini body ');
+    // console.log(req.currentUserId, 'ini di controller');
     
     Todo.create({
       title: req.body.title,
@@ -15,11 +15,11 @@ class todoController {
       UserId: req.currentUserId
     })
     .then(data =>{
+      console.log(data, 'berhasil menambah data');
+      
       res.status(200).json(data)
     })
-    .catch(err =>{
-      res.status(500).json(err)
-    })
+    .catch(next)
   }
 
   static getAll(req, res, next){
@@ -33,7 +33,9 @@ class todoController {
   }
 
   static getOne(req, res, next){
-    let pk = req.params.id
+    let pk = req.currentUserId
+    console.log(pk);
+    
     Todo.findOne({
       where:{
         id: pk

@@ -9,8 +9,8 @@ module.exports=
       
       if (decoded) {
         req.currentUserId = decoded.id
-        // console.log(req.currentUserId, 'dari uthenticated');
-        // console.log('masuk kesini', decoded);  
+        console.log(req.currentUserId, 'dari uthenticated');
+        console.log('masuk kesini', decoded);  
 
         User.findOne({
           where:{

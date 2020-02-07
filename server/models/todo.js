@@ -40,6 +40,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: {
           msg: 'cannot be empty'
+        },
+        notToday(value){
+          var ToDate = new Date();
+          if(new Date(value) <= ToDate.getTime()){
+            throw new Error('date cannot be now')
+          }
         }
       }
     },

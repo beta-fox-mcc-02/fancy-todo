@@ -4,7 +4,7 @@ module.exports = function(err, req, res, next){
      message: 'internal server error',
      errors: []
    }
-    console.log(err.message);
+    // console.log(err.message);
     
    if(err.message == 'SequelizeValidationError'){
 
@@ -14,6 +14,7 @@ module.exports = function(err, req, res, next){
     status = 400
    }  
 
-
-   res.status(status).send(error)
+   console.log(error);
+   
+   res.status(status).send(err.message)
 }

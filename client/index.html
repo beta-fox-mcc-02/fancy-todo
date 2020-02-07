@@ -36,8 +36,8 @@
    <!-- <h1>Hello, world!</h1> -->
    <nav class="navbar navbar-light bg-light" id="first" style="display: none;">
     <a class="navbar-brand" href="#" id="ForUser">
-        <img src="https://cdn3.iconfinder.com/data/icons/luchesa-vol-9/128/Weather-512.png" width="30" height="30"
-            class="d-inline-block align-top" alt="">
+        <!-- <img src="https://cdn3.iconfinder.com/data/icons/luchesa-vol-9/128/Weather-512.png" width="30" height="30"
+            class="d-inline-block align-top" alt=""> -->
 
     </a>
 
@@ -74,14 +74,38 @@
           <p>or sign in with</p>
           <div class="g-signin2 mb-3" data-onsuccess="onSignIn"></div>
           <p >or login if you got an account</p>
-                      <button class="btn btn-primary" style="margin-top: 1rem;" >login </button>
+            <button class="btn btn-primary logres" style="margin-top: 1rem;" 
+            id="logres">login </button>
       </div>
   </div>
 </div>
 
+<!-- login -->
+<div class="container" id="login" style="width: 25rem; margin-top: 10rem; display:none">
+    <div class="card card-i shadow p-3 mb-2 bg-white rounded regis-card">
+        <div class="card-body">
+            <h5 class="card-title">Login</h5>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="InputEmail">Email address</label>
+                    <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" class="form-control" id="loginPassword">
+                </div>
+                <button id="register-btn" type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p>or sign in with</p>
+            <div class="g-signin2 mb-3" data-onsuccess="onSignIn"></div>
+            <p >or login if you got an account</p>
+                        <button class="btn btn-primary logres" style="margin-top: 1rem;" >Register </button>
+        </div>
+    </div>
+  </div>
     <!-- crud page -->
-
-
     <div class="container" id="crud" style="margin-top: 6rem; display: none;">
       <div class="row">
           <div class="col-8">
@@ -111,6 +135,10 @@
                               </div>
                               <button id="register-btn" type="submit" class="btn btn-primary">ADD</button>
                           </form>
+                          <div class="alert alert-danger" role="alert" 
+                          style="display: none;" id="Balert">
+                            date cannot be yesterday or further
+                          </div>
                       </div>
                   </div>
               </div>

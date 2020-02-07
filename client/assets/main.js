@@ -1,7 +1,11 @@
-function updateCard(userid) {
+function updateCard(userid, title, desc) {
   var x = document.getElementById("addtodo");
   var y = document.getElementById("updatetodo");
-  localStorage.setItem('targetid', userid)
+  // localStorage.setItem('targetid', userid)
+  console.log(title, 'ini title');
+  
+  // $('#UpdateTitle').val();
+  // $('#UpdateDesc').val();
   if (x.style.display === "none") {
     x.style.display = "block";
     y.style.display = "none";
@@ -12,6 +16,26 @@ function updateCard(userid) {
 
   }
 }
+
+function logres() {
+  // console.log('kepanggil');
+  
+  var x = document.getElementById("regis");
+  var y = document.getElementById("login");
+  // localStorage.setItem('targetid', userid)
+  // console.log(title, desc);
+
+  if (x.style.display === "none") {
+    x.style.display = "block";
+    y.style.display = "none";
+
+  } else {
+    x.style.display = "none";
+    y.style.display = "block";
+
+  }
+}
+
 
 function onSignIn(googleUser) {
   var id_token = googleUser.getAuthResponse().id_token;
@@ -24,14 +48,17 @@ function onSignIn(googleUser) {
     }
   })
   .then(({data})=>{
-    console.log(data);
+    // console.log(data);
     localStorage.setItem('token', data.token)
     $('#regis').hide();
     $('#first').show();
     $('#first').show();
     $('#crud').show();
-    
+
+    $('#ForUser').empty()
     $('#ForUser').append(`
+    <img src="${data.pic}" width="30" height="30"
+            class="d-inline-block align-top" alt="">
       <a> ${data.name}</a>	
       `)
   })
@@ -43,15 +70,16 @@ function onSignIn(googleUser) {
 
 function fetchTodos() {
   let pk = localStorage.token
+  
   axios({
     method: 'get',
-    url: `http://localhost:3000/todo/user/${pk}`,
+    url: `http://localhost:3000/todo/user`,
     headers:{
       'token': pk
     }
   })
   .then(({data}) =>{
-    console.log(data);
+    // console.log(data);
     $('#feed').empty()
     $.each(data, function (index, val) {
       let pr = val.id
@@ -64,7 +92,7 @@ function fetchTodos() {
         <h6 class="card-subtitle mb-2 text-muted">${val.status}</h6>
         <p class="card-text">${val.desc}</p>
         <h6 class="mb-3">duedate: ${val.due_date}</h6>
-        <button class="btn btn-warning" onclick="updateCard('${val.id}')" id="${pr}">update</button>
+        <button class="btn btn-warning" onclick="updateCard(${val.id})" id="${pr}">update</button>
         <button class="btn btn-danger" onclick="destroy('${val.id}')" id="${pr}">delete</button>            
       </div>
     </div>
@@ -83,6 +111,10 @@ function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     localStorage.clear()
+    $('#regis').show();
+    $('#first').hide();
+    $('#first').hide();
+    $('#crud').hide();
     console.log('User signed out.');
   });
 }
@@ -107,6 +139,10 @@ function destroy(id) {
 
 $( document ).ready(function() {
 
+  $( ".logres" ).click(function(e) {
+    e.preventDefault()
+    logres()
+  });
   
   if(localStorage.token){
     $('#regis').hide();
@@ -128,6 +164,83 @@ $( document ).ready(function() {
 
     console.log('y=yissssss');
     
+  })
+
+  $('#login-form').submit((event) =>{
+    event.preventDefault();
+    const email = $('#loginEmail').val()
+    const password = $('#loginPassword').val()
+
+    // console.log(email, password);
+    
+    axios({
+      method: 'post',
+      url: `http://localhost:3000/user/login`,
+      data:{
+        email,
+        password
+      }
+    })
+    .then(({data}) =>{
+      localStorage.setItem('token', data.token)
+      $('#regis').hide();
+      $('#first').show();
+      $('#first').show();
+      $('#crud').show();
+      $('#login').show();
+
+      console.log(data);
+      // <img src="${data.pic}" width="30" height="30"
+      //         class="d-inline-block align-top" alt="">
+      
+      $('#ForUser').empty()
+      $('#ForUser').append(`
+        <a> ${data.name}</a>	
+        `)
+    })
+    .catch(err =>{
+      console.log(err);
+      
+    })
+  })
+
+  $('#regis-form').submit((event) =>{
+    event.preventDefault();
+    const name = $('#InputName').val()
+    const email = $('#InputEmail').val()
+    const password = $('#InputPassword').val()
+
+    console.log(name, email, password);
+    
+    axios({
+      method: 'post',
+      url: `http://localhost:3000/user/register`,
+      data:{
+        name,
+        email,
+        password
+      }
+    })
+    .then(data =>{
+      localStorage.setItem('token', data.token)
+      $('#regis').hide();
+      $('#first').show();
+      $('#first').show();
+      $('#crud').show();
+
+      console.log(data);
+      // <img src="${data.pic}" width="30" height="30"
+      //         class="d-inline-block align-top" alt="">
+      
+      $('#ForUser').empty()
+      $('#ForUser').append(`
+        <a> ${data.name}</a>	
+        `)
+    })
+    .catch(err =>{
+      console.log(err);
+      
+    })
   })
 
   $('#addtodo').submit((event) => {
@@ -162,6 +275,7 @@ $( document ).ready(function() {
       fetchTodos()
     })
     .catch(err =>{
+      $('#Balert').show();
       console.log(err);
       
     })
@@ -192,7 +306,7 @@ $( document ).ready(function() {
       }
     })
     .then (data =>{
-      console.log(data);
+      // console.log(data);
       $('#UpdateTitle').val('')
       $('#UpdateDesc').val('')
       $('#UpdateStatus').val('')

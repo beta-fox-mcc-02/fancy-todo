@@ -14,7 +14,10 @@ class userController {
       password: req.body.password
     })
     .then(data =>{
-      res.status(200).json(data)
+      let token = jwt.sign(data.id, process.env.SECRET);
+      let name = data.name
+      console.log(token, 'ini tokennyaaaaaa', name);
+      res.status(200).json({token, name})
     })
     .catch(next)
   }
@@ -30,14 +33,15 @@ class userController {
       // res.status(200).json(data.password)
       
       let compare = bcrypt.compareSync(req.body.password, data.password); 
+      console.log(compare, 'dari login');
       if (compare){
-        // console.log(data, '=====+++++++======, masuk compare');
+        console.log(data, '=====+++++++======, masuk compare');
         let token = jwt.sign(data.id, process.env.SECRET);
         let name = data.name
-        // console.log(token, 'ini tokennyaaaaaa', name);
+        console.log(token, 'ini tokennyaaaaaa', name);
         res.status(200).json({token, name})
       }else if (data == null){
-       
+       next()
       }
 
     })
@@ -45,7 +49,7 @@ class userController {
   }
 
   static getOne (req, res, next){
-    let pk = req.params.id
+    let pk = req.currentUserId
     User.findOne({
       where:{
         id: pk
@@ -77,7 +81,7 @@ class userController {
        })
     })
     .then(userData => {
-      // console.log(userData, 'ada disini');
+      // console.log(payload, 'ada disini');
       
       if (!userData) {
           return User.create({
@@ -91,10 +95,10 @@ class userController {
       }
   })
   .then(user => {
-
-      const token = jwt.sign({ id: user.id }, process.env.SECRET)
-      const name = payload.given_name;
-      res.status(200).json({ token, name })
+    const token = jwt.sign({ id: user.id }, process.env.SECRET)
+    const name = payload.given_name;
+    const pic = payload.picture
+    res.status(200).json({ token, name, pic })
   })
     .catch(next)
   }
