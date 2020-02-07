@@ -9,8 +9,10 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://kit.fontawesome.com/23f0107e08.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./assets/styles/style.css">
-  <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Satisfy|Shadows+Into+Light&display=swap"
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Satisfy|Shadows+Into+Light|Fredoka+One&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
   <meta name="google-signin-client_id"
     content="176024940848-brhr4dp5uvhpt3pckpog64m2q30mjf3n.apps.googleusercontent.com">
   <title>Fancy Todo</title>
@@ -144,6 +146,29 @@
             </form>
           </div>
         </div>
+        <div class="row" style="margin: 0;">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title text-center">Collaborator</h5>
+              <div class="row">
+                <table class="table btn-outline-info" style="font-weight: bold;">
+                  <tbody id="collaborators">
+                  </tbody>
+                </table>
+              </div>
+              <form id="addCollaborator">
+                <div class="row">
+                  <input type="email" name="collaboratorEmail" id="collaboratorEmail" style="width: 100%;"
+                    placeholder="Collaborator's Email">
+                </div>
+                <div class="row" style="margin-top: 0.5rem;">
+                  <button class="btn btn-success btn-sm fas fa-plus-circle" type="sumbit"
+                    id="addCollaboratorButton"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- END OF RIGHT SIDEBAR -->
 
@@ -204,6 +229,10 @@
 
   <!-- SWEET ALERT -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <!--  -->
+
+  <!-- ALERTIFY -->
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
   <!--  -->
 
   <!-- BOOTSTRAP JS -->

@@ -10,24 +10,16 @@ function login() {
   })
     .done(success => {
       localStorage.access_token = success.token
+      localStorage.userEmail = success.email
       $('#userGreeting').empty()
       $('#userGreeting').append(`<h3>Hello, ${getUsername(success.email)}!</h3>`)
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Success',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      alertify.success(`<span class="fredoka">You've been logged in successfully</span>`)
       $("#email").val('')
       $("#password").val('')
       tokenCheck()
     })
     .fail(err => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: err.responseJSON.msg
-      })
+      alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
     })
 }
 
@@ -42,22 +34,13 @@ function register() {
     data: user
   })
     .done(() => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Register Success',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      alertify.success(`<span class="fredoka">You've been registered successfully</span>`)
       $("#email").val('')
       $("#password").val('')
       tokenCheck()
     })
     .fail(err => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Register Failed',
-        text: err.responseJSON.errors[0]
-      })
+      alertify.error(`<span class="fredoka">${err.responseJSON.errors[0]}</span>`)
     })
 }
 
@@ -293,41 +276,73 @@ function onSignIn(googleUser) {
   })
     .done(success => {
       localStorage.access_token = success.token
+      localStorage.userEmail = success.email
       $('#userGreeting').empty()
       $('#userGreeting').append(`<h3>Hello, ${getUsername(success.email)}!</h3>`)
-      Swal.fire({
-        icon: 'success',
-        title: 'Logged in with Google Account',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      alertify.success(`<span class="fredoka">Logged in with Google Account</span>`)
       tokenCheck()
     })
     .fail(err => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Login Failed',
-        text: err.responseJSON.msg
-      })
+      alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
     })
 }
 
-function getUsername(email) {
-  let username = ''
-  for (let i = 0; i < email.length; i++) {
-    if (email[i] === '@') {
-      break
-    } else {
-      username += email[i]
+function fetchCollId() {
+  $.ajax({
+    url: "http://localhost:3000/todos/collaborator",
+    method: "get",
+    headers: {
+      access_token: localStorage.access_token
     }
-  }
-  return username
+  })
+    .done(collaboratorsId => {
+      fetchCollEmail(collaboratorsId)
+    })
+    .fail(err => {
+      alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
+    })
 }
 
-function datePlaceholder(duedate) {
-  const date = new Date(duedate)
-  const dd = date.getDate()
-  const mm = date.getMonth() + 1
-  const yyyy = date.getFullYear()
-  return `${yyyy}-${mm < 10 ? '0' + mm : mm}-${dd < 10 ? '0' + dd : dd}`
+function fetchCollEmail(collIds) {
+  $('#collaborators').empty()
+  collIds.forEach(collId => {
+    $.ajax({
+      url: "http://localhost:3000/todos/collaborator/" + collId,
+      method: "get",
+      headers: {
+        access_token: localStorage.access_token
+      }
+    })
+      .done(userEmail => {
+        $('#collaborators').append(
+          `<tr>
+            <td>${userEmail.email}</td>
+          </tr>`
+        )
+      })
+      .fail(err => {
+        alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
+      })
+  })
+}
+
+function addCollaborator() {
+  const email = $('#collaboratorEmail').val()
+  $.ajax({
+    url: "http://localhost:3000/todos/collaborator",
+    method: "post",
+    data: {
+      email
+    },
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+    .done(collaboratorAdded => {
+      alertify.success(`<span class="fredoka">Collaborator added successfully</span>`)
+      showMainContent()
+    })
+    .fail(err => {
+      alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
+    })
 }

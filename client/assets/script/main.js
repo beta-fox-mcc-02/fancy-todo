@@ -24,11 +24,14 @@ function showLoginPage() {
 function showMainContent() {
   fetchStandard('ongoing')
   fetchImportant('ongoing')
+  fetchCollId()
   $(".loginContainer").hide()
   $(".detailContainer").hide()
   $(".contentContainer").show()
   $('#map').show()
   $('#editContainer').hide()
+  $('#userGreeting').empty()
+  $('#userGreeting').append(`<h3>Hello, ${getUsername(localStorage.userEmail)}!</h3>`)
 }
 
 function fetchStandard(status) {
@@ -111,6 +114,25 @@ const signOut = () => {
   });
 }
 
+function getUsername(email) {
+  let username = ''
+  for (let i = 0; i < email.length; i++) {
+    if (email[i] === '@') {
+      break
+    } else {
+      username += email[i]
+    }
+  }
+  return username
+}
+
+function datePlaceholder(duedate) {
+  const date = new Date(duedate)
+  const dd = date.getDate()
+  const mm = date.getMonth() + 1
+  const yyyy = date.getFullYear()
+  return `${yyyy}-${mm < 10 ? '0' + mm : mm}-${dd < 10 ? '0' + dd : dd}`
+}
 
 
 // DOCUMENT MANIPULATION
@@ -185,6 +207,12 @@ $(document).ready(function () {
   $('#backButton').click(event => {
     showMainContent()
     $(".detailContainer").hide()
+  })
+
+  $('#addCollaborator').submit(event => {
+    event.preventDefault()
+    addCollaborator()
+    showMainContent()
   })
 });
 // END OF DOCUMENT MANIPULATION

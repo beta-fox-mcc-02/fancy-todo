@@ -13,6 +13,10 @@ body {
   font-weight: bold;
 }
 
+.fredoka {
+  font-family: 'Fredoka One', cursive;
+}
+
 .contentContainer {
   height: 100vh;
   width: 100vw;

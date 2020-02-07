@@ -1,4 +1,5 @@
 module.exports = (err, req, res, next) => {
+  console.log(err)
   let status = 500
   let errObj = {
     msg: "Internal Server Error"
@@ -24,6 +25,9 @@ module.exports = (err, req, res, next) => {
   } else if (err.status === 403) {
     status = err.status
     errObj.msg = 'This page can only be accessed by registered user'
+  } else if (err.msg === 'Failed. User already registered as a collaborator') {
+    status = 403
+    errObj.msg = err.msg
   }
 
   res
