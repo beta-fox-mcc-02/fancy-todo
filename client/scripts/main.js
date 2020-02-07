@@ -99,6 +99,22 @@ function updateTodo(id) {
 }
 
 
+function resetInputValue() {
+    $("#titleTodo").val('');
+    $("#descTodo").val('');
+    $("#dateTodo").val('');
+    $("#InputEmailRegister").val('');
+    $("#InputPasswordRegister").val('');
+    $("#InputEmailLogin").val('');
+    $("#InputPasswordLogin").val('');
+}
+
+function emptyError() {
+    $("#errorLogin").empty()
+    $("#errorRegister").empty()
+    $("#errorAddTodo").empty()
+    $("#errorEditTodo").empty()
+}
 
 function isLogin() {
     if (localStorage.token) {
@@ -131,7 +147,7 @@ function showLogin() {
     $("#addTodoPage").hide()
     $("#editTodoPage").hide()
 
-    $("#errorLogin").empty()
+    emptyError()
 }
 
 function showRegister() {
@@ -142,7 +158,7 @@ function showRegister() {
     $("#addTodoPage").hide()
     $("#editTodoPage").hide()
 
-    $("#errorRegister").empty()
+    emptyError()
 }
 
 function showTodo() {
@@ -179,17 +195,6 @@ function showTodo() {
         })
 }
 
-function showAddTodo() {
-    $("#homePage").hide()
-    $("#registerPage").hide()
-    $("#loginPage").hide()
-    $("#todoPage").hide()
-    $("#addTodoPage").show()
-    $("#editTodoPage").hide()
-
-    $("#errorAddTodo").empty()
-}
-
 function showEditTodo(id) {
     $("#homePage").hide()
     $("#registerPage").hide()
@@ -198,18 +203,12 @@ function showEditTodo(id) {
     $("#addTodoPage").hide()
     $("#editTodoPage").show()
 
-    $("#errorEditTodo").empty()
+    emptyError()
     getTodo(id)
         .done(response => {
-            $("#titleTodoEdit").attr({
-                "value": response.data.title
-            });
-            $("#descTodoEdit").attr({
-                "value": response.data.description
-            });
-            $("#dateTodoEdit").attr({
-                "value": formatDate(response.data.due_date)
-            });
+            $("#titleTodoEdit").val(response.data.title);
+            $("#descTodoEdit").val(response.data.description);
+            $("#dateTodoEdit").val(formatDate(response.data.due_date));
             localStorage.editId = response.data.id
         })
         .fail(err => {
@@ -245,14 +244,17 @@ $(document).ready(function () {
     //klik home
     $("#navHome").click(function () {
         showHome()
+        resetInputValue()
     })
     //klik login
     $("#navLogin").click(function () {
         showLogin()
+        resetInputValue()
     })
     //klik register
     $("#navRegister").click(function () {
         showRegister()
+        resetInputValue()
     })
     //klik logout
     $("#navLogout").click(function () {
@@ -263,19 +265,24 @@ $(document).ready(function () {
         showHome()
         localStorage.clear()
         isLogin()
+        resetInputValue()
     })
     //klik todo
     $("#navTodo").click(function () {
         showTodo()
+        resetInputValue()
     })
     //klik add todo
+    //modal
     $("#addTodoButton").click(function () {
-        showAddTodo()
+        $('#modalAddTodo').modal('show')
+        resetInputValue()
+        emptyError()
     })
     //submit login
     $("#loginForm").submit(function (e) {
         e.preventDefault();
-        $("#errorLogin").empty()
+        emptyError()
         submitLogin()
             .done(response => {
                 localStorage.token = response.accessToken
@@ -284,50 +291,53 @@ $(document).ready(function () {
             })
             .fail(err => {
                 if (Array.isArray(err.responseJSON.error)) {
-                    $("#errorLogin").append((`<p>${err.responseJSON.error[0]}</p>`))
+                    $("#errorLogin").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error[0]}</div>`))
                 } else {
-                    $("#errorLogin").append((`<p>${err.responseJSON.error}</p>`))
+                    $("#errorLogin").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error}</div>`))
                 }
             })
     })
     //submit register
     $("#registerForm").submit(function (e) {
         e.preventDefault();
-        $("#errorRegister").empty()
+        emptyError()
         submitRegister()
             .done(response => {
-                showLogin()
+                localStorage.token = response.accessToken
+                isLogin()
+                showHome()
             })
             .fail(err => {
                 console.log(err.responseJSON.error)
                 if (Array.isArray(err.responseJSON.error)) {
-                    $("#errorRegister").append((`<p>${err.responseJSON.error[0]}</p>`))
+                    $("#errorRegister").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error[0]}</div>`))
                 } else {
-                    $("#errorRegister").append((`<p>${err.responseJSON.error}</p>`))
+                    $("#errorRegister").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error}</div>`))
                 }
             })
     })
     //submit add todo
     $("#addTodoForm").submit(function (e) {
         e.preventDefault();
-        $("#errorAddTodo").empty()
+        emptyError()
         addTodo()
             .done(response => {
+                $('#modalAddTodo').modal('hide')
                 showTodo()
             })
             .fail(err => {
                 console.log(err.responseJSON.error)
                 if (Array.isArray(err.responseJSON.error)) {
-                    $("#errorAddTodo").append((`<p>${err.responseJSON.error[0]}</p>`))
+                    $("#errorAddTodo").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error[0]}</div>`))
                 } else {
-                    $("#errorAddTodo").append((`<p>${err.responseJSON.error}</p>`))
+                    $("#errorAddTodo").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error}</div>`))
                 }
             })
     })
     //submit edit todo
     $("#editTodoForm").submit(function (e) {
         e.preventDefault();
-        $("#errorEditTodo").empty()
+        emptyError()
         updateTodo(localStorage.editId)
             .done(response => {
                 showTodo()
@@ -335,9 +345,9 @@ $(document).ready(function () {
             .fail(err => {
                 console.log(err.responseJSON.error)
                 if (Array.isArray(err.responseJSON.error)) {
-                    $("#errorEditTodo").append((`<p>${err.responseJSON.error[0]}</p>`))
+                    $("#errorEditTodo").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error[0]}</div>`))
                 } else {
-                    $("#errorEditTodo").append((`<p>${err.responseJSON.error}</p>`))
+                    $("#errorEditTodo").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error}</div>`))
                 }
             })
     })

@@ -3,7 +3,7 @@ const { comparePass } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
 const { OAuth2Client } = require('google-auth-library');
 
-let secretPasswordGoogle = 'qwertymnbvcxzasd12345'
+let secretPasswordGoogle = process.env.SECRET_GOOGLE
 
 class Controller {
     static register(req, res, next) {
@@ -13,10 +13,16 @@ class Controller {
         }
         User.create(newUser)
             .then(user => {
+                let payload = {
+                    id: user.id,
+                    email: user.email
+                }
+                let token = generateToken(payload);
                 res.status(201).json({
                     id: user.id,
                     email: user.email,
-                    password: user.password
+                    password: user.password,
+                    accessToken: token
                 });
             })
             .catch(err => {
@@ -34,7 +40,7 @@ class Controller {
                     if (comparePass(req.body.password, user.password)) {
                         let payload = {
                             id: user.id,
-                            email: user.email,
+                            email: user.email
                         }
                         let token = generateToken(payload);
                         res.status(200).json({
@@ -44,14 +50,14 @@ class Controller {
                         next({
                             status: 400,
                             message: 'Bad request',
-                            type: 'email / password wrong'
+                            type: 'Email / Password Wrong'
                         })
                     }
                 } else {
                     next({
                         status: 400,
                         message: 'Bad request',
-                        type: 'email / password wrong'
+                        type: 'Email / Password Wrong'
                     })
                 }
             })

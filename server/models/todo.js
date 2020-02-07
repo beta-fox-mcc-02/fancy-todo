@@ -1,4 +1,5 @@
 'use strict';
+const formatDate = require('../helpers/formatDate')
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model;
   class Todo extends Model {
@@ -57,6 +58,13 @@ module.exports = (sequelize, DataTypes) => {
             next('Due date is required');
           } else {
             next();
+          }
+        },
+        isNotYesterday(value, next) {
+          if (new Date(value) < new Date(formatDate(new Date))) {
+            next('Invalid date')
+          } else {
+            next()
           }
         }
       }

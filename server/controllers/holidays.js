@@ -2,7 +2,7 @@ const axios = require('axios');
 
 class Controller {
     static getHolidays(req, res, next) {
-        let api_key = 'f2d6479f42bc1300246b4a3a707c4cf72edfd393'
+        let api_key = process.env.API_KEY_CALENDAR
         let year = new Date().getFullYear()
         axios({
             method: 'get',
