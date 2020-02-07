@@ -3,11 +3,11 @@ function showTodo(todos) {
   if (todos.data.data.length) {
     const weather = todos.data.data[0].currentWeather;
     $('.current-weather').html(`<p>Cuaca hari ini: <strong>${weather.toUpperCase()}</strong></p>`);
-    todos.data.data.forEach(el => {
+    todos.data.data.forEach((el, index) => {
       const todoStatus = el.status ? 'Completed' : 'Uncomplete';
       $('#todos tbody').append(`
       <tr>
-        <th scope="row">${el.id}</th>
+        <th scope="row">${index + 1}</th>
         <td>${el.title}</td>
         <td>${el.description}</td>
         <td>
@@ -15,8 +15,8 @@ function showTodo(todos) {
         </td>
         <td>${new Date(el.due_date).toDateString()}</td>
         <td>
-          <a href="#" class="edit-todos">Edit</a> |
-          <a href="#" class="delete-todos">Delete</a> 
+          <a href="#" class="edit-todos" onclick="update(${el.id})">Edit</a> |
+          <a href="#" class="delete-todos" onclick="delete(${el.id})">Delete</a> 
         </td>
       </tr>
       `)
@@ -35,6 +35,41 @@ function showTodo(todos) {
   }
 
 }
+
+// form update todo
+function update(id) {
+  findOne(id)
+    .then(todo => {
+      console.log('ini todo', todo);
+      const date = dateUpdateForm(todo.data.data.due_date);
+      $('#title-update-form').val(`${todo.data.data.title}`);
+      $('#desc-update-form').val(`${todo.data.data.description}`);
+      $('#due-date-update-form').val(date);
+      $(`input[name="radio-update-form"][value="${todo.data.data.status}"]`).attr('checked', true);
+      // const radio = $('input[name="radio-update-form"]:checked').val();
+      return todo;
+    })
+    .then(todo => {
+      updatePage();
+      const title =
+    })
+    .catch(err => {
+      console.log(err.response);
+    })
+  console.log(id);
+}
+
+function dateUpdateForm(inpDate) {
+  const fullDate = new Date(inpDate);
+  let year = fullDate.getFullYear();
+  let month = fullDate.getMonth() + 1;
+  let date = fullDate.getDate();
+  if (String(month).length === 1) month = `0${month}`;
+  if (String(date).length === 1) date = `0${date}`;
+
+  return `${year}-${month}-${date}`;
+}
+
 
 // google sign in
 function onSignIn(googleUser) {
@@ -62,6 +97,7 @@ function registerPage() {
   $('#error-alert').hide();
   $('#logout').hide();
   $('#create-form').hide();
+  $('#update-form').hide();
 
 }
 
@@ -76,6 +112,7 @@ function loginPage() {
   $('#error-alert').hide();
   $('#logout').hide();
   $('#create-form').hide();
+  $('#update-form').hide();
 
 }
 
@@ -89,6 +126,7 @@ function todosPage() {
   $('#error-alert').hide();
   $('#logout').show();
   $('#create-form').hide();
+  $('#update-form').hide();
 
 
   console.log('dari todosPage')
@@ -113,6 +151,20 @@ function createPage() {
   $('#error-alert').hide();
   $('#logout').show();
   $('#create-form').show();
+  $('#update-form').hide();
+}
+
+function updatePage() {
+  $('.register-user').hide();
+  $('.login-user').hide();
+
+  $('.todos-table').hide();
+
+  $('#success-alert').hide();
+  $('#error-alert').hide();
+  $('#logout').show();
+  $('#create-form').hide();
+  $('#update-form').show();
 }
 
 // ======================================================
@@ -273,5 +325,14 @@ $(document).ready(() => {
     console.log('Tersubmit');
 
   })
+
+  // cancel update todo
+  $('#cancel-update-form').on('click', () => {
+    clearInput();
+    todosPage();
+  })
+
+  // update todo
+
 
 })

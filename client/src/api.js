@@ -36,6 +36,27 @@ function create(data) {
   })
 }
 
+function findOne(id) {
+  return axios({
+    method: 'get',
+    url: `http://localhost:3000/todos/${id}`,
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+}
+
+function update(id, data) {
+  return axios({
+    method: 'put',
+    url: `http://localhost:3000/todos/${id}`,
+    headers: {
+      access_token: localStorage.access_token
+    },
+    data
+  })
+}
+
 // authenticate with backend for google sign in
 function googleSignIn(access_token) {
   return axios({

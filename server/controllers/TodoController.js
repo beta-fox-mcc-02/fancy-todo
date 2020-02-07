@@ -6,7 +6,8 @@ class TodoController {
   static findAll(req, res, next) {
     let tmpTodos;
     Todo.findAll({
-      where: { UserId: req.currentUserId }
+      where: { UserId: req.currentUserId },
+      order: [['id', 'ASC']]
     })
       .then(todos => {
         // axios
