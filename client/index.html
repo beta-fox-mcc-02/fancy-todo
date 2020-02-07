@@ -11,6 +11,8 @@
    <meta name="google-signin-client_id"
       content="31158270418-c0h0n33lesauro33ocr1m08vd0981g0p.apps.googleusercontent.com">
    <link rel="stylesheet" href="./assets/style.css">
+   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
    <title>Fancy Todoooo</title>
 </head>
 
@@ -112,17 +114,19 @@
       <div id="content-fancy" class="mt-5">
          <div class="container">
             <div class="row">
-               <div class="col-5">
-                  <div class="card text-center shadow">
+
+               <div class="col-5 mx-auto">
+                  <div class="card text-center shadow" style="opacity: .95">
                      <div class="card-header">
                         Fancy Weather
                      </div>
                      <div class="card-body">
                         <h5 class="card-title">Forecast the weather in your city</h5>
 
-                        <form class="form-inline justify-content-center" id="form-weather">   
+                        <form class="form-inline justify-content-center" id="form-weather">
                            <div class="form-group mr-2 mb-2">
-                              <input type="text" class="form-control" id="form-city-weather" placeholder="input your city...">
+                              <input type="text" class="form-control" id="form-city-weather"
+                                 placeholder="input your city...">
                            </div>
                            <button type="submit" class="btn btn-info mb-2"><i class="fas fa-search"></i></button>
                         </form>
@@ -132,6 +136,13 @@
                      </div>
                   </div>
                </div>
+
+               <div class="col-5 mx-auto">
+                  <div id="weather-content">
+                     <!-- content here -->
+                  </div>
+               </div>
+
             </div>
          </div>
       </div>
@@ -192,6 +203,7 @@
 
    <!-- script -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
    <script src="https://apis.google.com/js/platform.js" async defer></script>
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>

@@ -20,7 +20,8 @@ function toggleHome() {
    $('#home').show()
    $('#add-myTodo').hide()
    $('#edit-myTodo').empty()
-   $('fancyFeature').hide()
+   $('#fancyFeature').hide()
+   $('#weather-content').empty()
 }
 
 function toggleFancy() {
@@ -30,6 +31,8 @@ function toggleFancy() {
    $('#add-myTodo').hide()
    $('#edit-myTodo').empty()
    $('#fancyFeature').show()
+   $('#weather-content').empty()
+
 }
 // =========================================================================
 
@@ -52,6 +55,7 @@ function onSignIn(googleUser) {
          $('#register').hide()
          $('#home').show()
          fetchMyTodo()
+
          Swal.fire(
             'Login Success bosq!',
             'welcome back bosq',
@@ -212,6 +216,73 @@ function toggleEditTodo(id) {
       })
 }
 
+function getWeather(city) {
+   if (city.length < 1) {
+      Toastify({
+         text: `please input city name`,
+         backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+         className: "info",
+       }).showToast();
+   }
+   else {
+      axios({
+         method: `GET`,
+         url: `http://localhost:3000/weathers/${city}`
+      })
+         .then(({ data }) => {
+            console.log(data, `ini apiiiiiiiiii`);
+            Toastify({
+               text: `fetch API success`,
+               backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+               className: "info",
+             }).showToast();
+
+
+            let weather
+            if (data.main == `Rain`) {
+               weather = `<img src="https://media.giphy.com/media/EEFEyXLO9E0YE/giphy.gif" alt=""
+                                 style="max-width: 200px">`
+            }
+            if(data.main == `Clouds`) {
+               weather = `<img src="https://cdn.dribbble.com/users/2000228/screenshots/6833456/gif_cloud.gif" alt=""
+                                 style="max-width: 200px">`
+            }
+            if (data.main == `Clear`) {
+               weather = `<img src="https://media.giphy.com/media/QiPQlTwmSt1Ac/giphy.gif" alt=""
+               style="max-width: 200px">`
+            }
+   
+            let content = `
+            <div class="card text-center shadow">
+                           <div class="card-header">
+                              Your weather forcast for today
+                           </div>
+                           <div class="card-body">
+                              ${weather}
+                              <h2 class="mt-2 mb-2">${data.data.weather[0].main}</h2>
+                              <p><i></i>${data.data.weather[0].description}</i></p>
+                              <h5><i>Wind</i></h5>
+                              <p>speed: ${data.data.wind.speed},
+                                 deg: ${data.data.wind.deg}</p>
+                              <h5><i>Humidity</i></h5>
+                                 <p>${data.data.main.humidity}</p>
+                           </div>
+                        </div>
+            `
+            $('#weather-content').html(content)
+         })
+         .catch(err => {
+            console.log(`ajurrrrr`);         
+            console.log(err);
+            Toastify({
+               text: `There's no city with name ${city}`,
+               backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+               className: "info",
+             }).showToast();
+         })
+   }
+}
+
 function editTodo(id) {
    let title = $('#form-editTodo-title').val()
    let description = $('#form-editTodo-description').val()
@@ -283,11 +354,13 @@ $(document).ready(() => {
             $('#login').hide()
             $('#home').show()
             $('#register').hide()
-            Swal.fire(
-               'Login Success bosq!',
-               'welcome back bosq',
-               'success'
-            )
+
+            Toastify({
+               text: "Login successfully!",
+               backgroundColor: "linear-gradient(to right, #314755, #26a0da)",
+               className: "info",
+            }).showToast();
+
          })
          .catch(err => {
             Swal.fire({
@@ -368,5 +441,12 @@ $(document).ready(() => {
             })
             next(err)
          })
+   })
+
+   $('#form-weather').submit((e) => {
+      console.log(`jalan form weather`);
+      e.preventDefault()
+      let city = $('#form-city-weather').val()
+      getWeather(city)
    })
 })
