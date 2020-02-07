@@ -362,6 +362,49 @@
 
   * **Code:** 403 FORBIDDEN <br />
     **Content:** `{ msg : 'This page can only be accessed by registered user' }`
+
+<br>
+
+
+**Delete Collaborator by ID**
+----
+  Delete Collaborator by ID.
+
+* **URL**
+
+      /todos/collaborator/:id
+
+* **Method:**
+
+  `DELETE`
+
+* **Params**
+  
+  **Required:**
+ 
+      id (integer)
+
+* **Headers**
+  
+  **Required:**
+ 
+      access_token
+  
+* **Success Response:**
+
+  * **Code:** 200 OK <br />
+    **Content:** `{ Collaborator deleted successfully }`
+ 
+* **Error Response:**
+
+  * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ msg : err.message }`
+
+    OR
+
+  * **Code:** 403 FORBIDDEN <br />
+    **Content:** `{ msg : 'This page can only be accessed by registered user' }`
+
 <br>
 <br>
 
