@@ -10,7 +10,6 @@ class WeatherController {
             res.status(200).json({weather : data.weather[0].description, city: data.name})
          })
          .catch(err => {            
-            // next({code: 404, message: `There's no city such as ${req.params.city}`})
             next(err)
          })
    }
