@@ -1,9 +1,8 @@
 function showTodo(todos) {
+  $('#todos tbody').empty();
   if (todos.data.data.length) {
     const weather = todos.data.data[0].currentWeather;
     $('.current-weather').html(`<p>Cuaca hari ini: <strong>${weather.toUpperCase()}</strong></p>`);
-    $('#todos tbody').empty();
-
     todos.data.data.forEach(el => {
       const todoStatus = el.status ? 'Completed' : 'Uncomplete';
       $('#todos tbody').append(`
@@ -93,7 +92,7 @@ function todosPage() {
     })
     .catch(err => {
       console.log('tidak boleh');
-      console.log(err);
+      console.log(err.response);
     })
 }
 
