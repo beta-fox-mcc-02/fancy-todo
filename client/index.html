@@ -39,6 +39,7 @@
     <div class="container" id="landing-page">
         <center>
             <h1>WELCOME TO TODO APPS</h1>
+            
         </center>
     </div>
 
@@ -46,17 +47,20 @@
     <!-- SIGN UP -->
     <div class="container" id="signUp">
         <center>
+            <div class="alert alert-danger" role="alert">
+                This is a primary alert with
+            </div>
             <h1>SIGN UP</h1>
             <form>
                 <div class="form-group">
                     <label for="emailReg">Email address</label>
-                    <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp" required>
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small>
                 </div>
                 <div class="form-group">
                     <label for="passwordReg">Password</label>
-                    <input type="password" class="form-control" id="passwordReg">
+                    <input type="password" class="form-control" id="passwordReg" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>
             </form>
@@ -67,19 +71,23 @@
     <div class="container" id="signIn">
         <center>
             <h1>SIGN IN</h1>
+            <div class="alert alert-danger" role="alert">
+                This is a primary alert with
+            </div>
             <form>
                 <div class="form-group">
                     <label for="emailIn">Email address</label>
-                    <input type="email" class="form-control" id="emailIn" aria-describedby="emailHelp">
+                    <input type="email" class="form-control" id="emailIn" aria-describedby="emailHelp" required>
                     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
                         else.</small>
                 </div>
                 <div class="form-group">
                     <label for="paswordIn">Password</label>
-                    <input type="password" class="form-control" id="passwordIn">
+                    <input type="password" class="form-control" id="passwordIn" required>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
+            <br>
             <div class="g-signin2" data-onsuccess="onSignIn"></div>
         </center>
     </div>
@@ -110,6 +118,9 @@
     <!-- ADD TODOOOOO -->
     <div class="container" id="form-add-todo">
         <center>
+            <div class="alert alert-danger" role="alert">
+                This is a primary alert with
+            </div>
             <form>
                 <div class="form-group">
                     <label for="title-add">TITLE</label>
@@ -133,6 +144,9 @@
     <!-- EDIT TODOOO -->
     <div class="container" id="form-edit-todo">
         <center>
+            <div class="alert alert-danger" role="alert">
+                This is a primary alert with
+            </div>
             <form>
                 <div class="form-group">
                     <label for="title-add">TITLE</label>

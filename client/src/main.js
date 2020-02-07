@@ -12,29 +12,93 @@ function readTodo(token) {
             // style="text-decoration: line-through red
             $('#todos').empty()
             for (let i = 0; i < data.length; i++) {
-                const a = new Date(data[i].due_date)
-                const year = a.getFullYear()
-                const month = switchMonth(a.getMonth())
-                const date = a.getDay()
-                $('#todos').append(`
-                <tr>
-                    <td>${i + 1}</td>
-                    <td>${data[i].title}</td>
-                    <td>${data[i].description}</td>
-                    <td>${date}  ${month} ${year}</td>
-                    <td>
-                        <button type="button" class="btn btn-danger" id="delete" onClick="destroy(${data[i].id})" value="${data[i].id}">Delete</button>
-                        <button type="button" class="btn btn-warning" id="edit" onClick="edit(${data[i].id})" value="${data[i].id}">Edit</button>
-                        <button type="button" class="btn btn-success" id="done" onClick="done(${data[i].id})" value="${data[i].id}">Done Todos</button>
-                    </td>
-                </tr>
-                `)
+                if (data[i].status === true) {
+                    const a = new Date(data[i].due_date)
+                    console.log(a)
+                    const year = a.getFullYear()
+                    const month = switchMonth(a.getMonth())
+                    const date = a.getDate()
+                    console.log(date, month, year)
+                    $('#todos').append(`
+                        <tr>
+                            <td style="text-decoration: line-through red;">${i + 1}</td>
+                            <td style="text-decoration: line-through red;">${data[i].title}</td>
+                            <td style="text-decoration: line-through red;">${data[i].description}</td>
+                            <td style="text-decoration: line-through red;">${date} ${month} ${year}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" id="delete" onClick="destroy(${data[i].id})" value="${data[i].id}">Delete</button>
+                                <button type="button" class="btn btn-warning" id="edit" onClick="edit(${data[i].id})" value="${data[i].id}">Edit</button>
+                                <button type="button" class="btn btn-success" id="done" onClick="done(${data[i].id})" value="${data[i].id}">Done Todos</button>
+                            </td>
+                        </tr>
+                        `)
+                } else {
+                    const a = new Date(data[i].due_date)
+                    console.log(a)
+                    const year = a.getFullYear()
+                    const month = switchMonth(a.getMonth())
+                    const date = a.getDate()
+                    console.log(date, month, year)
+                    $('#todos').append(`
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${data[i].title}</td>
+                        <td>${data[i].description}</td>
+                        <td>${date} ${month} ${year}</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" id="delete" onClick="destroy(${data[i].id})" value="${data[i].id}">Delete</button>
+                            <button type="button" class="btn btn-warning" id="edit" onClick="edit(${data[i].id})" value="${data[i].id}">Edit</button>
+                            <button type="button" class="btn btn-success" id="done" onClick="done(${data[i].id})" value="${data[i].id}">Done Todos</button>
+                        </td>
+                    </tr>
+                    `)
+                }
             }
         })
         .fail(err => {
             console.log(err)
         })
 }
+
+function done(id) {
+    localStorage.setItem('id', id)
+    $.ajax({
+        method: "GET",
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+            token: localStorage.getItem('token')
+        }
+    })
+        .done(({ data }) => {
+            // console.log(data)
+            const id = localStorage.getItem('id')
+            const title = data.title
+            const description = data.description
+            const status = true
+            const due_date  = data.due_date
+            $.ajax(`http://localhost:3000/todos/${id}`, {
+                method: 'PUT',
+                data: {
+                    title, description, status, due_date
+                },
+                headers: {
+                    token: localStorage.getItem('token')
+                }
+            })
+                .done(data => {
+                    readTodo()
+                    $('#user-home')
+                })
+                .fail(err => {
+                    console.log(err)
+                })
+
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
 
 function switchMonth(val) {
     switch (val) {
@@ -86,7 +150,11 @@ function signIn() {
             $('#user-home').show()
         })
         .fail(err => {
-            console.log(err)
+            $('.alert').html(`
+                ${err.responseJSON.msg}
+            `)
+            $('.alert').show()
+            setTimeout(function () { $('.alert').hide() }, 1000)
         })
 }
 
@@ -106,7 +174,13 @@ function signUp() {
         })
         .fail(err => {
             console.log(err)
-            console.log('failed register')
+            $('.alert').html(`
+                ${err.responseJSON.msg}
+            `)
+            $('.alert').show()
+            setTimeout(function () { $('.alert').hide() }, 1000)
+            // console.log(err)
+            // console.log('failed register')
         })
 }
 
@@ -114,7 +188,7 @@ function addTodo(e) {
     const title = $('#title-add').val()
     const description = $('#description-add').val()
     const due_date = $('#date-add').val()
-    // console.log(title, description, due_date)
+    console.log(title, description, due_date)
     $.ajax('http://localhost:3000/todos', {
         method: 'POST',
         data: {
@@ -132,7 +206,12 @@ function addTodo(e) {
             // console.log(data)
         })
         .fail(err => {
-            console.log(err)
+            $('.alert').html(`
+                ${err.responseJSON.msg[0]}
+            `)
+            $('.alert').show()
+            setTimeout(function () { $('.alert').hide() }, 1000)
+            // console.log(err)
         })
 }
 
@@ -187,7 +266,8 @@ function edit(id) {
             token: localStorage.getItem('token')
         }
     })
-        .done(({data}) => {
+        .done(({ data }) => {
+            $('.alert').hide()
             $("#form-edit-todo").show()
             $("#user-home").hide()
             $('#title-edit').val(`${data.title}`)
@@ -224,7 +304,12 @@ function editTodo(e) {
             // console.log(data)
         })
         .fail(err => {
-            console.log(err)
+            $('.alert').html(`
+                ${err.responseJSON.msg[0]}
+            `)
+            $('.alert').show()
+            setTimeout(function () { $('.alert').hide() }, 1000)
+            // console.log(err.responseJSON.msg[0])
         })
 }
 
@@ -236,6 +321,7 @@ $(document).ready(() => {
     })
 
     $('#getSignIn').on('click', function () {
+        $('.alert').hide()
         $('#signUp').hide()
         $('#signIn').show()
         $('#user-home').hide()
@@ -245,6 +331,7 @@ $(document).ready(() => {
         $('#signIn').hide()
         $('#signUp').show()
         $('#user-home').hide()
+        $('.alert').hide()
     })
 
     $('#signUp').on('submit', () => {
@@ -272,6 +359,7 @@ $(document).ready(() => {
     })
 
     $('#add-todo').on('click', () => {
+        $('.alert').hide()
         $('#user-home').hide()
         $('#form-add-todo').show()
     })
