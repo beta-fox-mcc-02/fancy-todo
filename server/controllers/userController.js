@@ -1,6 +1,8 @@
 const { User } = require('../models')
 const { comparePassword } = require('../helpers/bcrypt')
-const { generateToken, verifyToken } = require('../helpers/jwt')
+const { generateToken } = require('../helpers/jwt')
+const { OAuth2Client } = require('google-auth-library')
+
 
 class UserController {
     static register(req, res, next) {
@@ -61,19 +63,49 @@ class UserController {
             })
     }
 
-    static gSignIn(req, res) {
-        const idToken = req.headers.id_token
-        // console.log(idToken)
+    static gSignIn(req, res, next) {
+        const token = req.headers.id_token
+        const CLIENT_ID = process.env.CLIENT_ID
+        const SECRET_PASSWORD = process.env.SECRET_PASSWORD
+        const client = new OAuth2Client(CLIENT_ID)
+        let userEmail = ''
         
-        User.verifyToken({
-            idToken,
-            // audience: "517803177625-n77g91t2rv39th4tuhksmj7dlvisfno6.apps.googleusercontent.com"
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID
         })
             .then(response => {
-                console.log(response)
+                const payload = response.getPayload();
+                userEmail = payload.email
+                return User.findOne({
+                    where: {
+                        email: userEmail
+                    }
+                })
+            })
+            .then(response => {
+                if (!response) {
+                    return User.create({
+                        email: userEmail,
+                        password: SECRET_PASSWORD
+                    })
+                } else {
+                    return response
+                }
+            })
+            .then(response => {
+                const payload = {
+                    id: response.id,
+                    email: response.email
+                }
+                const newUserToken = generateToken(payload)
+                res.status(200).json({
+                    msg: 'succesfully sign in',
+                    token: newUserToken
+                })
             })
             .catch(err => {
-                console.log(err)
+                next(err)
             })
     }
 }

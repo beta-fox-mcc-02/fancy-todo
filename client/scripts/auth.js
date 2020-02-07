@@ -1,5 +1,5 @@
 function login() {
-    event.preventDefault()
+    // event.preventDefault()
 
     $.ajax("http://localhost:3000/users/login", {
         method: 'POST',
@@ -9,9 +9,9 @@ function login() {
         }
     })
         .done(response => {
-            console.log(response)
             localStorage.setItem('token', response.token)
             location.reload(true)
+            homePage()
         })
         .fail(err => {
             console.log(err)
@@ -27,7 +27,7 @@ function logout() {
 }
 
 function register() {
-    event.preventDefault()
+    // event.preventDefault()
 
     $.ajax("http://localhost:3000/users/register", {
         method: 'POST',
@@ -50,23 +50,20 @@ function register() {
 }
 
 function onSignIn(googleUser) {
-    // var profile = googleUser.getBasicProfile();
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-    var id_token = googleUser.getAuthResponse().id_token;
-    console.log(id_token)
+    var token = googleUser.getAuthResponse().id_token;
+    
+    localStorage.setItem('gToken', token)
 
     $.ajax("http://localhost:3000/users/gSignIn", {
         method: 'POST',
         headers: {
-            id_token
+            id_token: token
         }
     })
         .done(response => {
-            console.log(response)
+            localStorage.setItem('token', response.token)
+            // afterGSignIn()
         })
         .fail(err => {
             console.log(err)
@@ -77,8 +74,10 @@ function onSignIn(googleUser) {
   }
 
 function signOut() {
-var auth2 = gapi.auth2.getAuthInstance();
+var auth2 = gapi.auth2.getAuthInstance()
 auth2.signOut().then(function () {
-    console.log('User signed out.');
-});
+    localStorage.clear()
+    location.reload(true)
+    console.log('User signed out.')
+})
 }

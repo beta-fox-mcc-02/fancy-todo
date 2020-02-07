@@ -1,10 +1,44 @@
 let token = localStorage.getItem('token')
+let gToken = localStorage.getItem('gToken')
 
 function homePage() {
+    if (token) {
+        $('#home').show()
+        $('#register').hide()
+        $('#login').hide()
+        $('#add-todo').hide()
+        $('#edit-todo').hide()
+        $('#welcome').hide()
+    } else {
+        $('#home').show()
+        $('#register').hide()
+        $('#login').hide()
+        $('#add-todo').hide()
+        $('#edit-todo').hide()
+        $('#welcome').show()
+    }
+}
+
+function afterGSignIn(e) {
+    e.preventDefault()
+    // location.reload(true)
     $('#home').show()
     $('#register').hide()
     $('#login').hide()
     $('#add-todo').hide()
+    $('#edit-todo').hide()
+    $('#welcome').hide()
+    $('#list-todo').show()
+    $('#nav-login').hide()
+    $('#nav-add-todo').show()
+    $('#nav-register').hide()
+    if (gToken) {
+        $('#nav-g-logout').show()
+        $('#nav-logout').hide()
+    } else {
+        $('#nav-g-logout').hide()
+        $('#nav-logout').show()
+    }
 }
 
 $(document).ready(() => {
@@ -13,13 +47,21 @@ $(document).ready(() => {
         $('#nav-login').hide()
         $('#nav-add-todo').show()
         $('#nav-home').show()
-        $('#nav-logout').show()
+
+        if (gToken) {
+            $('#nav-g-logout').show()
+            $('#nav-logout').hide()
+        } else {
+            $('#nav-g-logout').hide()
+            $('#nav-logout').show()
+        }
     } else {
-        $('#nav-home').hide()
+        $('#nav-home').show()
         $('#nav-register').show()
         $('#nav-login').show()
         $('#nav-add-todo').hide()
         $('#nav-logout').hide()
+        $('#nav-g-logout').hide()
         $('#list-todo').hide()
     }
 
@@ -27,11 +69,16 @@ $(document).ready(() => {
         logout()
     })
 
+    fetch()
+    
     homePage()
 
-    fetch()
-
     $('#nav-home').on('click', () => {
+        if (token) {
+            $('#nav-add-todo').show()
+        } else {
+            $('#nav-add-todo').hide()
+        }
         homePage()
     })
 
@@ -40,6 +87,7 @@ $(document).ready(() => {
         $('#home').hide()
         $('#add-todo').hide()
         $('#login').show()
+        $('#welcome').hide()
     })
 
     $('#nav-register').on('click', () => {
@@ -47,6 +95,7 @@ $(document).ready(() => {
         $('#home').hide()
         $('#add-todo').hide()
         $('#login').hide()
+        $('#welcome').hide()
     })
 
     $('#nav-add-todo').on('click', () => {
@@ -54,9 +103,12 @@ $(document).ready(() => {
         $('#home').hide()
         $('#add-todo').show()
         $('#login').hide()
+        $('#edit-todo').hide()
+        $('#nav-add-todo').hide()
     })
 
-    $('#form-login').on('submit', () => {
+    $('#form-login').on('submit', (event) => {
+        event.preventDefault()
         login()
     })
 
@@ -67,4 +119,6 @@ $(document).ready(() => {
     $('#form-add-todo').on('submit', () => {
         addTodo()
     })
+
+    // afterGSignIn()
 })

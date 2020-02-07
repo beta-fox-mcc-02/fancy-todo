@@ -10,22 +10,24 @@ function fetch() {
             console.log(todoList)
             todoList.forEach(todo => {
                 $('#list-todo').append(`
+                <tbody>
                 <tr>
                 <td>${todo.title}</td>
                 <td>${todo.description}</td>
-                <td>${new Date(todo.due_date).toDateString()}</td>
-                <td>
+                <td align="center">${new Date(todo.due_date).toDateString()}</td>
+                <td align="center">
                     <ul>
-                        <button onclick="editTodoForm(${todo.id})">edit</button> |
-                        <button onclick="deleteTodo(${todo.id})">delete</button>
+                        <i class="far fa-edit ngaps-icon" onclick="editTodoForm(${todo.id})"></i> |
+                        <i class="far fa-trash-alt ngaps-icon" onclick="deleteTodo(${todo.id})"></i>
                     </ul>
                 </td>
-                </tr>`)
+                </tr>
+                </tbody>`)
             });
         })
         .fail(err => {
-            // console.log('error')
-            // console.log(err)
+            console.log('error')
+            console.log(err)
         })
         .always(_ => {
             console.log('complete fetch')
@@ -68,6 +70,7 @@ function editTodoForm(id) {
     $('#home').hide()
     $('#add-todo').hide()
     $('#login').hide()
+    $('#edit-todo').show()
 
     $.ajax('http://localhost:3000/todos/' +  id, {
         method: 'GET',
@@ -82,17 +85,17 @@ function editTodoForm(id) {
             $('#edit-todo').append(`
             <h2>Edit Todo</h2>
 
-            <form id="form-edit-todo" onsubmit="editTodo(${id})">
-            <label for="title">Title:</label><br>
-            <input type="text" name="title" id="edit-title" value="${todo.title}" required><br><br>
-            
-            <label for="description">Description:</label><br>
-            <input type="text" name="description" id="edit-description" value="${todo.description}"><br><br>
-
-            <label for="due-date">Due-date:</label><br>
-            <input type="date" name="due-date" id="edit-due-date" value="${todo.due_date}"><br><br>    
+            <form class="ngaps-form" id="form-edit-todo" onsubmit="editTodo(${id})">
+                <label for="title">Title:</label><br>
+                <input type="text" name="title" id="edit-title" value="${todo.title}" required><br><br>
                 
-            <input type="submit" value="Edit Todo" id="submit">
+                <label for="description">Description:</label><br>
+                <input type="text" name="description" id="edit-description" value="${todo.description}"><br><br>
+
+                <label for="due-date">Due-date:</label><br>
+                <input type="date" name="due-date" id="edit-due-date" value="${todo.due_date}"><br><br>    
+                    
+                <input type="submit" value="Edit Todo" id="submit">
             </form>
             `)
         })

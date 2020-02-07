@@ -7,7 +7,23 @@
 
     <meta name="google-signin-client_id" content="517803177625-n77g91t2rv39th4tuhksmj7dlvisfno6.apps.googleusercontent.com">
 
-    <title>TODO</title>
+    <!-- styles -->
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <!-- css -->
+    <link rel="stylesheet" href="../styles/main.css" type="text/css">
+
+    <!-- font logo -->
+    <link href="https://fonts.googleapis.com/css?family=Lalezar&display=swap" rel="stylesheet"> 
+
+    <!-- nav logo -->
+    <link href="https://fonts.googleapis.com/css?family=Maven+Pro&display=swap" rel="stylesheet">
+
+    <!-- Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc=" crossorigin="anonymous" />
+
+    <title>MONGAPS</title>
 
     <!-- scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,86 +34,108 @@
 </head>
 <body>
     <div class="navbar">
-        <div>
+        <div class="nav-left">
             <ul>
-                <li id="nav-home">Home</li>
-                <li id="nav-add-todo">Add Todo</li>
+                <li class="ngaps-icon" id="nav-home">Home</li>
+                <li class="ngaps-icon" id="nav-add-todo">Add Todo</li>
             </ul>
         </div>
-        <div>
+        <p class="logo">MONGAPS</p>
+        <div class="nav-right">
             <ul>
-                <li id="nav-login">log in</li>
-                <li id="nav-register">register</li>
-                <li id="nav-logout">Log out</li>
+                <li class="ngaps-icon" id="nav-login">sign in</li>
+                <li class="ngaps-icon" id="nav-register">sign up</li>
+                <li class="ngaps-icon" id="nav-logout">sign out</li>
+                <li class="ngaps-icon" id="nav-g-logout">
+                    <a class="gSignOutBtn" href="#" onclick="signOut();">Sign out</a>
+                </li>
             </ul>
         </div>
     </div>
 
     <!-- register -->
-    <div id="register">
-        <h2>Register</h2>
-        <div>
+    <div id="register" class="sign-form">
+        <p class="sign-title">Sign Up</p>
+        <div class="form-container">
             <form id="form-register">
-                <label for="email">Email:</label><br>
-                <input type="email" name="email" id="register-email" required><br><br>
+                <label for="email">Email:</label>
+                <input class="form-control" type="email" name="email" id="register-email" required>
                 
-                <label for="password">Password:</label><br>
-                <input type="password" name="password" id="register-password" required><br><br>
+                <label for="password">Password:</label>
+                <input class="form-control" type="password" name="password" id="register-password" required>
 
-                <input type="submit" value="Register">
+                <input class="sign-btn" type="submit" value="Sign up">
             </form>
         </div>
     </div>
 
     <!-- login -->
-    <div id="login">
-        <h2>Login</h2>
-        <div>
+    <div id="login" class="sign-form">
+        <p class="sign-title">Sign In</p>
+        <div class="form-container">
             <form id="form-login">
-                <label for="email">Email:</label><br>
-                <input type="email" name="email" id="login-email" required><br><br>
+                <label for="email">Email:</label>
+                <input class="form-control" type="email" name="email" id="login-email" required>
                 
-                <label for="password">Password:</label><br>
-                <input type="password" name="password" id="login-password" required><br><br>
-                    
-                <input type="submit" value="Log in" id="submit">
+                <label for="password">Password:</label>
+                <input class="form-control" type="password" name="password" id="login-password" required>
+                
+                <input class="sign-btn" type="submit" value="Sign in" id="submit">
+                
             </form>
+            <h4>or</h4>
+            <div class="g-signin2" data-longtitle="true" data-onsuccess="onSignIn"></div>
+        </div>
+    </div>
+
+    <!-- welcom -->
+    <div id="welcome" class="welcome">
+        <img src="../assets/undraw_project_completed_w0oq.svg" alt="welcom-img" class="welcom-img">
+        <div class="welcome-text">
+            <p>
+                Besok-besok mau ngapain?
+            </p>
+            <p>
+                catet aja!
+            </p>
         </div>
     </div>
 
     <!-- todo list -->
     <div id="home">
-        <h2>Todo List</h2>
-
-        <table id="list-todo">
-            <tr>
-                <th>Todo</th>
-                <th>Description</th>
-                <th>Due-date</th>
-                <th>Diapain</th>
-            </tr>
-        </table>
+        <div class="container">
+            <table id="list-todo" class="table table-hover centre list-todo">
+                <thead>
+                    <tr align="center">
+                        <th>Todo</th>
+                        <th>Description</th>
+                        <th>Due-date</th>
+                        <th>Diapain</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
     </div>
 
     <!-- form input todo -->
-    <div id="add-todo">
+    <div id="add-todo" class="ngaps-form-container">
         <h2>Add Todo</h2>
 
-        <form id="form-add-todo">
-            <label for="title">Title:</label><br>
-                <input type="text" name="title" id="add-title" required><br><br>
+        <form id="form-add-todo" class="ngaps-form">
+                <label for="title">Title:</label>
+                <input class="form-control" type="text" name="title" id="add-title" required>
                 
-                <label for="description">Description:</label><br>
-                <input type="text" name="description" id="add-description" required><br><br>
+                <label for="description">Description:</label>
+                <input class="form-control" type="text" name="description" id="add-description" required>
 
-                <label for="due-date">Due-date:</label><br>
-                <input type="date" name="due-date" id="add-due-date" required><br><br>    
+                <label for="due-date">Due-date:</label>
+                <input class="form-control" type="date" name="due-date" id="add-due-date" required>    
                     
                 <input type="submit" value="Add todo" id="submit">
         </form>
     </div>
 
     <!-- form edit todo -->
-    <div id="edit-todo"></div>
+    <div id="edit-todo" class="ngaps-form-container"></div>
 </body>
 </html>
