@@ -4,18 +4,20 @@ module.exports = {
   showCollaborator(req, res, next) {
     UserTodo.findOne({ where: { UserId: req.currentUserId } })
       .then(result => {
-        return UserTodo.findAll({ where: { TodoId: result.TodoId } })
+        if (result) {
+          UserTodo.findAll({ where: { TodoId: result.TodoId } })
+            .then(results => {
+              const users = []
+              results.forEach(user => {
+                users.push(user.UserId)
+              })
+              res
+                .status(200)
+                .json(users)
+            })
+            .catch(next)
+        }
       })
-      .then(results => {
-        const users = []
-        results.forEach(user => {
-          users.push(user.UserId)
-        })
-        res
-          .status(200)
-          .json(users)
-      })
-      .catch(next)
   },
 
   addCollaborator(req, res, next) {
@@ -62,6 +64,17 @@ module.exports = {
         } else {
           next({ msg: "Not Found" })
         }
+      })
+      .catch(next)
+  },
+
+  deleteCollaborator(req, res, next) {
+    const { id } = req.params
+    UserTodo.destroy({ where: { UserId: id } })
+      .then(() => {
+        res
+          .status(200)
+          .json({ msg: "Collaborator deleted successfully" })
       })
       .catch(next)
   }

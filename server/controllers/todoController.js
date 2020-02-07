@@ -47,12 +47,26 @@ module.exports = {
 
             UserTodo.findOne({ where: UserId })
               .then(todo => {
-                return UserTodo.findAll({ where: { TodoId: todo.TodoId } })
-              })
-              .then(users => {
-                users.forEach(user => {
+                if (todo) {
+                  UserTodo.findAll({ where: { TodoId: todo.TodoId } })
+                    .then(users => {
+                      users.forEach(user => {
+                        UserTodo.create({
+                          UserId: user.UserId,
+                          TodoId: created.id
+                        })
+                          .then(() => {
+                            res
+                              .status(201)
+                              .json(created)
+                          })
+                          .catch(next)
+                      });
+                    })
+                    .catch(next)
+                } else {
                   UserTodo.create({
-                    UserId: user.UserId,
+                    UserId,
                     TodoId: created.id
                   })
                     .then(() => {
@@ -61,54 +75,13 @@ module.exports = {
                         .json(created)
                     })
                     .catch(next)
-                });
+                }
               })
-              .catch(next)
           })
           .catch(next)
       })
       .catch(next)
   },
-
-
-  // addTodo(req, res, next) {
-  //   const { title, description, address, priority, due_date } = req.body
-  //   const UserId = req.currentUserId
-  //   const today = new Date()
-  //   const created = new Date(due_date)
-  //   let status;
-
-  //   created > today ? status = false : status = true
-
-  //   getLatLon(address)
-  //     .then(({ data }) => {
-  //       const location = data.results[0].geometry.location
-
-  //       Todo.create({
-  //         title,
-  //         description,
-  //         status,
-  //         priority,
-  //         location,
-  //         due_date
-  //       })
-  //         .then(created => {
-
-  //           UserTodo.create({
-  //             UserId,
-  //             TodoId: created.id
-  //           })
-  //             .then(() => {
-  //               res
-  //                 .status(201)
-  //                 .json(created)
-  //             })
-  //             .catch(next)
-  //         })
-  //         .catch(next)
-  //     })
-  //     .catch(next)
-  // },
 
   showOne(req, res, next) {
     Todo.findOne({ where: { id: req.params.id }, include: User })

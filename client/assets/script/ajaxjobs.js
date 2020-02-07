@@ -296,7 +296,9 @@ function fetchCollId() {
     }
   })
     .done(collaboratorsId => {
-      fetchCollEmail(collaboratorsId)
+      if (collaboratorsId) {
+        fetchCollEmail(collaboratorsId)
+      }
     })
     .fail(err => {
       alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
@@ -313,10 +315,11 @@ function fetchCollEmail(collIds) {
         access_token: localStorage.access_token
       }
     })
-      .done(userEmail => {
+      .done(userData => {
         $('#collaborators').append(
           `<tr>
-            <td>${userEmail.email}</td>
+            <td>${userData.email}</td>
+            <td><button class="btn btn-sm btn-outline-danger fas fa-times" onclick="deleteCollaborator(${userData.id})"></td>
           </tr>`
         )
       })
@@ -324,6 +327,41 @@ function fetchCollEmail(collIds) {
         alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
       })
   })
+}
+
+function deleteCollaborator(id) {
+  $.ajax({
+    url: "http://localhost:3000/todos/collaborator/" + id,
+    method: "get",
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+    .done(result => {
+      console.log('result.email', result.email)
+      console.log(localStorage.userEmail)
+      if (result.email !== localStorage.userEmail) {
+        $.ajax({
+          url: "http://localhost:3000/todos/collaborator/" + id,
+          method: "delete",
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+          .done(() => {
+            alertify.success(`<span class="fredoka">Collaborator deleted successfully</span>`)
+            showMainContent()
+          })
+          .fail(err => {
+            alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
+          })
+      } else {
+        alertify.error(`<span class="fredoka">Cannot remove yourself</span>`)
+      }
+    })
+    .fail(err => {
+      alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
+    })
 }
 
 function addCollaborator() {
@@ -338,7 +376,7 @@ function addCollaborator() {
       access_token: localStorage.access_token
     }
   })
-    .done(collaboratorAdded => {
+    .done(() => {
       alertify.success(`<span class="fredoka">Collaborator added successfully</span>`)
       showMainContent()
     })
