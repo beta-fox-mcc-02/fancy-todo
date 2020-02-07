@@ -56,11 +56,11 @@ function onSignIn(googleUser) {
          $('#home').show()
          fetchMyTodo()
 
-         Swal.fire(
-            'Login Success bosq!',
-            'welcome back bosq',
-            'success'
-         )
+         Toastify({
+            text: `Welcome back`,
+            backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+            className: "info",
+          }).showToast();
       })
       .catch(err => {
          console.log(err);
@@ -74,11 +74,11 @@ function signOut() {
       auth2.signOut().then(function () {
          console.log('User signed out.');
          localStorage.removeItem(`token`)
-         Swal.fire(
-            'Logout succesfully!',
-            'see you bos q',
-            'success'
-         )
+         Toastify({
+            text: `Logout successfully`,
+            backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+            className: "info",
+          }).showToast();
       });
       $('#login').show()
       $('#home').hide()
@@ -90,11 +90,11 @@ function signOut() {
 
    }
    else {
-      Swal.fire(
-         'Did you already login?',
-         'login dulu dong bos',
-         'question'
-      )
+      Toastify({
+         text: `Did you already login?`,
+         backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+         className: "info",
+       }).showToast();
    }
 }
 
@@ -162,11 +162,11 @@ function deleteTodo(id) {
          console.log(`deleted`);
          fetchMyTodo()
          $('#edit-myTodo').empty()
-         Swal.fire(
-            'Data deleted bosq!',
-            '',
-            'success'
-         )
+         Toastify({
+            text: `Data deleted successfully`,
+            backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+            className: "info",
+          }).showToast();
       })
       .catch(err => {
          console.log(err);
@@ -232,7 +232,7 @@ function getWeather(city) {
          .then(({ data }) => {
             console.log(data, `ini apiiiiiiiiii`);
             Toastify({
-               text: `fetch API success`,
+               text: `fetch API successfully`,
                backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
                className: "info",
              }).showToast();
@@ -303,20 +303,25 @@ function editTodo(id) {
       .then(_ => {
          console.log(`updated`);
          $('#edit-myTodo').empty()
-         Swal.fire(
-            'update Success bosq!',
-            '',
-            'success'
-         )
+         Toastify({
+            text: `Updated`,
+            backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+            className: "info",
+          }).showToast();
          fetchMyTodo()
       })
       .catch(err => {
          console.log(err);
+         Toastify({
+            text: `please input all required field`,
+            backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+            className: "info",
+          }).showToast();
       })
 }
 
 
-// ==================================================================================
+// ==============================================================================================================
 $(document).ready(() => {
    if (!localStorage.token) {
       $('#login').show()
@@ -357,17 +362,17 @@ $(document).ready(() => {
 
             Toastify({
                text: "Login successfully!",
-               backgroundColor: "linear-gradient(to right, #314755, #26a0da)",
+               backgroundColor: "linear-gradient(to right, #8360c3, #2ebf91)",
                className: "info",
             }).showToast();
 
          })
          .catch(err => {
-            Swal.fire({
-               icon: 'error',
-               title: 'Oops...',
-               text: 'email / password salah nich!',
-            })
+            Toastify({
+               text: `Email / password wrong`,
+               backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+               className: "info",
+             }).showToast();
          })
    })
 
@@ -388,20 +393,19 @@ $(document).ready(() => {
             $('#home').hide()
             $('#register').hide()
 
-            Swal.fire(
-               'Register Success bosq!',
-               'Now you can login with your account',
-               'success'
-            )
+            Toastify({
+               text: `Register successfully, now you can login!`,
+               backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+               className: "info",
+             }).showToast();
 
          })
          .catch(err => {
-            Swal.fire({
-               icon: 'error',
-               title: 'Oops...',
-               text: 'did you fill it correctly?',
-               footer: `fill with email format and password minimum is 5`
-            })
+            Toastify({
+               text: `Make sure your email is unique and fill required field`,
+               backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+               className: "info",
+             }).showToast();
          })
    })
 
@@ -427,19 +431,18 @@ $(document).ready(() => {
             console.log(data, `new todooooooo`);
             $('#add-myTodo').hide()
             fetchMyTodo()
-            Swal.fire(
-               'Add new todo successfully!',
-               '',
-               'success'
-            )
+            Toastify({
+               text: `Added new todo`,
+               backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
+               className: "info",
+             }).showToast();
          })
          .catch(err => {
-            Swal.fire({
-               icon: 'error',
-               title: 'hloohh...',
-               text: 'isinya yang lengkap dong!',
-            })
-            next(err)
+            Toastify({
+               text: `please input all required field`,
+               backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
+               className: "info",
+             }).showToast();
          })
    })
 
