@@ -57,10 +57,10 @@ function onSignIn(googleUser) {
          fetchMyTodo()
 
          Toastify({
-            text: `Welcome back`,
+            text: "Welcome back!",
             backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
             className: "info",
-          }).showToast();
+         }).showToast();
       })
       .catch(err => {
          console.log(err);
@@ -145,6 +145,12 @@ function fetchMyTodo() {
 }
 
 function toggleAddTodo() {
+   $('#login').hide()
+   $('#register').hide()
+   $('#home').show()
+   $('#edit-myTodo').empty()
+   $('#fancyFeature').hide()
+   $('#weather-content').empty()
    $('#add-myTodo').show()
    $('#edit-myTodo').empty()
 }
@@ -361,8 +367,8 @@ $(document).ready(() => {
             $('#register').hide()
 
             Toastify({
-               text: "Login successfully!",
-               backgroundColor: "linear-gradient(to right, #8360c3, #2ebf91)",
+               text: "Welcome back!",
+               backgroundColor: "linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4)",
                className: "info",
             }).showToast();
 

@@ -149,7 +149,7 @@
    </section>
 
    <section id="login">
-      <div class="container login-container">
+      <!-- <div class="container login-container">
          <div class="row justify-content-center">
             <div class="col-md-6 login-form-1" style="background-color: white;">
                <h3>Login</h3>
@@ -173,11 +173,63 @@
                </form>
             </div>
          </div>
+      </div> -->
+      <div class="container h-100" style="padding-top: 130px;">
+         <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+               <div class="d-flex justify-content-center">
+                  <div class="brand_logo_container">
+                     <img src="https://media1.giphy.com/media/StQirtjdSLvhtqRiUE/giphy.gif" class="brand_logo"
+                        alt="Logo">
+                  </div>
+               </div>
+               <div class="d-flex justify-content-center form_container">
+
+                  <form id="login-form">
+                     <div class="input-group mb-3">
+                        <div class="input-group-append">
+                           <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text" id="form-email-login" class="form-control input_user" value=""
+                           placeholder="email">
+                     </div>
+                     <div class="input-group mb-2">
+                        <div class="input-group-append">
+                           <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password" id="form-password-login" class="form-control input_pass" value=""
+                           placeholder="password">
+                     </div>
+                     <div class="form-group">
+                        <div class="custom-control custom-checkbox">
+                           <input type="checkbox" class="custom-control-input" id="customControlInline">
+                           <label class="custom-control-label" for="customControlInline">Remember me</label>
+                        </div>
+                     </div>
+                     <div class="d-flex justify-content-center mt-3 login_container">
+                        <button type="submit" name="button" class="btn login_btn">Login</button>
+                     </div>
+                  </form>
+
+               </div>
+               <div class="mt-4">
+                  <div class="d-flex justify-content-center links">
+                     <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                  </div>
+                  <div class="mt-4">
+                     <div class="d-flex justify-content-center links">
+                        Don't have an account? <p onclick="toggleRegister()"
+                           style="cursor: pointer; color: cornflowerblue;" class="ml-2">Sign Up</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
    </section>
 
    <section id="register">
-      <div class="container login-container">
+      <!-- <div class="container login-container">
          <div class="row justify-content-center">
             <div class="col-md-6 login-form-1" style="background-color: white;">
                <h3>Register</h3>
@@ -196,6 +248,46 @@
                      <p class="ForgetPwd" onclick="toggleLogin()" style="cursor: pointer">Back to sign in</p>
                   </div>
                </form>
+            </div>
+         </div>
+      </div> -->
+      <div class="container h-100" style="padding-top: 130px;">
+         <div class="d-flex justify-content-center h-100">
+            <div class="user_card">
+               <div class="d-flex justify-content-center">
+                  <div class="brand_logo_container">
+                     <img src="https://media1.giphy.com/media/StQirtjdSLvhtqRiUE/giphy.gif" class="brand_logo"
+                        alt="Logo">
+                  </div>
+               </div>
+               <div class="d-flex justify-content-center form_container">
+                  <form id="register-form">
+                     <div class="input-group mb-3">
+                        <div class="input-group-append">
+                           <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        </div>
+                        <input type="text"  id="form-email-register" class="form-control input_user" value=""
+                           placeholder="email">
+                     </div>
+                     <div class="input-group mb-2">
+                        <div class="input-group-append">
+                           <span class="input-group-text"><i class="fas fa-key"></i></span>
+                        </div>
+                        <input type="password"  id="form-password-register" class="form-control input_pass" value=""
+                           placeholder="password">
+                     </div>
+                     <div class="d-flex justify-content-center mt-5 login_container">
+                        <button type="submit" name="button" class="btn login_btn">Register</button>
+                     </div>
+                  </form>
+               </div>
+               <div class="mt-4">
+                  <div class="mt-4">
+                     <div class="d-flex justify-content-center links">
+                        <p onclick="toggleLogin()" style="cursor: pointer; color: cornflowerblue;"  class="ml-2">Back to Login</p>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
       </div>
