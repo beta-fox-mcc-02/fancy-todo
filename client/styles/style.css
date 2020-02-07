@@ -1,3 +1,5 @@
-.error {
-    color: brown;
+#otherOption {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
 }

@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: 'email should not be empty'
+          msg: 'Email is required'
         },
         notEmpty: {
           args: true,
-          msg: 'email should not be empty'
+          msg: 'Email is required'
         },
         isEmail: {
           args: true,
@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
                 if (this.email == user.email && this.id === user.id) {
                   next()
                 } else {
-                  next('email is already registered')
+                  next('Email is already registered')
                 }
               } else {
                 next()
