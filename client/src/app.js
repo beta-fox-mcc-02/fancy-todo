@@ -50,6 +50,8 @@ function onSignIn(googleUser) {
     })
 }
 
+// ==============SHOW==========================
+
 function registerPage() {
   $('.register-user').show();
   $('#register-input-email').focus();
@@ -59,6 +61,7 @@ function registerPage() {
   $('#success-alert').hide();
   $('#error-alert').hide();
   $('#logout').hide();
+  $('#create-form').hide();
 
 }
 
@@ -72,6 +75,8 @@ function loginPage() {
   $('#success-alert').hide();
   $('#error-alert').hide();
   $('#logout').hide();
+  $('#create-form').hide();
+
 }
 
 function todosPage() {
@@ -83,6 +88,8 @@ function todosPage() {
   $('#success-alert').hide();
   $('#error-alert').hide();
   $('#logout').show();
+  $('#create-form').hide();
+
 
   console.log('dari todosPage')
   findAll()
@@ -96,6 +103,20 @@ function todosPage() {
     })
 }
 
+function createPage() {
+  $('.register-user').hide();
+  $('.login-user').hide();
+
+  $('.todos-table').hide();
+
+  $('#success-alert').hide();
+  $('#error-alert').hide();
+  $('#logout').show();
+  $('#create-form').show();
+}
+
+// ======================================================
+
 function getErrorMessages(err) {
   const errMsg = [];
   if (Array.isArray(err.response.data.message)) {
@@ -108,12 +129,21 @@ function getErrorMessages(err) {
 }
 
 function clearInput() {
+  // register form
   $('#register-input-email').val('');
   $('#register-input-password').val('');
   $('#register-input-email').focus();
+
+  // login form
   $('#login-input-email').val('');
   $('#login-input-password').val('');
   $('#login-input-email').focus();
+
+  // create form
+  $('#title-create-form').val('');
+  $('#desc-create-form').val('');
+  $('#due-date-create-form').val('');
+  $('#title-create-form').focus();
 }
 
 
@@ -206,22 +236,35 @@ $(document).ready(() => {
       })
   })
 
-  // create new todo
+  // cancel new todo
+  $('#cancel-create-form').on('click', () => {
+    clearInput();
+    todosPage();
+  })
 
-  // $('#create-todo').on('submit', (e) => {
-  //   e.preventDefault();
-  //   const title = $('#create-todo .todo-title').val();
-  //   const description = $('#create-todo .todo-description').val();
-  //   const due_date = $('#create-todo .todo-due-date').val();
-  //   const status = false;
-  //   const data = { title, description, status, due_date }
-  //   console.log(data);
-  //   create(data)
-  //     .then(response => {
-  //       console.log(response);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // })
+  // create new todo
+  $('#btn-create-form').on('click', () => {
+    console.log('Masuk form');
+    createPage();
+    $('#create-form').on('submit', (e) => {
+      e.preventDefault();
+      const title = $('#title-create-form').val();
+      const description = $('#desc-create-form').val();
+      const status = false;
+      const due_date = $('#due-date-create-form').val();
+      clearInput();
+      const data = { title, description, status, due_date };
+
+      create(data)
+        .then(res => {
+          console.log(res.data);
+          todosPage();
+        })
+        .catch(err => {
+          console.log(err.response);
+        })
+      console.log('Tersubmit');
+
+    })
+  })
 })

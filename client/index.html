@@ -105,7 +105,7 @@
     <div class="container w-75 mb-5 todos-table">
       <h1 class="text-center">To Do Lists</h1>
       <p class="text-center current-weather mb-5"></p>
-      <button type="button" class="btn btn-dark mb-1" id="create-todo">Create Todo</button>
+      <button type="button" class="btn btn-dark mb-1" id="btn-create-form">Create Todo</button>
       <table class="table" id="todos">
         <thead class="thead-dark">
           <tr>
@@ -121,6 +121,26 @@
         </tbody>
       </table>
     </div>
+
+    <!-- create form -->
+    <form id="create-form">
+      <div class="form-group">
+        <label for="title-create-form">Title</label>
+        <input type="text" class="form-control" id="title-create-form" aria-describedby="emailHelp"
+          placeholder="Enter title" autofocus required>
+      </div>
+      <div class="form-group">
+        <label for="desc-create-form">Description</label>
+        <input type="text" class="form-control" id="desc-create-form" aria-describedby="emailHelp"
+          placeholder="Enter description" required>
+      </div>
+      <div class=" form-group">
+        <label for="due-date-create-form">Due Date</label>
+        <input type="date" class="form-control" id="due-date-create-form" aria-describedby="emailHelp" required>
+      </div>
+      <button type="button" class="btn btn-secondary" id="cancel-create-form">Cancel</button>
+      <button type="submit" class="btn btn-primary" id="submit-create-form">Create</button>
+    </form>
 
 
   </div>

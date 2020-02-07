@@ -1,13 +1,13 @@
-function register(data){
+function register(data) {
   return axios({
     method: 'post',
     url: 'http://localhost:3000/register',
     data
   })
-  
+
 }
 
-function login(data){
+function login(data) {
   return axios({
     method: 'post',
     url: 'http://localhost:3000/login',
@@ -15,7 +15,7 @@ function login(data){
   })
 }
 
-function findAll(){
+function findAll() {
   return axios({
     method: 'get',
     url: 'http://localhost:3000/todos',
@@ -25,7 +25,7 @@ function findAll(){
   })
 }
 
-function create(data){
+function create(data) {
   return axios({
     method: 'post',
     url: 'http://localhost:3000/todos',
@@ -37,7 +37,7 @@ function create(data){
 }
 
 // authenticate with backend for google sign in
-function googleSignIn(access_token){
+function googleSignIn(access_token) {
   return axios({
     method: 'post',
     url: 'http://localhost:3000/googleSignIn',
