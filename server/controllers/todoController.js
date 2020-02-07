@@ -25,7 +25,6 @@ class TodoController {
         Todo.create({
             title: input.title,
             description: input.description,
-            status: false,
             due_date: input.due_date,
             UserId: req.decoded.id
         })

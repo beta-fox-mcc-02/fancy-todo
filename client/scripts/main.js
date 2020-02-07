@@ -9,6 +9,7 @@ function homePage() {
         $('#add-todo').hide()
         $('#edit-todo').hide()
         $('#welcome').hide()
+        $('#catet-text').hide()
     } else {
         $('#home').show()
         $('#register').hide()
@@ -16,6 +17,17 @@ function homePage() {
         $('#add-todo').hide()
         $('#edit-todo').hide()
         $('#welcome').show()
+        $('#catet-btn').hide()
+    }
+}
+
+function btnSignOutCondition() {
+    if (gToken) {
+        $('#nav-g-logout').show()
+        $('#nav-logout').hide()
+    } else {
+        $('#nav-g-logout').hide()
+        $('#nav-logout').show()
     }
 }
 
@@ -56,7 +68,7 @@ $(document).ready(() => {
             $('#nav-logout').show()
         }
     } else {
-        $('#nav-home').show()
+        $('#nav-home').hide()
         $('#nav-register').show()
         $('#nav-login').show()
         $('#nav-add-todo').hide()
@@ -74,12 +86,11 @@ $(document).ready(() => {
     homePage()
 
     $('#nav-home').on('click', () => {
-        if (token) {
-            $('#nav-add-todo').show()
-        } else {
-            $('#nav-add-todo').hide()
-        }
-        homePage()
+        $('#nav-add-todo').show()
+        $('#home').show()
+        $('#add-todo').hide()
+        $('#edit-todo').hide()
+        $('#list-todo').show()
     })
 
     $('#nav-login').on('click', () => {
@@ -118,6 +129,14 @@ $(document).ready(() => {
 
     $('#form-add-todo').on('submit', () => {
         addTodo()
+    })
+
+    $('#catet-btn').on('click', () => {
+        fetch()
+        $('#nav-home').show()
+        $('#welcome').hide()
+        $('#nav-add-todo').show()
+        $('#list-todo').show()
     })
 
     // afterGSignIn()

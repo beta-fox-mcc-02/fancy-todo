@@ -22,7 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.BOOLEAN,
     due_date: DataTypes.DATE,
     UserId: DataTypes.INTEGER
-  }, {sequelize})
+  }, {
+    sequelize,
+    hooks: {
+      beforeCreate: function(todo, options) {
+        todo.status = false
+      }
+    }
+  })
   
   return Todo;
 };

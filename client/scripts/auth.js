@@ -1,6 +1,4 @@
 function login() {
-    // event.preventDefault()
-
     $.ajax("http://localhost:3000/users/login", {
         method: 'POST',
         data: {
@@ -10,8 +8,18 @@ function login() {
     })
         .done(response => {
             localStorage.setItem('token', response.token)
-            location.reload(true)
             homePage()
+            $('#nav-login').hide()
+            $('#nav-register').hide()
+            btnSignOutCondition()
+            $('#catet-btn').show()
+            $('#catet-text').hide()
+            // $('#home').show()
+            // $('#list-todo').show()
+            // $('#login').hide()
+            // $('#nav-login').hide()
+            // $('#nav-register').hide()
+            // $('#nav-add-todo').show()
         })
         .fail(err => {
             console.log(err)
