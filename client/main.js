@@ -48,7 +48,7 @@ function edit(id) {
             const { title, description, due_date } = data
             console.log(due_date)
 
-            formEdit(title, description, new Date(due_date))
+            formEdit(title, description, due_date)
         })
         .fail(err => {
             console.log(err)
@@ -98,10 +98,6 @@ function list(status) {
         })
             .done(({ data }) => {
                 data.forEach((el, i) => {
-                    const wow = new Date(el.due_date)
-                    const year = wow.getFullYear()
-                    const month = wow.getMonth()
-                    const day = wow.getDay()
                     let statusss = null
                     if(status == 'Done'){
                         statusss = true
@@ -120,7 +116,7 @@ function list(status) {
                         <td>${el.title}</td>
                         <td>${el.description}</td>
                         <td><button type="button" class="btn btn-success" id="status-list" onClick="stat(${statusss})">${status}</button></td>
-                        <td>${day} - ${month} - ${year}</td>
+                        <td>${el.due_date}</td>
                         <td><button type="button" class="btn btn-outline-primary btn-sm" id="edit-list" onClick="edit(${el.id})">Edit</button> <button type="button" class="btn btn-outline-danger btn-sm" id="destroy-list" onClick="destroy(${el.id})">Delete</button></td>
                     </tr>`)
                 });
