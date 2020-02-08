@@ -47,6 +47,7 @@ function configUpdate(id) {
       $('#title-update-form').val(`${todo.data.data.title}`);
       $('#desc-update-form').val(`${todo.data.data.description}`);
       $('#due-date-update-form').val(date);
+      console.log('isi status', todo.data.data.status);
       $(`input[name="radio-update-form"][value="${todo.data.data.status}"]`).attr('checked', true);
       return todo;
     })
@@ -317,7 +318,7 @@ $(document).ready(() => {
       .then(user => {
         loginPage();
         clearInput();
-        $('#success-message').text('Register success! Please login to see your to do list');
+        $('#success-message').html(`<strong>Register Success!</strong> Please login to see your Todo`);
         $('#success-alert').show();
       })
       .catch(err => {
@@ -436,6 +437,8 @@ $(document).ready(() => {
         return res
       })
       .then(res => {
+        $('#success-message').html(`<strong>Delete Success!</strong> ${res.data.message}`);
+        $('#success-alert').show();
         $('#delete-modal').modal('toggle');
       })
       .catch(err => {
