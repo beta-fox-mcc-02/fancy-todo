@@ -3,12 +3,15 @@ function initialInterface() {
     $("span.register").hide()
     $('span.signin-required-field').hide()
     $("span.signin-validation-err").hide()
+    $("section#todo-container").show()
+    $("section#actual-news-guardian").hide()
+    $("#create-todo-form").hide()
     let token = localStorage.getItem('token')
     if (!token) showLogin()
     else {
         showLogout()
         findData()
-        $("#create-todo-form").hide()
+        $("span.name").append(`Welcome ${localStorage.getItem('name')}!`)
     }
 }
 
@@ -197,6 +200,30 @@ function deleteTask(todoId, UserId) {
         })
 }
 
+function findNews() {
+    $("div.query-news").empty()
+    let API_guardian = "8a28f02a-be5a-49dc-8329-679d9ad97e18"
+    let query = $("input.query-news").val()
+    axios({
+        method: "GET",
+        url: `https://content.guardianapis.com/search?q=${query}&api-key=${API_guardian}`
+    })
+        .then((data) => {
+            let news = data.data.response.results
+            console.log(news)
+            news.forEach((i) => {
+                $("div.query-news").append(`
+                    <div class="news-bar">
+                        <a href="${i.webUrl}">${i.webTitle}</a>
+                    </div>
+                `)
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+}
+
 $(document).ready(() => {
     initialInterface()
 
@@ -217,6 +244,7 @@ $(document).ready(() => {
 
     $("#todo-button").on("click", () => {
         $("section#todo-container").hide()
+        $("section#actual-news-guardian").hide()
         $("#create-todo-form").show()
         $("#create-todo").on("click", (event) => {
             event.preventDefault()
@@ -227,6 +255,17 @@ $(document).ready(() => {
     $("#show-all-todo").on("click", () => {
         findData()
         $("#create-todo-form").hide()
+        $("section#actual-news-guardian").hide()
+    })
+
+    $("#guardian-news").on("click", () => {
+        $("section#todo-container").hide()
+        $("#create-todo-form").hide()
+        $("section#actual-news-guardian").show()
+        findNews()
+        $("button.query-news").on('click', () => {
+            findNews()
+        })
     })
 
     $("button.logout").on("click", () => {

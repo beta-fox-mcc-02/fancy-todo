@@ -43,6 +43,7 @@
             <section>
                 <button id="todo-button">Create Todo</button>
                 <button id="show-all-todo">Show All</button>
+                <button id="guardian-news">Get News</button>
                 <form id="create-todo-form">
                     <h1>CREATE NEW TODO</h1>
                     <input id="todo-title" type="text" name="title" placeholder="Your task title" maxlength="15" required><br>
@@ -52,6 +53,13 @@
                 </form>
             </section>
             <section id="todo-container"></section>
+            <section id="actual-news-guardian">
+                <div id="query-tool">
+                    <input class="query-news" type="search" placeholder="Search keyword">
+                    <button class="query-news">Search</button>
+                </div>
+                <div class="query-news"></div>
+            </section>
         </main>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -64,8 +72,6 @@
 <style>
     body{
         font-family: 'Courier New', Courier, monospace;
-        /* background-image: url('https://www.madoverstories.com/wp-content/uploads/2018/12/ny-ft.jpg');
-        background-size: cover; */
     }
 
     main{
@@ -74,10 +80,11 @@
     }
 
     #sidebar{
-        background-color: #1f00a7bf;
+        background: url("https://pbs.twimg.com/media/CqP9XYpXYAADrZw.jpg");
         height: 100%;
         width: 20%;
         position: fixed;
+        opacity: 50%;
         top: 0;
         left: 0;
     }
@@ -107,7 +114,7 @@
         opacity: 50%;
     }
 
-    button.logout:hover, #todo-button:hover, #show-all-todo:hover{
+    button.logout:hover, #todo-button:hover, #show-all-todo:hover, #guardian-news:hover{
         color: rgb(0, 217, 255);
         text-shadow: 0px 0px 2px rgba(0, 193, 252, 0.397);
         opacity: 100%;
@@ -188,7 +195,7 @@
         font-family: inherit;
     }
 
-    button.register:hover, button.login:hover, button.cannot-register:hover{
+    button.register:hover, button.login:hover, button.cannot-register:hover, button.query-news:hover{
         box-shadow: 0px 0px 10px rgb(37, 230, 255);
     }
 
@@ -215,7 +222,7 @@
         opacity: 100%;
     }
 
-    #todo-button, #show-all-todo{
+    #todo-button, #show-all-todo, #guardian-news{
         border-style: none;
         cursor: pointer;
         background-color: transparent;
@@ -260,5 +267,50 @@
 
     #box-button{
         vertical-align: bottom;
+    }
+
+    div#query-tool{
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        text-align: -webkit-right;
+        margin: 2% auto 2% auto;
+    }
+
+    input.query-news{
+        border-style: none;
+        border-bottom: 1px groove #00000038;
+        margin: 2% 0px;
+    }
+
+    button.query-news{
+        font-family: inherit;
+        width: 20%;
+        -webkit-text-stroke-width: thin;
+        border-style: none;
+        font-weight: bold;
+        padding: 2%;
+        cursor: pointer;
+        border-radius: 10px;
+        background-color: #d2d2d233;
+    }
+
+    div.news-bar{
+        width: 75%;
+        padding: 2%;
+        background-color: white;
+        box-shadow: 0px 0px 2px;
+        margin: auto auto 1% auto;
+        border-radius: 20px;
+    }
+
+    div.news-bar a{
+        color: black;
+        text-decoration: none;
+        -webkit-text-stroke: medium;
+    }
+
+    div.news-bar:hover{
+        box-shadow: 0px 0px 20px rgba(0, 80, 230, 0.842);
     }
 </style>
