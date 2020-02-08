@@ -17,6 +17,8 @@ function updateCard(userid, title, desc) {
   }
 }
 
+
+
 function logres() {
   // console.log('kepanggil');
   
@@ -69,11 +71,15 @@ function onSignIn(googleUser) {
 
 }
 
-function fetchWeather() {
-  
+function getCity(city){
+  // console.log('kepanggil', city);
+  fetchWeather(city)
+}
+
+function fetchWeather(city) {
   axios({
     method: 'get',
-    url: `http://localhost:3000/todo/weather/jakarta`,
+    url: `http://localhost:3000/todo/weather/${city}`,
   })
   .then(({data}) =>{
     // console.log(data.data);
@@ -181,11 +187,14 @@ $( document ).ready(function() {
     logres()
   });
   
+  // $('#getCity').click(function(e, city))
+
   if(localStorage.token){
     $('#regis').hide();
     $('#first').show();
     $('#first').show();
     $('#crud').show();
+    $('#weather').show();
     fetchTodos()
     fetchWeather()
   }else{
@@ -193,6 +202,7 @@ $( document ).ready(function() {
     $('#first').hide();
     $('#first').hide();
     $('#crud').hide();
+    $('#weather').hide();
   }
 
   $('form#form-group').submit((event)=>{
@@ -203,6 +213,8 @@ $( document ).ready(function() {
     console.log('y=yissssss');
     
   })
+
+
 
   $('#login-form').submit((event) =>{
     event.preventDefault();
