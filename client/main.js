@@ -121,7 +121,6 @@ function fetchQuote(){
     .then(result=>{
       $('#quote-text').html(`${result.data.quote}`)
       $('#quote-author').html(`${result.data.author}`)
-      console.log(result.data)
     })
     .catch(err=>{
       console.log(err)      
@@ -144,7 +143,6 @@ function onSignIn(googleUser) {
 }
 
 function showHome(){
-  // fetchQuote()
   if(!localStorage.token){
     $("#div-home").show()
     $("#quote").show()
@@ -233,7 +231,6 @@ $(document).ready(function(){
     const data = {email, password}
     regiter(data)
       .then(user=>{
-        console.log(user.data)
         $("#div-login").show()
         $("#div-register").hide()
         $("#warning-reg").html("")
@@ -241,13 +238,11 @@ $(document).ready(function(){
         $("#p-register").val("")
       })
       .catch(err=>{
-        // console.log(typeof err.response.data.errObj.msg)
         if(typeof err.response.data.errObj.msg==='string'){
           $("#warning-reg").html(`${err.response.data.errObj.msg}`)
         } else {
         $("#warning-reg").html(`${err.response.data.errObj.msg[0]}`)
         }
-        console.log(err.response.data)
       })
   });
 
@@ -348,10 +343,8 @@ $(document).ready(function(){
     const due_date = $("#due-edit").val()
     const status = $("#status-edit").val()
     const data = {title, description, due_date, status}
-    console.log(data)
     updateTodo(data,id)
     .then(result=>{
-      console.log(result)
       showList()
       $("#warning-edit").html("")
     })
