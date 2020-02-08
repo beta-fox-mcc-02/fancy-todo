@@ -2,6 +2,7 @@ $(document).ready(function(){
   checkLogin()
   pageNavigator()
   fetchTodos()
+  restrictInputDueDate()
 
   $("#login").submit(function(e){
     e.preventDefault()
@@ -15,6 +16,9 @@ $(document).ready(function(){
       .done(function(user) {
         console.log(user)
         localStorage.token = user.token
+
+        $('#emailLogin').val('')
+        $('#passwordLogin').val('')
         checkLogin()
       })
       .fail(function(err) {
@@ -49,6 +53,9 @@ $(document).ready(function(){
           icon: 'success',
           confirmButtonText: 'Close'
         })
+        $('#nameRegister').val('')
+        $('#emailRegister').val('')
+        $('#passwordRegister').val('')
         checkLogin()
       })
       .fail(function(err) {
@@ -105,6 +112,9 @@ $(document).ready(function(){
           icon: 'success',
           confirmButtonText: 'Close'
         })
+        $('#addTitleTodo').val('')
+        $('#addDescriptionTodo').val('')
+        $('#due_date').val('')
         fetchTodos()
       })
       .fail(function(err) {
@@ -169,7 +179,7 @@ function fetchTodos () {
     method: "GET",
   })
     .done(function(todos) {
-      console.log(todos)
+      // console.log(todos)
       displayTodos(todos)
     })
     .fail(function(err) {
@@ -179,6 +189,7 @@ function fetchTodos () {
 
 function displayTodos (todos) {
   todos.forEach(todo => {
+    const id = todo.id
     const cardTodo = `
       <div class="col-sm-6">
         <div class="card m-1">
@@ -186,25 +197,134 @@ function displayTodos (todos) {
             <h3>${todo.title}</h3>
           </div>
           <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted">Deadline: ${todo.due_date.slice(0, 10)}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Status: ${todo.status ? 'Done' : 'On progress'}</h6>
             <p class="card-text">${todo.description}</p>
-            <a href="#" id="updateTodo${todo.id}" class="btn btn-primary">Update</a>
-            <a href="#" id="deleteTodo${todo.id}" class="btn btn-primary">Delete</a>
+            <a href="#" id="updateTodo${id}" class="btn btn-primary" onclick="addAttrId(${id})" data-toggle="modal" data-target="#updateTodoModal">Update</a>
+            <a href="#" id="deleteTodo${id}" class="btn btn-danger">Delete</a>
+            <a href="#" id="doneTodo${id}" class="btn btn-success doneTodos">Done</a>
           </div>
         </div>
       </div>
       `
-    
-    $('#listTodos').append()
 
-    $(`#updateTodo${todo.id}`).click(function(e){
+    $('#listTodos').append(cardTodo)
+
+    $(`#saveUpdateTodo.updateTodoById${id}`).click(function(e){
       e.preventDefault()
-      console.log('todo with id', todo.id, 'updated')
+      console.log('todo with id', id, 'updated')
     })
+    addDeleteTodo(id)
+    addDoneTodo(id)
+  }) // end of forEach
+}
 
-    $(`#deleteTodo${todo.id}`).click(function(e){
-      e.preventDefault()
-      console.log('todo with id', todo.id, 'deleted')
+function restrictInputDueDate () {
+  const today = new Date().toISOString().slice(0, 10)
+  $("#due_date").attr("min", today);
+}
+
+function deleteTodo (id) {
+  return axios({
+    method: 'delete',
+    url: 'http://localhost:3000/todos/' + id,
+    headers: {
+      token: localStorage.token
+    }
+  })
+}
+
+function addDeleteTodo (id) {
+  $(`#deleteTodo${id}`).click(function(e){
+    e.preventDefault()
+    titleAlertify('delete')
+    alertify.confirm("Are you sure ?",
+      function(){
+        deleteTodo(id)
+          .then(({ data }) => {
+            console.log(data)              
+            if (data.todo) alertify.success(data.msg)
+            else alertify.error('Delete failed')
+            fetchTodos()
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+      },
+      function(){
+        console.log('delete canceled')
     })
   })
 }
 
+function doneTodo (id) {
+  return axios({
+    method: 'patch',
+    url: 'http://localhost:3000/todos/' + id,
+    headers: {
+      token: localStorage.token
+    },
+    data: {
+      status: true
+    }
+  })
+}
+
+function addDoneTodo (id) {
+  $(`#doneTodo${id}`).click(function(e){
+    e.preventDefault()
+    titleAlertify('done')
+    alertify.confirm("Are you sure ?",
+      function(){
+        doneTodo(id)
+          .then(({ data }) => {
+            console.log(data)              
+            if (data.todo[0]) alertify.success(data.msg)
+            else alertify.error('update status failed')
+            fetchTodos()
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+      },
+      function(){
+        console.log('delete canceled')
+    })
+  })
+}
+
+function addAttrId (id) {
+  $('#saveUpdateTodo').attr("onclick", `addUpdateTodo(${id})`)
+}
+
+function addUpdateTodo (id) {
+  const title = $('#updateTitleTodo').val()
+  const description = $('#updateDescriptionTodo').val()
+  let due_date = $('#updateDue_date').val()
+  if (due_date === '') due_date = undefined
+  axios({
+    method: 'put',
+    url: 'http://localhost:3000/todos/' + id,
+    headers: {
+      token: localStorage.token
+    },
+    data: {
+      title, 
+      description, 
+      due_date
+    }
+  })
+    .then(({ data }) => {
+      console.log(data)
+      $('#updateTitleTodo').val('')
+      $('#updateDescriptionTodo').val('')
+      $('#updateDue_date').val('')
+      if (data.todo[0]) alertify.success(data.msg)
+      else alertify.error('update failed')
+      fetchTodos()
+    })
+    .catch(err => {
+      console.log(err.response)
+    })
+  console.log('Update todo with id', id)
+}
