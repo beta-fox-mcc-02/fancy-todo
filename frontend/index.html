@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta
+            name="google-signin-client_id"
+            content="895956971590-t3i15n2httd4p7h2j21gr7sk37vlv5ds.apps.googleusercontent.com"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+        />
+        <link rel="stylesheet" href="./bulma-calendar.min.css" />
+        <title>Fancy Todo</title>
+        <style>
+            #register-section {
+                display: none;
+            }
+
+            
+            #dashboard-section {
+                display: none;
+            }
+           
+            
+            #welcome-section {
+                display: none;
+            }
+            
+            #login-section {
+                display: none;
+            }
+            
+        </style>
+    </head>
+    <body>
+        <!-- NEW NAVIGATION -->
+
+        <div class="container">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item" onclick="renderHome()" href="#">
+                        <img src="brand.png" width="35" height="70" />
+                        &nbsp
+                        <p class="is-bold">Fancy Todo</p>
+                    </a>
+
+                    <a
+                        role="button"
+                        class="navbar-burger burger"
+                        aria-label="menu"
+                        aria-expanded="false"
+                        data-target="navbarBasicExample"
+                    >
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
+                </div>
+
+                <div id="navbarBasicExample" class="navbar-menu">
+                    <div class="navbar-start"></div>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            <div class="buttons">
+                                <a
+                                    class="button is-primary"
+                                    id="signup-button"
+                                    onclick="renderRegister()"
+                                >
+                                    <strong>Sign up</strong>
+                                </a>
+                                <a
+                                    class="button is-light"
+                                    id="signin-button"
+                                    onclick="renderLogin()"
+                                >
+                                    Log in
+                                </a>
+                                <a
+                                    class="button is-primary"
+                                    id="signout-button"
+                                    onclick="logout()"
+                                >
+                                    Log Out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <!-- END OF NEW NAVIGATION -->
+
+        <!-- NEW WELCOME SECTION -->
+
+        <section class="hero is-large is-bold is-primary" id="welcome-section">
+            <div class="hero-body">
+                <div class="container">
+                    <h1 class="title">
+                        Fancy Todo
+                    </h1>
+                    <h2 class="subtitle">
+                        Organize your todo list with Fancy Todo
+                    </h2>
+                    <button onclick="renderRegister()" class="button is-link">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- END OF WELCOME SECTION -->
+
+        <!-- NEW LOGIN SECTION -->
+
+        <section class="section" id="login-section">
+            <div class="columns is-mobile is-centered">
+                <div class="column is-4">
+                    <form method="POST" id="login-form">
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div
+                                class="control has-icons-left has-icons-right"
+                            >
+                                <input
+                                    class="input"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="Email input"
+                                />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div
+                                class="control has-icons-left has-icons-right"
+                            >
+                                <input
+                                    class="input"
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    placeholder="Password input"
+                                />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field is-grouped is-vcentered">
+                            <p class="control">
+                                <button type="submit" class="button is-primary">
+                                    Submit
+                                </button>
+                            </p>
+                            <p class="control">
+                                <a class="button is-light" onclick="renderHome()">
+                                    Cancel
+                                </a>
+                            </p>
+                        </div>
+                        <p class="control">
+                            OR 
+                            <div
+                                id="my-signin2"
+                                data-onsuccess="onSignIn"
+                            ></div>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- END OF NEW LOGIN SECTION -->
+
+
+        <!-- NEW REGISTER SECTION -->
+
+
+        <section class="section" id="register-section">
+            <div class="columns is-mobile is-centered">
+                <div class="column is-4">
+                    <form method="POST" id="register-form">
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div
+                                class="control has-icons-left has-icons-right"
+                            >
+                                <input
+                                    class="input"
+                                    id="register-email"
+                                    name="register-email"
+                                    type="email"
+                                    placeholder="Email input"
+                                />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Password</label>
+                            <div
+                                class="control has-icons-left has-icons-right"
+                            >
+                                <input
+                                    class="input"
+                                    id="register-password"
+                                    name="register-password"
+                                    type="password"
+                                    placeholder="Password input"
+                                />
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field is-grouped is-vcentered">
+                            <p class="control">
+                                <button type="submit" class="button is-primary">
+                                    Submit
+                                </button>
+                            </p>
+                            <p class="control">
+                                <a class="button is-light" onclick="renderHome()">
+                                    Cancel
+                                </a>
+                            </p>
+                        </div>
+                        <p class="control">
+                            OR 
+                            <div
+                                class="g-signin2"
+                                data-onsuccess="onSignIn"
+                            ></div>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- END OF NEW REGISTER SECTION -->
+
+        <!-- DASHBOARD SECTION -->
+
+        <section id="dashboard-section" class="section">
+            <div class="container">
+                <h1 class="title">Your Fancy Todo</h1>
+                <h2 class="subtitle">Enjoy your day</h2>
+                <div class="table-container">
+                    <div id="table-section">
+                        <table id="todo-table" class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth"></table>
+                    </div>
+                    
+                </div>
+                <div id="todo-form-section">
+                    <form method="post" id="add-todo-form">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Title</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input
+                                            class="input"
+                                            id="title"
+                                            name="title"
+                                            type="text"
+                                            placeholder="e.g. Learning English"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Description</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <textarea
+                                            id="description"
+                                            name="description"
+                                            class="textarea"
+                                            placeholder="Explain your task"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Due Date</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input type="date" name="due_date" id="due_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">Location</label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        <input
+                                            class="input"
+                                            id="location"
+                                            name="location"
+                                            type="text"
+                                            placeholder="e.g. Jakarta"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="field is-horizontal">
+                            <div class="field-label">
+                            </div>
+                            <div class="field-body" id="change-on-update-or-delete">
+                                <div class="field">
+                                    <div class="control">
+                                        <button class="button is-primary" onclick="submitAdd(event)">
+                                            Add Todo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- END OF DASHBOARD SECTION -->
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"
+        ></script>
+        <script
+            src="https://apis.google.com/js/platform.js?onload=renderButton"
+            async
+            defer
+        ></script>
+        <script
+            defer
+            src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+        ></script>
+        <script src="./bulma-calendar.min.js"></script>
+        <script src="index.js"></script>
+    </body>
+</html>

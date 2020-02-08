@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "heriganteng",
+    "password": "Doughnut3942",
+    "database": "fancy-todo",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}
