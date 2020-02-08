@@ -15,6 +15,7 @@ function onSignIn(googleUser) {
     localStorage.token = data.token
     localStorage.currentUser = data.name
     currentUser = data.name
+    toastifySuccess(`Welcome Back ${currentUser}`)
     contentPage()
     fetchTodo()
     fetchWeather()
@@ -41,23 +42,14 @@ function signInFancy () {
       localStorage.token = data.token
       localStorage.currentUser = data.name
       currentUser = data.name
-      Swal.fire({
-        title: 'Login Success !',
-        text: `Welcome Back ${data.name} !`,
-        icon: 'success',
-        confirmButtonText: 'Cool !'
-      })
+      toastifySuccess(`Welcome Back ${currentUser}`)
       contentPage()
       fetchTodo()
       fetchWeather()
     })
-    .fail(() => {
-      Swal.fire({
-        title: 'Error!',
-        text: `Email / Password Wrong !`,
-        icon: 'error',
-        confirmButtonText: 'Try Again !'
-      })
+    .fail(err => {
+      
+      toastifyFail(err.responseJSON.msg)
     })
   })
 }
@@ -81,21 +73,14 @@ function signUpFancy () {
       $('#username-register').val('')
       $('#email-register').val('')
       $('#password-register').val('')
-      Swal.fire({
-        title: 'Register Success!',
-        text: `Plase Login !`,
-        icon: 'success',
-        confirmButtonText: 'Cool !'
-      })
       landingPage()
     })
     .fail( err => {
-      Swal.fire({
-        title: 'Ohhh Noo !!',
-        text: `Register Fail !`,
-        icon: 'error',
-        confirmButtonText: 'Try Again !'
-      })
+      if(err.responseJSON.hasOwnProperty('errors')){
+        toastifyFail(err.responseJSON.errors[0])
+      } else {
+        toastifyFail(`Email Already Used ! Choose Another Email`)
+      }
     })
   })
 }
@@ -112,7 +97,6 @@ function signOut() {
   $('#SignOut').on('click', function() {
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-      console.log('User signed out.');
       localStorage.clear()
       currentUser = ''
       landingPage()
@@ -120,6 +104,33 @@ function signOut() {
   })
 }
 
+function toastifyFail (msg) {
+  Toastify({
+    text: `${msg}`,
+    duration: 3000,
+    destination: "https://github.com/apvarun/toastify-js",
+    newWindow: true,
+    close: true,
+    gravity: "top",
+    position: 'left',
+    backgroundColor: "red",
+    stopOnFocus: true,
+  }).showToast();
+}
+
+function toastifySuccess (msg) {
+  Toastify({
+    text: `${msg}`,
+    duration: 3000,
+    destination: "https://github.com/apvarun/toastify-js",
+    newWindow: true,
+    close: true,
+    gravity: "top",
+    position: 'left',
+    backgroundColor: "green",
+    stopOnFocus: true,
+  }).showToast();
+}
 
 // CRUD TODO
 function fetchTodo () {
@@ -188,26 +199,20 @@ function addTodo () {
       }
     })
     .done(({ data }) => {
-      Swal.fire({
-        title: 'Yuhuuu..',
-        text: `Adding ${data.title} Success !`,
-        icon: 'success',
-        confirmButtonText: 'OK'
-      })
+      toastifySuccess(`Adding Todo ${data.title} Success !`)
       $('#title').val('')
       $('#description').val('')
       $('#due_date').val('')
       fetchTodo()
     })
     .fail( err => {
-      console.log(err, 'fail')
+      toastifyFail(err.responseJSON.errors[0])
     })
   })
 }
 
 function editTodo (id) {
   updateId = id
-  // console.log('edit ', id)
   $('#contentPage').hide()
   $('#formEdit').show()
   $('#Navbar').show()
@@ -219,12 +224,13 @@ function editTodo (id) {
     }
   })
   .done(({ data }) => {
-    // console.log(data)
     $('#title-update').val(`${data.title}`)
     $('#description-update').val(`${data.description}`)
     $('#due_date-update').val(`${data.due_date}`)
   })
-  .fail(err => console.log(err))
+  .fail(err => {
+    console.log(err)
+  })
 }
 
 function updateTodo () {
@@ -243,12 +249,7 @@ function updateTodo () {
       }
     })
     .done(({ data }) => {
-      Swal.fire({
-        title: 'Yuhuuu..',
-        text: `Update ${data.title} Success !`,
-        icon: 'success',
-        confirmButtonText: 'OK'
-      })
+      toastifySuccess('Update Todo Success !')
       $('#title-update').val('')
       $('#description-update').val('')
       $('#due_date-update').val('')
@@ -257,12 +258,13 @@ function updateTodo () {
       contentPage()
       
     })
-    .fail(err => console.log(err))
+    .fail(err => {
+      toastifyFail('Update Todo Failed!')
+    })
   })
 }
 
 function doneTodo (id, v) {
-  // console.log('done ', id, v)
   $.ajax({
     method: 'PUT',
     url: `http://localhost:3000/todos/${id}`,
@@ -273,8 +275,12 @@ function doneTodo (id, v) {
       token: localStorage.token
     }
   })
-  .done( todo => {
-    // console.log(todo)
+  .done( ({ data }) => {
+    if(data.status){
+      toastifySuccess(`Todo: ${data.title} Has Been Done !`)
+    } else {
+      toastifySuccess(`Todo: ${data.title} Has Been Undone !`)
+    }
     fetchTodo()
   })
   .fail(err => {
@@ -292,15 +298,11 @@ function deleteTodo (id) {
     }
   })
   .done(() => {
-    Swal.fire({
-      title: 'Yuhuuu..',
-      text: `Deleting Success !`,
-      icon: 'success',
-      confirmButtonText: 'OK'
-    })
+    toastifySuccess(`Delete Todo Success !`)
     fetchTodo()
   })
   .fail(err => {
+    toastifyFail(`Delete Todo Fail !`)
     console.log(err)
   })
 }

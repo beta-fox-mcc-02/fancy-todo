@@ -2,7 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   class Todo extends sequelize.Sequelize.Model {
     static associate (models) {
-
+      Todo.belongsTo(models.User)
     }
   }
   
@@ -28,7 +28,21 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     status: DataTypes.BOOLEAN,
-    due_date: DataTypes.DATEONLY,
+    due_date: {
+      type: DataTypes.DATEONLY,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'Date Cannot be Empty'
+        },
+        isToday (v) {
+          let date = new Date()
+          if(new Date(v) < date) {
+            throw new Error(`Date cannot be less than or today`)
+          }
+        }
+      }
+    },
     UserId: DataTypes.INTEGER
   },
   {
