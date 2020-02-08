@@ -202,6 +202,7 @@ const createTodo = () => {
     .done(newTodo => {
       getAllTodo()
       closeModal()
+      $('#location').val('')
     })
     .fail(err => {
       console.log(err)
@@ -282,6 +283,7 @@ const updateTodo = (id) => {
     .then(todo => {
       $('.modal').hide()
       getAllTodo()
+      $('#location').val('')
     })
     .catch(err => {
       console.log(err)

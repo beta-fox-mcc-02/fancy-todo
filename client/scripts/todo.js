@@ -56,6 +56,7 @@ const parseDate = (date) => {
 
 const openModalNewTask = () => {
   $('#search-location').val('')
+  $('#location').val('')
   initGooglePlaceApi()
   const minDate = parseDate(new Date())
   $('#due_date').attr('min', minDate)
@@ -83,6 +84,7 @@ const closeModal = () => {
 
 const openModalEdit = (id) => {
   initGooglePlaceApi()
+  $('#location').val('')
   findTodo(id)
 }
 
