@@ -32,13 +32,9 @@ class TodoController {
       due_date: req.body.due_date,
       UserId: req.currentUserId
     }
-    console.log('INI TODO =>>', todo);
-    console.log('INI REQ BODY=>>', req.body);
-    // console.log('INI REQ SAJA=>>', req);
 
     Todo.create(todo)
       .then(data => {
-        console.log('TODO DI DALAM=>>>', todo);
         res.status(201).json({ data: data })
       })
       .catch(next)

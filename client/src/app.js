@@ -48,7 +48,6 @@ function configUpdate(id) {
       $('#desc-update-form').val(`${todo.data.data.description}`);
       $('#due-date-update-form').val(date);
       $(`input[name="radio-update-form"][value="${todo.data.data.status}"]`).attr('checked', true);
-      // const radio = $('input[name="radio-update-form"]:checked').val();
       return todo;
     })
     .then(todo => {
@@ -82,7 +81,6 @@ function dateUpdateForm(inpDate) {
 // google sign in
 function onSignIn(googleUser) {
   let id_token = googleUser.getAuthResponse().id_token;
-  console.log(id_token);
   googleSignIn(id_token)
     .then(response => {
       localStorage.access_token = response.data.access_token;

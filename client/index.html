@@ -79,6 +79,7 @@
               href="#">Already have an account?</a> </small>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Register</button>
+        <h5 class="text-center my-3">OR</h5>
         <!-- google sign in -->
         <div class="g-signin2" data-onsuccess="onSignIn"></div>
       </form>
@@ -102,8 +103,6 @@
               href="#">Don't have an account?</a> </small>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Login</button>
-        <!-- google sign in -->
-        <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
       </form>
     </div>
 
@@ -136,56 +135,60 @@
     </div>
 
     <!-- create form -->
-    <form id="create-form">
-      <div class="form-group">
-        <label for="title-create-form">Title</label>
-        <input type="text" class="form-control" id="title-create-form" aria-describedby="emailHelp"
-          placeholder="Enter title" autofocus required>
-      </div>
-      <div class="form-group">
-        <label for="desc-create-form">Description</label>
-        <input type="text" class="form-control" id="desc-create-form" aria-describedby="emailHelp"
-          placeholder="Enter description" required>
-      </div>
-      <div class=" form-group">
-        <label for="due-date-create-form">Due Date</label>
-        <input type="date" class="form-control" id="due-date-create-form" aria-describedby="emailHelp" required>
-      </div>
-      <button type="button" class="btn btn-secondary" id="cancel-create-form">Cancel</button>
-      <button type="submit" class="btn btn-primary" id="submit-create-form">Create</button>
-    </form>
+    <div class="container w-75">
+      <form id="create-form">
+        <div class="form-group">
+          <label for="title-create-form">Title</label>
+          <input type="text" class="form-control" id="title-create-form" aria-describedby="emailHelp"
+            placeholder="Enter title" autofocus required>
+        </div>
+        <div class="form-group">
+          <label for="desc-create-form">Description</label>
+          <input type="text" class="form-control" id="desc-create-form" aria-describedby="emailHelp"
+            placeholder="Enter description" required>
+        </div>
+        <div class=" form-group">
+          <label for="due-date-create-form">Due Date</label>
+          <input type="date" class="form-control" id="due-date-create-form" aria-describedby="emailHelp" required>
+        </div>
+        <button type="button" class="btn btn-secondary" id="cancel-create-form">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submit-create-form">Create</button>
+      </form>
+    </div>
 
     <!-- update form -->
-    <form id="update-form">
-      <div class="form-group">
-        <label for="title-update-form">Title</label>
-        <input type="text" class="form-control" id="title-update-form" aria-describedby="emailHelp"
-          placeholder="Enter title" autofocus required>
-      </div>
-      <div class="form-group">
-        <label for="desc-update-form">Description</label>
-        <input type="text" class="form-control" id="desc-update-form" aria-describedby="emailHelp"
-          placeholder="Enter description" required>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="radio-update-form" id="true-update-form" value="true">
-        <label class="form-check-label" for="true-update-form">
-          Completed
-        </label>
-      </div>
-      <div class="form-check">
-        <input class="form-check-input" type="radio" name="radio-update-form" id="false-update-form" value="false">
-        <label class="form-check-label" for="false-update-form">
-          Uncomplete
-        </label>
-      </div>
-      <div class=" form-group">
-        <label for="due-date-update-form">Due Date</label>
-        <input type="date" class="form-control" id="due-date-update-form" aria-describedby="emailHelp" required>
-      </div>
-      <button type="button" class="btn btn-secondary" id="cancel-update-form">Cancel</button>
-      <button type="submit" class="btn btn-primary" id="submit-update-form">Update</button>
-    </form>
+    <div class="container w-75">
+      <form id="update-form">
+        <div class="form-group">
+          <label for="title-update-form">Title</label>
+          <input type="text" class="form-control" id="title-update-form" aria-describedby="emailHelp"
+            placeholder="Enter title" autofocus required>
+        </div>
+        <div class="form-group">
+          <label for="desc-update-form">Description</label>
+          <input type="text" class="form-control" id="desc-update-form" aria-describedby="emailHelp"
+            placeholder="Enter description" required>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio-update-form" id="true-update-form" value="true">
+          <label class="form-check-label" for="true-update-form">
+            Completed
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio-update-form" id="false-update-form" value="false">
+          <label class="form-check-label" for="false-update-form">
+            Uncomplete
+          </label>
+        </div>
+        <div class=" form-group">
+          <label for="due-date-update-form">Due Date</label>
+          <input type="date" class="form-control" id="due-date-update-form" aria-describedby="emailHelp" required>
+        </div>
+        <button type="button" class="btn btn-secondary" id="cancel-update-form">Cancel</button>
+        <button type="submit" class="btn btn-primary" id="submit-update-form">Update</button>
+      </form>
+    </div>
 
     <!-- delete modal -->
     <div class="modal" tabindex="-1" role="dialog" id="delete-modal">
@@ -207,16 +210,6 @@
         </div>
       </div>
     </div>
-    <!-- <form id="delete-form">
-      <div class="form-group">
-        <label for="title-delete-form">Title</label>
-        <input type="text" class="form-control" id="title-delete-form" aria-describedby="emailHelp"
-          placeholder="Enter title" autofocus required>
-      </div>
-      <button type="button" class="btn btn-secondary" id="cancel-delete-form">Cancel</button>
-      <button type="submit" class="btn btn-primary" id="submit-delete-form">Update</button>
-    </form> -->
-
 
   </div>
 
