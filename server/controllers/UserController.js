@@ -29,6 +29,7 @@ class UserController {
                         id: found.id,
                         email: found.email
                     }
+                    console.log(payload)
                     let matched = comparePassword(password, found.password)
                     if(matched) {
                         const token = generateToken(payload)
@@ -54,12 +55,15 @@ class UserController {
         })
             .then(ticket => {
                 payload = ticket.getPayload()
-                return User.findOne({email: payload.email})
+                return User.findOne({ 
+                    where: { email: payload.email }
+                 })
             })
             .then(userData => {
                 if(!userData) {
                     return User.create({
-                        email: payload.email
+                        email: payload.email,
+                        password: process.env.G_PASSWORD
                     })
                 }
                 else {
@@ -67,7 +71,10 @@ class UserController {
                 }
             })
             .then(user => {
-                const token = jwt.sign({ payload }, process.env.SECRET)
+                const token = generateToken({
+                    id: user.id,
+                    email: user.email
+                })
                 res.status(200).json({payload, token})
             })
             .catch(next)

@@ -7,6 +7,7 @@ module.exports = function(req, res, next) {
 
     try {
         const decoded = jwt.verify(token, secret)
+        console.log(decoded)
         User.findByPk(decoded.id)
             .then(userData => {
                 if(!userData) {
