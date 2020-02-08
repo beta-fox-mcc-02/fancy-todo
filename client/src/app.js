@@ -226,6 +226,7 @@ function searchByIdPage(searchById) {
     })
     .catch(err => {
       console.log(err.response);
+      todosPage();
       getErrorMessages(err);
     })
 }
