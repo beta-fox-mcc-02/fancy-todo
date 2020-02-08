@@ -22,7 +22,9 @@ class UserController {
                     data : dataUser
                 })
             })
-            .catch(next)
+            .catch(err => {
+                next(err)
+            })
     }
 
     static login(req, res, next) {
@@ -45,7 +47,7 @@ class UserController {
                     accesToken : token
                 })
             } else {
-                res.status(400).json({
+                next({
                     msg : "user/password wrong"
                 })
             }
@@ -54,6 +56,7 @@ class UserController {
             res.status(400).json({
                 msg : "user/password wrong"
             })
+            next(err)
         })
     }
 
@@ -67,7 +70,6 @@ class UserController {
             //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
         })
             .then(function(ticket) {
-                // console.log(ticket)
                 userData = ticket.getPayload();
                 return User.findOne({
                     where : {

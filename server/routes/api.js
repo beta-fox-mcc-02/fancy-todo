@@ -4,6 +4,6 @@ const ApiController = require('../controllers/api')
 
 
 // router.get('/book', GoogleBookController)
-router.get('/', ApiController.getPublicHoliday)
+router.get('/publicHoliday', ApiController.getPublicHoliday)
 
 module.exports = router

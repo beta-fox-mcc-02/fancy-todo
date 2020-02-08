@@ -18,25 +18,15 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     }, 
-    description: {
-      type : DataTypes.STRING,
+    description: DataTypes.STRING, 
+    status: DataTypes.BOOLEAN,
+    due_date: {
+      type : DataTypes.DATE,
       validate : {
-        len : {
-          args : [20],
-          msg : 'Minimal description length is 20'
-        }
+        isAfter : `${new Date().toLocaleDateString()}`
+        // "2020-02-07"
       }
     }, 
-    status: {
-      type : DataTypes.BOOLEAN
-      // validate : {
-      //   isIn : {
-      //     args : [[false, true]],
-      //     msg : 'Just false or true'
-      //   } 
-      // }
-    },
-    due_date: DataTypes.DATE,
     UserId: DataTypes.INTEGER
   }, {
     sequelize

@@ -7,7 +7,7 @@
     <meta name="google-signin-client_id" content="818296196072-bt1ickq4r36nl1r9jis0cds3m68ajra9.apps.googleusercontent.com">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="css/style.css">
     <title>Todo List</title>
   </head>
   <body>
@@ -30,6 +30,31 @@
             </nav>
         </div>
 
+        <div id="nav-user">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">TODO</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav" >
+                            <li class="nav-item" style="margin:0 10px">
+                                <a id="nav-homeUser" class="home" href="#">Home</a>
+                            </li>
+                            <li class="nav-item" style="margin:0 10px">
+                                <a id="nav-todoList" class="todoList" href="#">Todo List</a>
+                            </li>
+                            <li class="nav-item" style="margin:0 10px">
+                                <a id="nav-addTodo" class="addTodo" href="#">Add Todo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a  id="logout" class="logout" href="#">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
         <div id="welcome">
             <div class="jumbotron jumbotron-fluid">
                 <div class="container">
@@ -39,6 +64,10 @@
             </div>
         </div>
         
+        <div id="eror" class="alert alert-primary" role="alert">
+                
+        </div>
+
         <div id="register" >
             <center>
                 <form style="width:25%;">
@@ -54,7 +83,7 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
                 <h2 style="margin: 30px auto">OR</h2>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div id="register-g-sign" class="g-signin2" data-onsuccess="onSignIn"></div>
             </center>
         </div>
 
@@ -78,27 +107,7 @@
             </center>
         </div>
 
-        <div id="nav-user">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">TODO</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav" >
-                        <li class="nav-item" style="margin:0 10px">
-                            <a class="todoList" href="#">Todo List</a>
-                        </li>
-                        <li class="nav-item" style="margin:0 10px">
-                                <a class="addTodo" href="#">Add Todo</a>
-                            </li>
-                        <li class="nav-item">
-                            <a  id="logout" class="logout" href="#">Logout</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+        
 
         <div id="content-todo" style="margin-top:30px;">
             <div class="container">
@@ -145,8 +154,42 @@
             
         </div>
         
+        <!-- <div id="error-hendler"> -->
+            
+        <!-- </div> -->
         
-
+        <div id="public-holiday">
+            <section>
+                <div class="leftBox">
+                <div class="content">
+                    <h1>PLANNING YOUR TODO LIST BEFORE HOLIDAY</h1>
+                    <p>Banyak orang beranggapan bahwa membuat to-do-list hanya membuang-buang waktu. Membuat list harian kesannya memang hal yang mudah dan sepele, namun jangan salah ada banyak manfaat lho dari sekadar menulis daftar pekerjaan kita untuk satu hari ke depan. Simak manfaat to-do-list berikut :
+                            <br><br>
+                            1. Lebih terorganisir
+                            Tidak sedikit yang merasakan kesulitan menyelesaikan tumpukan tugas dalam satu hari. Selain bingung harus mulai dari mana, tugas yang terlanjur menggung membuat perasaan jadi malas. Seharusnya hal ini tidak perlu terjadi kalau kita sudah membuat to-do-list harian secara cermat. Tidak hanya sekadar dibuat tapi juga harus bertanggung jawab untuk melakukannya.
+                            <br><br>
+                            2. Lebih produktif
+                            Dalam membuat list kegiatan harian biasanya kita akan membuat skala prioritas dari yang terpenting hingga kurang penting. Dengan begini kita akan terhindar dari kegiatan yang hanya membuang-buang waktu. Rasa puas akan didapat setelah kita berhasil mentelesaikan semua tepat pada waktunya.
+                            <br><br>
+                            3. Meningkatkan memori
+                            Sesekali lupa sih wajar, tapi kalau sering lupa bagaimana ya? Lupa akan hal penting selain merugikan diri sendiri juga bisa merugikan pihak lain. Lupa akan adanya meeting ataupun pertemuan penting dengan client bisa merusak hubungan kerja. Ya, takut lupa akan hal penting bisa kita cegah dengan membuat memo di handphone dengan menyetel jadwal pengingat satu hari sebelumnya atau di pagi hari sebelum beraktivitas. Sehingga hal penting yang sudah terjadwal sejak jauh hari bisa kita masukkan dalam to-do-list harian kita.
+                            <br><br>
+                            4. Alat motivasi
+                            Pekerjaan demi pekerjaan yang sudah terselesaikan dengan baik akan kita coret dalam list kegiatan harian kita. Sehingga tersisa beberapa pekerjaan lagi yang menunggu diselesaikan. Melihat banyaknya list yang sudah kita coret akan memotivasi kita untuk menyelesaikan tugas selanjutnya dengan sebaik-baiknya. Bahkan kemampuan kita dalam menyelesaikan semuanya tepat waktu akan memotivasi kita untuk dalam menyelesaikan to-do-list hari berikutnya.
+                            <br><br>
+                            5. Melatih kedisiplinan
+                            Semua list kegiatan harian yang kita buat sudah melalui rangkaian pemikiran secara matang. Menunda-nunda serta melalaikan sedikit saja pekerjaan akan berimbas terhadap pekerjaan lainnya. Dengan mengikuti pakem yang ada kita akan berlatih kedisiplinan untuk menyelesaikan segala sesuatu tepat pada waktuny.</p>
+                </div>
+                </div>
+                <div class="events">
+                <div id="year">
+                    <h1></h1>
+                </div>
+                <ul id="dating">
+                </ul>
+                </div>
+            </section>
+        </div>
         
         
     

@@ -3,7 +3,13 @@ module.exports = function(err, req, res, next) {
         msg : 'Internal Server Error'
     }
     let status = 500
-    if (err.name === 'SequelizeValidationError') {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+        errObj = {
+            msg : "Bad Request",
+            err : "Email is already exist"
+        }
+        status = 400
+    } else if (err.name === 'SequelizeValidationError') {
         errObj = { 
             msg : 'Bad Request',
             errors : []
@@ -12,6 +18,11 @@ module.exports = function(err, req, res, next) {
         err.errors.forEach(error => {
             errObj.errors.push(error.message)
         })
+    }else if (err.name == 'SequelizeDtabaseError') {
+        status = 400
+        errObj = {
+            msg : 'Bad Request',
+        }
     } else if (err.err === 'Todo Is Not found') {
         status = 404
         errObj = {

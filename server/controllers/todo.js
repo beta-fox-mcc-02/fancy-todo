@@ -16,7 +16,9 @@ class TodoController {
                     data: todo
                 })
             })
-            .catch(next)
+            .catch(err => {
+                next(err)
+            })
     }
 
     static findAll(req, res, next) {
@@ -24,7 +26,8 @@ class TodoController {
         Todo.findAll({
             where : {
                 UserId : userId
-            }
+            },
+            order : [['id']]
         })
             .then(function(todos) {
                 res.status(200).json({
@@ -73,7 +76,9 @@ class TodoController {
                 })
             } 
         })
-        .catch(next)
+        .catch(err => {
+            next(err)
+        })
     }
 
     static delete(req, res, next) {
