@@ -13,7 +13,7 @@ function showTodo(todos) {
         <td>
           <strong>${todoStatus}</strong>
         </td>
-        <td>${new Date(el.due_date).toDateString()}</td>
+        <td>${formatDate(el.due_date)}</td>
         <td>
           <a href="#" class="edit-todos" onclick="configUpdate(${el.id})">Edit</a> |
           <a href="#" class="delete-todos" onclick="configDelete(${el.id})" data-toggle="modal" data-target="#delete-modal">Delete</a> 
@@ -206,10 +206,31 @@ function clearInput() {
   $('#title-create-form').focus();
 }
 
+function formatDate(inp) {
+  const fullDate = new Date(inp);
+  const year = fullDate.getFullYear();
+  let month = fullDate.getMonth() + 1;
+  let date = fullDate.getDate();
+
+  if (String(month).length === 1) month = `0${month}`;
+  if (String(date).length === 1) date = `0${date}`;
+
+  let day;
+  const dayNumber = fullDate.getDay();
+
+  if (dayNumber === 0) day = 'Sunday';
+  else if (dayNumber === 1) day = 'Monday';
+  else if (dayNumber === 2) day = 'Tuesday';
+  else if (dayNumber === 3) day = 'Wednesday';
+  else if (dayNumber === 4) day = 'Thursday';
+  else if (dayNumber === 5) day = 'Friday';
+  else if (dayNumber === 6) day = 'Saturday';
+
+  return `${day}, ${date}-${month}-${year}`;
+}
 
 
-
-// main function
+// =========================main function==================================
 $(document).ready(() => {
 
   // default view
@@ -385,16 +406,6 @@ $(document).ready(() => {
     $('#search-by-id-input').val('')
     findOne(searchById)
       .then(data => {
-        // $('.register-user').hide();
-        // $('.login-user').hide();
-
-        // $('.todos-table').show();
-
-        // $('#success-alert').hide();
-        // $('#error-alert').hide();
-        // $('#logout').show();
-        // $('#create-form').hide();
-        // $('#update-form').hide();
         console.log(data.data.data);
         data.data.data = [data.data.data];
         console.log(data);

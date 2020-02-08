@@ -6,8 +6,8 @@ const month = fullDate.getMonth();
 const date = fullDate.getDate();
 console.log(date);
 const yesterday = `${year}-${month + 1}-${date}`;
-console.log('YESTERDAY=>>', new Date(yesterday).toISOString());
-console.log('NOW=>>>', new Date());
+// console.log('YESTERDAY=>>', new Date(yesterday).toISOString());
+// console.log('NOW=>>>', new Date());
 
 module.exports = (sequelize, DataTypes) => {
   class Todo extends sequelize.Sequelize.Model {
