@@ -2,7 +2,7 @@ function showTodo(todos) {
   $('#todos tbody').empty();
   if (todos.data.data.length) {
     const weather = todos.data.data[0].currentWeather;
-    $('.current-weather').html(`<p>Cuaca hari ini: <strong>${weather.toUpperCase()}</strong></p>`);
+    $('.current-weather').html(`<p>Weather today: <strong>${weather.toUpperCase()}</strong></p>`);
     todos.data.data.forEach((el, index) => {
       const todoStatus = el.status ? 'Completed' : 'Uncomplete';
       $('#todos tbody').append(`
@@ -107,6 +107,8 @@ function registerPage() {
   $('#create-form').hide();
   $('#update-form').hide();
 
+  $('#loading-page').hide();
+
 }
 
 function loginPage() {
@@ -122,24 +124,29 @@ function loginPage() {
   $('#create-form').hide();
   $('#update-form').hide();
 
+  $('#loading-page').hide();
+
+
 }
 
 function todosPage() {
-  $('.register-user').hide();
-  $('.login-user').hide();
-
-  $('.todos-table').show();
-
-  $('#success-alert').hide();
-  $('#error-alert').hide();
-  $('#logout').show();
-  $('#create-form').hide();
-  $('#update-form').hide();
-
+  loadingPage();
 
   console.log('dari todosPage')
   findAll()
     .then(todos => {
+      $('.register-user').hide();
+      $('.login-user').hide();
+
+      $('.todos-table').show();
+
+      $('#success-alert').hide();
+      $('#error-alert').hide();
+      $('#logout').show();
+      $('#create-form').hide();
+      $('#update-form').hide();
+
+      $('#loading-page').hide();
       console.log(todos);
       showTodo(todos)
     })
@@ -160,6 +167,9 @@ function createPage() {
   $('#logout').show();
   $('#create-form').show();
   $('#update-form').hide();
+
+  $('#loading-page').hide();
+
 }
 
 function updatePage() {
@@ -173,6 +183,52 @@ function updatePage() {
   $('#logout').show();
   $('#create-form').hide();
   $('#update-form').show();
+  $('#loading-page').hide();
+
+}
+
+function loadingPage() {
+  $('.register-user').hide();
+  $('.login-user').hide();
+
+  $('.todos-table').hide();
+
+  $('#success-alert').hide();
+  $('#error-alert').hide();
+  $('#logout').show();
+  $('#create-form').hide();
+  $('#update-form').hide();
+  $('#loading-page').show();
+}
+
+function searchByIdPage(searchById) {
+  loadingPage();
+
+  console.log('dari todosPage')
+
+  findOne(searchById)
+    .then(data => {
+      console.log(data.data.data);
+      data.data.data = [data.data.data];
+      console.log(data);
+      $('.register-user').hide();
+      $('.login-user').hide();
+
+      $('.todos-table').show();
+
+      $('#success-alert').hide();
+      $('#error-alert').hide();
+      $('#logout').show();
+      $('#create-form').hide();
+      $('#update-form').hide();
+
+      $('#loading-page').hide();
+      showTodo(data);
+    })
+    .catch(err => {
+      console.log(err.response);
+      getErrorMessages(err);
+    })
 }
 
 // ======================================================
@@ -274,7 +330,7 @@ $(document).ready(() => {
     const email = $('#login-input-email').val();
     const password = $('#login-input-password').val();
     const data = { email, password };
-
+    // loadingPage();
     login(data)
       .then(response => {
         localStorage.access_token = response.data.access_token;
@@ -304,18 +360,18 @@ $(document).ready(() => {
     registerPage();
   })
 
-  // read all todos
-  $('#read').on('click', () => {
-    findAll()
-      .then(todos => {
-        $('#find-all-todos').empty();
-        showTodo(todos)
-      })
-      .catch(err => {
-        console.log('tidak boleh');
-        console.log(err);
-      })
-  })
+  // // read all todos
+  // $('#read').on('click', () => {
+  //   findAll()
+  //     .then(todos => {
+  //       $('#find-all-todos').empty();
+  //       showTodo(todos)
+  //     })
+  //     .catch(err => {
+  //       console.log('tidak boleh');
+  //       console.log(err);
+  //     })
+  // })
 
   // cancel new todo
   $('#cancel-create-form').on('click', () => {
@@ -404,17 +460,7 @@ $(document).ready(() => {
     e.preventDefault();
     const searchById = $('#search-by-id-input').val();
     $('#search-by-id-input').val('')
-    findOne(searchById)
-      .then(data => {
-        console.log(data.data.data);
-        data.data.data = [data.data.data];
-        console.log(data);
-        showTodo(data);
-      })
-      .catch(err => {
-        console.log(err.response);
-        getErrorMessages(err);
-      })
+    searchByIdPage(searchById);
   })
 
 })

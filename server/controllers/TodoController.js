@@ -12,7 +12,7 @@ class TodoController {
       .then(todos => {
         // axios
         tmpTodos = todos;
-        return axios.get(`https://api.weatherbit.io/v2.0/current?city=Jakarta&country=Indonesia&lang=id&key=${process.env.TOKEN}`)
+        return axios.get(`https://api.weatherbit.io/v2.0/current?city=Jakarta&country=Indonesia&lang=en&key=${process.env.TOKEN}`)
       })
       .then(weather => {
         tmpTodos.forEach(el => {
