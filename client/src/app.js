@@ -7,7 +7,7 @@ function showTodo(todos) {
       const todoStatus = el.status ? 'Completed' : 'Uncomplete';
       $('#todos tbody').append(`
       <tr>
-        <th scope="row">${index + 1}</th>
+        <th scope="row">${el.id}</th>
         <td>${el.title}</td>
         <td>${el.description}</td>
         <td>
@@ -373,6 +373,34 @@ $(document).ready(() => {
       })
       .catch(err => {
         todosPage();
+        console.log(err.response);
+        getErrorMessages(err);
+      })
+  })
+
+  // search by id
+  $('#search-by-id-form').on('submit', e => {
+    e.preventDefault();
+    const searchById = $('#search-by-id-input').val();
+    $('#search-by-id-input').val('')
+    findOne(searchById)
+      .then(data => {
+        // $('.register-user').hide();
+        // $('.login-user').hide();
+
+        // $('.todos-table').show();
+
+        // $('#success-alert').hide();
+        // $('#error-alert').hide();
+        // $('#logout').show();
+        // $('#create-form').hide();
+        // $('#update-form').hide();
+        console.log(data.data.data);
+        data.data.data = [data.data.data];
+        console.log(data);
+        showTodo(data);
+      })
+      .catch(err => {
         console.log(err.response);
         getErrorMessages(err);
       })

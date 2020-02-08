@@ -105,8 +105,15 @@
     <div class="container w-75 mb-5 todos-table">
       <h1 class="text-center">To Do Lists</h1>
       <p class="text-center current-weather mb-5"></p>
-      <button type="button" class="btn btn-dark mb-1" id="btn-create-form">Create Todo</button>
-      <table class="table" id="todos">
+      <div class="">
+        <button type="button" class="btn btn-dark mb-1" id="btn-create-form">Create Todo</button>
+        <form class="form-inline my-2 my-lg-0 d-inline-block float-right" id="search-by-id-form">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search by id" aria-label="Search" autofocus
+            id="search-by-id-input">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+      <table class="table mt-1" id="todos">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
