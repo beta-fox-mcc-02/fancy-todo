@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   class Todo extends sequelize.Sequelize.Model{
     static associate(models) {
       // associations can be defined here
-      Todo.belongsTo(models.User)
+      Todo.belongsToMany(models.User, { through : models.TeamUser})
     }
   }
   Todo.init({
@@ -34,9 +34,6 @@ module.exports = (sequelize, DataTypes) => {
       //     msg : 'empty is not allowed'
       //   }
       // }
-    },
-    UserId : {
-      type : DataTypes.INTEGER
     },
     due_date: {
       type : DataTypes.DATE,

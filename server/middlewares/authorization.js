@@ -1,10 +1,16 @@
-const {Todo} = require('../models')
+const {Todo, TeamUser} = require('../models')
 
 module.exports = {
     author : (req, res, next) => {
-        Todo.findByPk(req.params.id)
+        Todo.findByPk(req.headers.id)
             .then(result => {
-                console.log(req.decode.id, result.UserId)
+                return TeamUser.findOne({
+                    where : {
+                        TodoId : result.id
+                    }
+                })
+            })
+            .then(result => {
                 if(req.decode.id === result.UserId) next()
                 else{
                     const err = {

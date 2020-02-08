@@ -1,46 +1,62 @@
 class Main {
     static home(){
-        $('#todosList').hide()
-        $('#registerForm').hide()
-        $('#loginForm').hide()
-        $('#createForm').hide()
+        if(localStorage.token){
+            $('#home').hide()
+            $('#todosList').show()
+            $('#createForm').hide()
+            $('#updateForm').hide()
+            Main.readAll()
+        }
+        else{
+            $('#home').show()
+            $('#currency').hide()
+            $('#registerForm').hide()
+            $('#loginForm').hide()
+            $('#todoPage').hide()
+        }
         $('#register').on('click', () =>{
-            // $('#btnRegLog').hide()
             $('#loginForm').hide()
             $('#registerForm').show()
         })
         $('#submitRegister').on('click', (event) => {
             event.preventDefault()
             Main.register()
+            Main.readAll()
             $('#registerForm').hide()
             $('#loginForm').hide()
         })
         $('#login').on('click', () =>{
-            // $('#btnRegLog').hide()
             $('#registerForm').hide()
             $('#loginForm').show()
         })
         $('#submitLogin').on('click', (event) => {
             event.preventDefault()
             Main.login()
-            // alert(token)
-            // }
+            Main.readAll()
         })
         $('#nav-todos').on('click', () =>{
-            // $('#btnRegLog').hide()
             $('#home').hide()
             $('#todosList').show()
+            $('#createForm').hide()
+            $('#updateForm').hide()
             Main.readAll()
         })
         $('#nav-home').on('click', () =>{
-            // $('#btnRegLog').hide()
             $('#home').show()
             $('#todosList').hide()
         })
         $('#nav-logout').on('click', () =>{
-            // $('#btnRegLog').hide()
             $('#home').show()
-            localStorage.removeItem('token')
+            $('#todosList').hide()
+            $('#registerForm').hide()
+            $('#loginForm').hide()
+            $('#createForm').hide()
+            $('#updateForm').hide()
+            $('#nav-home').hide()
+            $('#nav-todos').hide()
+            $('#nav-logout').hide()
+            $('#currency').hide()
+            localStorage.clear()
         })
         $('#addTodo').on('click', () => {
             $('#todosList').hide()
@@ -48,14 +64,7 @@ class Main {
         })
         $('#submitCreate').on('click', (event) =>{
             Main.create()
-            $('#todoList').show()
         })
-        if(localStorage.condition){
-            $('#deleteTodo').on('click', (event) => {
-                console.log('masuuuk')
-                Main.delete()
-            })
-        }
     }
     static register(){
         $.ajax({
@@ -66,8 +75,8 @@ class Main {
                         password : $('#passwordRegister').val()
                     }
         })
-        .done(result => console.log(result))
-        .fail(err => console.log(err))
+        .done(result)
+        .fail(err)
     }
     static login(){
         $.ajax({
@@ -79,23 +88,25 @@ class Main {
                     }
         })
         .done(result => {
-            console.log(result, 'iiiiiiiiiiii')
             localStorage.token = result.token
-            var token = result.token
+            let token = result.token
             localStorage.setItem('token', token)
-            // if(localStorage.token){
-                $('#registerForm').hide()
-                $('#loginForm').hide()
-                $('#home').hide()
-                $('#todosList').show()
-                Main.readAll()
+            Main.readAll()
+            $('#registerForm').hide()
+            $('#loginForm').hide()
+            $('#home').hide()
+            $('#todosList').show()
+            $('#nav-home').hide()
+            $('#nav-todos').show()
+            $('#nav-logout').show()
         })
         .fail((err) => {
-            // console.log(err.responseJSON.msg)
-            $('span#errorLogin').val(err.responseJSON.msg) 
+            $('span#errorLogin').append(err.responseJSON.msg) 
         })
     }
     static readAll(){
+        Main.currency()
+        $('#chooseFriend').hide()
         $.ajax({
             url :'http://localhost:3000/todos',
             method : 'get',
@@ -104,20 +115,122 @@ class Main {
             }
         })
         .done(result => {
-            console.log(result)
-            // $('#tableBody').empty()
+            // console.log(result)
+            $('#tableBody').empty()
             result.data.forEach(el => {
-                $('#tableBody').append("<tr>" + "<td>"+ el.id + "</td>"
-                 + "<td>"+ el.title + "</td>" + "<td>"+ el.description + 
-                 "</td>" + "<td>"+ el.status + "</td>" + "<td>"+ el.due_date + "</td>" + 
-                 "<td>" + `<a value="${el.id}" id="updateTodo">Update</a> | <a href="#"  value="${el.id}" id="deleteTodo">Delete</a>` + "</td>" +
-                 "</tr>")
-            });
+                el.due_date = new Date(el.due_date)
+                $('#tableBody').append(
+                    `<tr>
+                        <td> ${el.id} </td>
+                        <td> ${el.title} </td>  
+                        <td> ${el.description} </td>  
+                        <td> ${el.status} </td>  
+                        <td> ${result.friend} </td>
+                        <td> ${el.due_date.toLocaleString('id').substr(0, 10)} </td>  
+                        <td> <a class="text-primary btn btn" id="updateTodo${el.id}">Update</a> | <a class="text-primary btn" id="deleteTodo${el.id}">Delete</a> | <a class="text-primary btn" id="addFriend${el.id}">Friend</a></td> 
+                    </tr>`)
+                $(`#deleteTodo${el.id}`).on('click', (event) => {
+                    // event.preventDefault()
+                    // console.log('masuuuk')
+                    Main.delete(el.id)
+                })
+                $(`#addFriend${el.id}`).on('click', (event) => {
+                    // event.preventDefault()
+                    $('#todosList').hide()
+                    $('#chooseFriend').show()
+                    Main.friend(el.id)
+                })
+                $(`#updateTodo${el.id}`).on('click', (event) => {
+                    // event.preventDefault()
+                    $('#titleUpdate').val(el.title)
+                    $('#descriptionUpdate').val(el.description)
+                    if(el.status){
+                        $('#radioTrue').prop("checked", true)
+                    }
+                    else{
+                        $('#radioFalse').prop("checked", true)
+                    }
+                    $('#due_dateUpdate').val(el.due_date.toISOString().substr(0,10))
+                    $('#todosList').hide()
+                    $('#updateForm').show()
+                    Main.update(el.id)
+                })
+            })
         })
         .fail((err) => {
-            // console.log(err.responseJSON.msg)
-            localStorage.condition = true
-            $('span#errorLogin').val(err.responseJSON.msg) 
+            $('span#errorLogin').append(err.responseJSON.msg) 
+        })
+    }
+    static currency(){
+        $.ajax({
+            url : 'http://localhost:3000/todos/currencys',
+            method : 'get'
+        })
+        .then(result => {
+            const key = Object.keys(result)
+            // console.log(key)
+            for(let i = 0; i < key.length; i++){
+                $('#currencyRates').append(
+                    `<tr>
+                        <td> ${key[i]} </td>
+                        <td> ${result[key[i]]} </td> 
+                    </tr>`
+                    )
+            }
+            for(val in result){
+                console.log(val)
+                $('#currencyRates').append(
+                    `<tr>
+                        <td> ${val} </td>
+                        <td> ${result.CAD} </td> 
+                    </tr>`)
+            }
+        })
+    }
+    static friend(id){
+        $.ajax({
+            url : "http://localhost:3000/todos/teams",
+            method : 'get',
+            headers : {
+                id : id,
+                token : localStorage.token
+            }
+        })
+        .done(result => {
+            console.log(result)
+            result.data.forEach(el => {
+                $('#friendBody').append(`
+                    <tr>
+                        <td>${el.id}</td>
+                        <td>${el.email}</td>
+                        <td><a class="btn text-primary" id="invite${el.id}">Invite</a></td>
+                    </tr>
+                `)
+                $(`#invite${el.id}`).on('click', () => {
+                  Main.insertFriend(el.id, id)
+                })
+            })
+        })
+    }
+    static insertFriend(friendId, TodoId){
+        $.ajax({
+            url : "http://localhost:3000/todos/teams",
+            method : 'post',
+            data : {
+                UserId : friendId,
+                TodoId
+            },
+            headers : {
+                id : TodoId,
+                token : localStorage.token
+            }
+        })
+        .done(result => {
+            console.log(result)
+            Main.readAll()
+        })
+        .fail(err => {
+            Main.readAll()
         })
     }
     static create(){
@@ -130,62 +243,112 @@ class Main {
                 due_date : $('#due_dateCreate').val()
             },
             headers : {
+                id : id,
                 token : localStorage.token
             }
         })
         .done(result => {
-            console.log(result)
-            $('#todosList').show()
+            // console.log(result)
             $('#createForm').hide()
+            $('#todosList').show()
+            Main.readAll()
         })
         .catch(err => {
-            console.log(err)
+            // console.log(err)
         })
     }
     static update(id){
-
+        $('#submitUpdate').on('click', (event) =>{
+            $.ajax({
+                url : `http://localhost:3000/todos/${id}`,
+                method : 'put',
+                data : {
+                    title : $('#titleUpdate').val(),
+                    description : $('#descriptionUpdate').val(),
+                    status : $('input[name=statusUpdate]:checked').val(),
+                    due_date : $('#due_dateUpdate').val()
+                },
+                headers : {
+                    id : id,
+                    token : localStorage.token
+                }
+            })
+            .done(result => {
+                // event.preventDefault()
+                $('#todosList').show()
+                $('#updateForm').hide()
+                Main.readAll()
+            })
+            .fail(err => {
+                event.preventDefault()
+                // console.log(err)
+            })
+        })
     }
     static delete(id){
         $.ajax({
             url : `http://localhost:3000/todos/${id}`,
             method : 'delete',
             headers : {
+                id : id,
                 token : localStorage.token
             }
         })
         .done(result => {
-            Main.readAll()
+            // event.preventDefault()
             $('#todosList').show()
+            Main.readAll()
+        })
+        .fail(err => {
+            // console.log(err)
         })
     }
 }
 
 function onSignIn(googleUser){
-    let profile = googleUser.getBasicProfile();
-    // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    // console.log('Name: ' + profile.getName());
-    // console.log('Image URL: ' + profile.getImageUrl());
-    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present
     let id_token = googleUser.getAuthResponse().id_token
-    // console.log(id_token)
+    $.ajax({
+        url : 'http://localhost:3000/gLogin',
+        method : 'post',
+        data : {
+            gToken : id_token
+        }
+    })
+    .then(result => {
+        // console.log(result)
+        let token = result.data.token
+        localStorage.setItem('token', token)
+        $('#registerForm').hide()
+        $('#loginForm').hide()
+        $('#home').hide()
+        $('#todosList').show()
+        $('#nav-home').hide()
+        $('#nav-todos').show()
+        $('#nav-logout').show()
+        Main.readAll()
+    })
 }
 
 function signOut() {
     let auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-      console.log('User signed out.');
+    //   console.log('User signed out.');
     });
  
 let id_token = googleUser.getAuthResponse().id_token
 }
 
 $(document).ready(() => {
-    Main.home()
     if(localStorage.token){
+        $('#home').hide()
+        $('#nav-home').hide()
         $('#nav-todos').show()
         $('#nav-logout').show()
+        Main.home()
+        Main.readAll()
     }else{
         $('#nav-todos').hide()
         $('#nav-logout').hide()
+        Main.home()
     }
 })

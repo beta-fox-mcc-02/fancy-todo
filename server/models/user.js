@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model{
     static associate(models){
       // associations can be defined here
-      User.hasMany(models.Todo)
+      User.belongsToMany(models.Todo, {through : models.TeamUser})
     }
   }
   User.init({

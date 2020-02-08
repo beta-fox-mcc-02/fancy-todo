@@ -1,6 +1,5 @@
 errorHandler = (err, req, res, next) => {
     const error = err
-    console.log(error)
     if(error.name === 'sequelizeDatabaseError') {
         res.status(500).json({
             msg : 'something wrong with server or database'

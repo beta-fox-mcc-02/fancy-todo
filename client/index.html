@@ -13,13 +13,13 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" id="nav-home">Home <span class="sr-only"> </span></a>
+                            <a class="nav-link btn" id="nav-home">Home <span class="sr-only"> </span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" id="nav-todos">Todos <span class="sr-only"> </span></a>
+                            <a class="nav-link btn" id="nav-todos">Todos <span class="sr-only"> </span></a>
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link" id="nav-logout" onclick="signOut()">Logout <span class="sr-only"> </span></a>
+                            <a class="nav-link btn" id="nav-logout" onclick="signOut()">Logout <span class="sr-only"> </span></a>
                         </li>
                     </ul>
                 </div>
@@ -28,92 +28,163 @@
         
         <main>
             <br><br>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm"></div>
-                    <div class="col-lg">
-                        <div class="card card-signup z-depth-0 text-center bg-light" id="home">
-                            <div class="card-body">
-                                <div id="btnRegLog">
-                                    <div class="g-signin2" data-onsuccess="onSignIn"></div><br>
-                                    <input class="btn bg-succes hover" type="button" value="Register" id="register">
-                                    <input class="btn bg-succes hover" type="button" value="Login" id="login">
-                                </div>
-                                <br>
-                                <div id="formCard">
-                                    <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="registerForm">
-                                        <div class="card-body">
-                                            <h2>Register</h2>
-                                            <form>
-                                                <label>Email</label><br>
-                                                <span id="errorRegistrasi"></span>
-                                                <input type="email" name="email" id="emailRegister"><br><br>
-                                                <label for="">Password</label><br>
-                                                <input type="password" name="password" id="passwordRegister"><br><br>
-                                                <input class="btn bg-succes hover" type="submit" value="Register" id="submitRegister">
-                                            </form>
+            <section id="mainPage">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm"></div>
+                        <div class="col-sm">
+                            <div class="card card-signup z-depth-0 text-center bg-light" id="home">
+                                <div class="card-body">
+                                    <div id="btnRegLog">
+                                        <div class="g-signin2" data-onsuccess="onSignIn"></div><br>
+                                        <input class="btn bg-succes hover" type="button" value="Register" id="register">
+                                        <input class="btn bg-succes hover" type="button" value="Login" id="login">
+                                    </div>
+                                    <br>
+                                    <div id="formCard">
+                                        <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="registerForm">
+                                            <div class="card-body">
+                                                <h2>Register</h2>
+                                                <form>
+                                                    <label>Email</label><br>
+                                                    <span id="errorRegistrasi"></span>
+                                                    <input type="email" name="email" id="emailRegister"><br><br>
+                                                    <label for="">Password</label><br>
+                                                    <input type="password" name="password" id="passwordRegister"><br><br>
+                                                    <input class="btn bg-succes hover" type="submit" value="Register" id="submitRegister">
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="loginForm">
+                                            <div class="card-body">
+                                                <h2>Login</h2>
+                                                <form>
+                                                    <span id="errorLogin"></span><br>
+                                                    <label>Email</label><br>
+                                                    <input type="text" name="email" id="emailLogin"><br><br>
+                                                    <label for="">Password</label><br>
+                                                    <input type="password" name="password" id="passwordLogin"><br><br>
+                                                    <input class="btn bg-succes hover" type="submit" value="Login" id="submitLogin">
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="loginForm">
-                                        <div class="card-body">
-                                            <h2>Login</h2>
-                                            <form>
-                                                <span id="errorLogin"></span>
-                                                <label>Email</label><br>
-                                                <input type="email" name="email" id="emailLogin"><br><br>
-                                                <label for="">Password</label><br>
-                                                <input type="password" name="password" id="passwordLogin"><br><br>
-                                                <input class="btn bg-succes hover" type="submit" value="Login" id="submitLogin">
-                                            </form>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
-                                
                             </div>
                         </div>
-                        <div class="card card-signup z-dept-0 bg-ligt" id="todosList">
+                        <div class="col-sm"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="todoPage">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-8">
+                            <div class="card card-signup z-dept-0 bg-ligt" id="todosList">
+                                <div class="card-body">
+                                    <a id="addTodo" class="btn">Add new todo</a>
+                                    <table class="table text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Title</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                                <th>Friend</th>
+                                                <th>Due Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableBody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="createForm">
+                                <div class="card-body">
+                                    <h2>Todo</h2>
+                                    <form>
+                                        <span id="errorLogin"></span>
+                                        <label>Title</label><br>
+                                        <input type="text" name="title" id="titleCreate"><br><br>
+                                        <label for="">Description</label><br>
+                                        <input type="text" name="description" id="descriptionCreate"><br><br>
+                                        <label for="">Due date</label><br>
+                                        <input type="date" name="due_date" id="due_dateCreate"><br><br>
+                                        <input class="btn bg-succes hover" type="submit" value="Submit" id="submitCreate">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="updateForm">
+                                <div class="card-body">
+                                    <h2>Update</h2>
+                                    <form>
+                                        <span id="errorLogin"></span>
+                                        <label>Title </label><br>
+                                        <input type="text" name="title" id="titleUpdate" value=""><br><br>
+                                        <label for="">Description</label><br>
+                                        <input type="text" name="description" id="descriptionUpdate" value=""><br><br>
+                                        <label for="">Status</label><br>
+                                        <label ><input type="radio" name="statusUpdate" id="radioTrue" value="true"> Done</label>
+                                        <label ><input type="radio" name="statusUpdate" id="radioFalse" value="false"> Not Done</label>
+                                        <br><br>
+                                        <label >Due date</label><br>
+                                        <input type="date" name="due_date" id="due_dateUpdate" value=""><br><br>
+                                        <input class="btn bg-succes hover" type="submit" value="Submit" id="submitUpdate">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-signup z-dept-0 bg-ligt" id="chooseFriend">
                             <div class="card-body">
-                                <a href="#" id="addTodo">Add new todo</a>
+                                <a id="backTodo" class="btn">Todo list</a>
                                 <table class="table text-center">
                                     <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Title</th>
-                                            <th>Description</th>
-                                            <th>Status</th>
-                                            <th>Due Date</th>
-                                            <th>Action</th>
+                                            <th>Email</th>
+                                            <th>Invite</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tableBody">
+                                    <tbody id="friendBody">
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class="card card-signup z-depth-0 text-center bg-dark text-light" id="createForm">
-                            <div class="card-body">
-                                <h2>Todo</h2>
-                                <form>
-                                    <span id="errorLogin"></span>
-                                    <label>Title</label><br>
-                                    <input type="text" name="title" id="titleCreate"><br><br>
-                                    <label for="">Description</label><br>
-                                    <input type="text" name="description" id="descriptionCreate"><br><br>
-                                    <label for="">Due date</label><br>
-                                    <input type="date" name="due_date" id="due_dateCreate"><br><br>
-                                    <input class="btn bg-succes hover" type="submit" value="Submit" id="submitCreate">
-                                </form>
+                        <div class="col-sm-3">
+                            <div class="card card-signup z-dept-0 bg-ligt" id="currency">
+                                <div class="card-body">
+                                    <a id="backTodo" class="btn">Currency</a>
+                                    <table class="table text-center">
+                                        <thead>
+                                            <tr>
+                                                <td colspan="2">
+                                                    EUR
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Currency</th>
+                                                <th>rates</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="currencyRates">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm"></div>
                 </div>
-            </div>
+            </section>
+
         </main>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="./src/main.js"></script>
         <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="./src/main.js"></script>
     </body>
 </html>
