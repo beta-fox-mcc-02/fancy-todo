@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id"
+        content="769420659096-7nmb1mlj15uaocjaee57tlng203ufjft.apps.googleusercontent.com">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="./src/style.css">
+    <title>TODO</title>
+</head>
+
+<body>
+    <!-- NAV BAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" id="getHome">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="getSignIn">SIGN IN</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="getSignUp">SIGN UP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="getLogOut">LOGOUT</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- LANDING PAGE -->
+    <div class="container" id="landing-page">
+        <center>
+            <h1>FANCY TODO</h1>
+            <div class="container-fluid">
+                <h3>There is news for you...</h3>
+                <p>Befor create your todos, lets know what happend in the world</p>
+                <div class="row flex-nowrap">
+                </div>
+            </div>
+        </center>
+    </div>
+
+
+    <!-- SIGN UP -->
+    <div class="container" id="signUp">
+        <center>
+            <h1>SIGN UP</h1>
+            <form>
+                <div class="form-group">
+                    <label for="emailReg">Email address</label>
+                    <input type="email" class="form-control" id="emailReg" aria-describedby="emailHelp" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="passwordReg">Password</label>
+                    <input type="password" class="form-control" id="passwordReg" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </center>
+    </div>
+
+    <!-- SIGN IN -->
+    <div class="container" id="signIn">
+        <center>
+            <h1>SIGN IN</h1>
+            <form>
+                <div class="form-group">
+                    <label for="emailIn">Email address</label>
+                    <input type="email" class="form-control" id="emailIn" aria-describedby="emailHelp" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="paswordIn">Password</label>
+                    <input type="password" class="form-control" id="passwordIn" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+            <br>
+            <h1>OR</h1>
+            <br>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        </center>
+    </div>
+
+
+    <!-- USERRR HOMEEE -->
+    <div class="container" id="user-home">
+        <center>
+            <h2>YOUR All TODOS</h2>
+            <button type="button" class="btn btn-primary" id="add-todo">ADD TODO</button><br>
+            <br>
+            <h3 class="dont-have-todo">You dont have any todo</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Titile</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Due Date</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="todos">
+                </tbody>
+            </table>
+        </center>
+    </div>
+
+    <!-- ADD TODOOOOO -->
+    <div class="container" id="form-add-todo">
+        <center>
+            <form>
+                <div class="form-group">
+                    <label for="title-add">TITLE</label>
+                    <input type="text" class="form-control" id="title-add" placeholder="title - todos">
+                </div>
+                <div class="form-group">
+                    <label for="description-add">DESCRIPTION</label>
+                    <textarea class="form-control" id="description-add" rows="3"
+                        placeholder="description of todos"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="date-add">DUE DATE</label>
+                    <input type="date" class="form-control" id="date-add" placeholder="due date todos">
+                </div>
+                <button type="submit" class="btn btn-success">ADD TODO</button>
+            </form>
+        </center>
+    </div>
+
+
+    <!-- EDIT TODOOO -->
+    <div class="container" id="form-edit-todo">
+        <center>
+            <form>
+                <div class="form-group">
+                    <label for="title-add">TITLE</label>
+                    <input type="text" class="form-control" id="title-edit" placeholder="title - todos" value="">
+                </div>
+                <div class="form-group">
+                    <label for="description-add">DESCRIPTION</label>
+                    <textarea class="form-control" id="description-edit" rows="3"
+                        placeholder="description of todos"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="date-add">DUE DATE</label>
+                    <input type="date" class="form-control" id="date-edit" placeholder="due date todos">
+                </div>
+                <button type="submit" class="btn btn-success">EDIT TODO</button>
+            </form>
+        </center>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="./src/main.js"></script>
+    <script src="./src/googleSignIn.js"></script>
+</body>
+
+</html>
