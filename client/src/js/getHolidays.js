@@ -41,7 +41,7 @@ function getHolidays() {
     const year = $("#yearSelect").val()
     return $.ajax({
         method: "POST",
-        url: "http://localhost:3000/holidays",
+        url: "http://localhost:3000/todos/holidays",
         data: { month, year }
     })
 }
