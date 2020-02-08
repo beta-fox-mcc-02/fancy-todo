@@ -5,6 +5,7 @@ const authorized = require('../middlewares/authorized')
 
 router.post('/', authenticated, todoController.add)
 router.get('/', todoController.getAll)
+router.get('/weather/:city', todoController.weather)
 router.get('/user', authenticated, todoController.getThem)
 router.get('/:id', todoController.getOne)
 router.put('/:id', authenticated, authorized, todoController.update)

@@ -1,7 +1,25 @@
 const {Todo} = require('../models')
 const {User} = require('../models')
+const axios = require('axios');
 
 class todoController {
+
+  static weather(req, res, next){
+
+    axios({
+      method: 'get',
+      url: 'https://api.weatherbit.io/v2.0/forecast/daily?',
+      params:{
+        key: process.env.WEATHER,
+        city: req.params.city
+      }
+    })
+    .then(({data}) =>{
+      
+      res.status(200).json(data)
+    })
+    .catch(next)
+  }
 
   static add(req, res, next){
     // console.log(req.body, 'ini body ');

@@ -54,6 +54,7 @@ function onSignIn(googleUser) {
     $('#first').show();
     $('#first').show();
     $('#crud').show();
+    fetchTodos()
 
     $('#ForUser').empty()
     $('#ForUser').append(`
@@ -66,6 +67,42 @@ function onSignIn(googleUser) {
     console.log(err);
   })
 
+}
+
+function fetchWeather() {
+  
+  axios({
+    method: 'get',
+    url: `http://localhost:3000/todo/weather/jakarta`,
+  })
+  .then(({data}) =>{
+    // console.log(data.data);
+    $('#weed').empty()
+    $.each(data.data, function (index, val) {
+      // let pr = val.id
+
+      console.log(val);
+      
+      $('#weed').append(`
+    <div class="col-3">
+
+      <div class="card mr-4 mt-4 mb-4" style="width: 18rem; margin-bottom: 1rem;">
+      <div class="card-body">
+        <h5 class="card-title">${val.weather.description}</h5>
+        <p class="card-text">${val.temp} celcius</p>
+        <p class="card-text">${val.uv} UV index</p>
+        <h6 class="mb-3">date: ${val.valid_date}</h6>          
+      </div>
+    </div>
+    </div>
+      `)
+    })
+
+  })
+  .catch(err =>{
+    console.log(err);
+    
+  })
 }
 
 function fetchTodos() {
@@ -150,6 +187,7 @@ $( document ).ready(function() {
     $('#first').show();
     $('#crud').show();
     fetchTodos()
+    fetchWeather()
   }else{
     $('#regis').show();
     $('#first').hide();
