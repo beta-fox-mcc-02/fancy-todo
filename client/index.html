@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <meta name="google-signin-client_id" content="23130491249-p4sc43lg4ttu92v03v55jt2dljqcgmf0.apps.googleusercontent.com">
+    <title>Document</title>
+</head>
+<body>
+    <!-- ini navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" id="Home">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="Login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="Register">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="Logout">logout</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <!-- ini akhir navbar  -->
+      
+
+      <!-- ini card todolist -->
+      <div id="todolist">
+        <table class="table table-dark">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">todo</th>
+              <th scope="col">description</th>
+            </tr>
+          </thead>
+
+        </table>
+      </div>
+
+
+      <!-- ini akhir card todolist  -->
+
+      <!-- ini form register  -->
+      <div id="register">  
+        <h2>Register</h2>
+        <form>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="registEmail" aria-describedby="emailHelp" >
+          </div>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="registPassword">
+          </div>
+          <button type="submit" class="btn btn-primary" id="register-account">Submit</button>
+        </form>      
+      </div>
+      <!-- ini akhir form register  -->
+
+
+      <!-- ini form login -->
+      <div id="login">
+        <h2>Login</h2>
+        <form >
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" >
+          </div>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="loginPassword" >
+          </div>
+          <button type="submit" class="btn btn-primary" id="login-account">Submit</button>
+        </form>      
+      </div>
+      <!-- ini akhir form login  -->
+      
+      <!-- ini form add todo  -->
+      <div id="add">  
+        <h2>Add todolist</h2>
+        <form>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="text" class="form-control" id="title" aria-describedby="emailHelp" >
+          </div>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="text" class="form-control" id="description">
+          </div>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="date" class="form-control" id="due_date">
+          </div>
+          <button type="submit" class="btn btn-primary" id="addtodolist">Submit</button>
+        </form>      
+      </div>
+      <!-- ini form akhir add todo  -->
+      <div id="edit">  
+        <h2>Add todolist</h2>
+        <form>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="text" class="form-control" id="edittitle" aria-describedby="emailHelp" >
+          </div>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="text" class="form-control" id="editdescription">
+          </div>
+          <div class="form-group" style="width: 20%;">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="date" class="form-control" id="editdue_date">
+          </div>
+          <button type="submit" class="btn btn-primary" id="edittodolist">Submit</button>
+        </form>      
+      </div>
+      <!-- ini form edit todo  -->
+
+      <!-- ini script  -->
+      <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+      <script src="./jquery.js"></script>
+</body>
+</html>
