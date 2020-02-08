@@ -20,7 +20,6 @@ class TodoController {
         })
       })
       .catch(error => {
-        console.log(error)
         next(error)
       })
   }
@@ -63,17 +62,14 @@ class TodoController {
                   })
                 })
                 .catch(err => {
-                  console.log(err)
                   next(err)
                 })
             })
             .catch(err => {
-              console.log(err)
               next(err)
             })
         }
       }).catch((err) => {
-        console.log(err)
         next(err)
       });
   }

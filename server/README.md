@@ -463,13 +463,13 @@ Base url: <http://localhost:3000>
         ```
 # 3rd Party API
 
-## **Google Location**
+## **Google Location Detail**
 
-  Returns json data from google when user input location
+  Returns json data from google when application get location detail based user's location input
 
 -   **URL**
 
-    /locations
+    /locations/detail
 
 -   **Method:**
 
@@ -479,7 +479,7 @@ Base url: <http://localhost:3000>
 
      **Required:**
 
-    `search=[string]`
+    `place_id=[string]`
 
 -   **Data Params**
 
@@ -491,264 +491,135 @@ Base url: <http://localhost:3000>
         **Content:**
         ```json
         {
-        "data": {
-          "predictions": [
-            {
-                "description": "Kuningan, Kuningan Regency, West Java, Indonesia",
-                "id": "4fa07cb40d953b94bac8e985f9cd8254161dc306",
-                "matched_substrings": [
-                    {
-                        "length": 8,
-                        "offset": 0
-                    }
-                ],
-                "place_id": "ChIJV7CG2yIUby4RoOIo_PHoAQQ",
-                "reference": "ChIJV7CG2yIUby4RoOIo_PHoAQQ",
-                "structured_formatting": {
-                    "main_text": "Kuningan",
-                    "main_text_matched_substrings": [
-                        {
-                            "length": 8,
-                            "offset": 0
-                        }
-                    ],
-                    "secondary_text": "Kuningan Regency, West Java, Indonesia"
+            "html_attributions": [],
+            "result": {
+            "formatted_address": "Jl. Letjen S. Parman No.28, Tj. Duren Sel., Kec. Grogol petamburan, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11470, Indonesia",
+            "formatted_phone_number": "(021) 56989999",
+            "geometry": {
+                "location": {
+                    "lat": -6.176901399999999,
+                    "lng": 106.789553
                 },
-                "terms": [
-                    {
-                        "offset": 0,
-                        "value": "Kuningan"
+                "viewport": {
+                    "northeast": {
+                        "lat": -6.174440799999999,
+                        "lng": 106.7935095
                     },
-                    {
-                        "offset": 10,
-                        "value": "Kuningan Regency"
-                    },
-                    {
-                        "offset": 28,
-                        "value": "West Java"
-                    },
-                    {
-                        "offset": 39,
-                        "value": "Indonesia"
+                    "southwest": {
+                        "lat": -6.180554799999999,
+                        "lng": 106.7876547
                     }
-                ],
-                "types": [
-                    "locality",
-                    "political",
-                    "geocode"
-                ]
+                }
             },
-            {
-                "description": "Kuningan, Karet Kuningan, South Jakarta City, Jakarta, Indonesia",
-                "id": "b381a53e577d7ff7832021c2058b6a739bcf850f",
-                "matched_substrings": [
-                    {
-                        "length": 8,
-                        "offset": 0
-                    }
-                ],
-                "place_id": "ChIJUReS4fjzaS4RYhVBXx2muvE",
-                "reference": "ChIJUReS4fjzaS4RYhVBXx2muvE",
-                "structured_formatting": {
-                    "main_text": "Kuningan",
-                    "main_text_matched_substrings": [
-                        {
-                            "length": 8,
-                            "offset": 0
-                        }
-                    ],
-                    "secondary_text": "Karet Kuningan, South Jakarta City, Jakarta, Indonesia"
-                },
-                "terms": [
-                    {
-                        "offset": 0,
-                        "value": "Kuningan"
-                    },
-                    {
-                        "offset": 10,
-                        "value": "Karet Kuningan"
-                    },
-                    {
-                        "offset": 26,
-                        "value": "South Jakarta City"
-                    },
-                    {
-                        "offset": 46,
-                        "value": "Jakarta"
-                    },
-                    {
-                        "offset": 55,
-                        "value": "Indonesia"
-                    }
-                ],
-                "types": [
-                    "administrative_area_level_5",
-                    "political",
-                    "geocode"
-                ]
+            "name": "Central Park",
+            "rating": 4.6
             },
-            {
-                "description": "Kuningan, West Java, Indonesia",
-                "id": "46a40c6b6c7caee91222962a967f1b7e2c8b6e76",
-                "matched_substrings": [
-                    {
-                        "length": 8,
-                        "offset": 0
-                    }
-                ],
-                "place_id": "ChIJF_Y7zjYSby4RULoo_PHoAQM",
-                "reference": "ChIJF_Y7zjYSby4RULoo_PHoAQM",
-                "structured_formatting": {
-                    "main_text": "Kuningan",
-                    "main_text_matched_substrings": [
+            "status": "OK"
+        }
+        ```
+    -   **Code:** 400 <br />
+        **Content:**
+        ```json
+        {
+            "error_message": "Missing the placeid or reference parameter.",
+            "html_attributions": [],
+            "status": "INVALID_REQUEST"
+        }
+        ```
+
+## **Google Location Nearby**
+
+  Returns json data from google, when application search 5 nearby restaurants while user create new task or edit task
+
+-   **URL**
+
+    /locations/nearby
+
+-   **Method:**
+
+    `GET`
+
+-   **URL Params**
+
+     **Required:**
+
+    `radius=[integer]`
+    `type=[string]`
+    `location=[string]`
+
+-   **Data Params**
+
+    None
+
+-   **Success Response:**
+
+    -   **Code:** 200 <br />
+        **Content:**
+        ```json
+        {
+            "results":
+            [
+                  {
+                    "geometry": {
+                        "location": {
+                            "lat": -6.174096599999999,
+                            "lng": 106.795039
+                        },
+                        "viewport": {
+                            "northeast": {
+                                "lat": -6.172670719708497,
+                                "lng": 106.7963166302915
+                            },
+                            "southwest": {
+                                "lat": -6.175368680291502,
+                                "lng": 106.7936186697085
+                            }
+                        }
+                    },
+                    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/lodging-71.png",
+                    "id": "20a41d93df6c6454282d754dd35dc2a78bb780b5",
+                    "name": "Harlys Residence",
+                    "opening_hours": {
+                        "open_now": true
+                    },
+                    "photos": [
                         {
-                            "length": 8,
-                            "offset": 0
+                            "height": 4160,
+                            "html_attributions": [
+                                "<a href=\"https://maps.google.com/maps/contrib/111611019326001990583\">galih dani</a>"
+                            ],
+                            "photo_reference": "CmRaAAAA8wRvZte8WlSoUdOZsQpuDB36A6x4BuTqZkwbH5y9BxkVHEyBcFGXl39vqvMiLY1xWEjEtQ9G-TKNPFmTc_9UgHFvbqGPXuE6KbdKOsiRtB1EtuU23Q-tGLiqGWgQZFH2EhDqAFsYujER-JHc3Ek6tR9NGhRmZewDyuZQxSDMRrJj85IwiVQfoQ",
+                            "width": 3120
                         }
                     ],
-                    "secondary_text": "West Java, Indonesia"
-                },
-                "terms": [
-                    {
-                        "offset": 0,
-                        "value": "Kuningan"
+                    "place_id": "ChIJOc14Omf2aS4RGaqaUNGW8Pc",
+                    "plus_code": {
+                        "compound_code": "RQGW+92 Jakarta, Indonesia",
+                        "global_code": "6P58RQGW+92"
                     },
-                    {
-                        "offset": 10,
-                        "value": "West Java"
-                    },
-                    {
-                        "offset": 21,
-                        "value": "Indonesia"
-                    }
-                ],
-                "types": [
-                    "administrative_area_level_2",
-                    "political",
-                    "geocode"
-                ]
-            },
-            {
-                "description": "Kuningan City, Jalan Professor Doktor Satrio, RT.14/RW.4, Kuningan, Karet Kuningan, South Jakarta City, Jakarta, Indonesia",
-                "id": "28d83f100605af08b6edf27b7d88991a7e520753",
-                "matched_substrings": [
-                    {
-                        "length": 8,
-                        "offset": 0
-                    }
-                ],
-                "place_id": "ChIJ6UdZViTzaS4RUpRN_R2PDUI",
-                "reference": "ChIJ6UdZViTzaS4RUpRN_R2PDUI",
-                "structured_formatting": {
-                    "main_text": "Kuningan City",
-                    "main_text_matched_substrings": [
-                        {
-                            "length": 8,
-                            "offset": 0
-                        }
+                    "rating": 4.1,
+                    "reference": "ChIJOc14Omf2aS4RGaqaUNGW8Pc",
+                    "scope": "GOOGLE",
+                    "types": [
+                        "lodging",
+                        "restaurant",
+                        "food",
+                        "point_of_interest",
+                        "establishment"
                     ],
-                    "secondary_text": "Jalan Professor Doktor Satrio, RT.14/RW.4, Kuningan, Karet Kuningan, South Jakarta City, Jakarta, Indonesia"
-                },
-                "terms": [
-                    {
-                        "offset": 0,
-                        "value": "Kuningan City"
-                    },
-                    {
-                        "offset": 15,
-                        "value": "Jalan Professor Doktor Satrio"
-                    },
-                    {
-                        "offset": 46,
-                        "value": "RT.14"
-                    },
-                    {
-                        "offset": 52,
-                        "value": "RW.4"
-                    },
-                    {
-                        "offset": 58,
-                        "value": "Kuningan"
-                    },
-                    {
-                        "offset": 68,
-                        "value": "Karet Kuningan"
-                    },
-                    {
-                        "offset": 84,
-                        "value": "South Jakarta City"
-                    },
-                    {
-                        "offset": 104,
-                        "value": "Jakarta"
-                    },
-                    {
-                        "offset": 113,
-                        "value": "Indonesia"
-                    }
-                ],
-                "types": [
-                    "shopping_mall",
-                    "point_of_interest",
-                    "establishment"
-                ]
-            },
-            {
-                "description": "Kuningan Jawa Barat, Jalan Raya Bandorasa, Bandorasa Wetan, Kuningan Regency, West Java, Indonesia",
-                "id": "53c6ece9c29abfa958acbd4b18f1aa605fef212b",
-                "matched_substrings": [
-                    {
-                        "length": 8,
-                        "offset": 0
-                    }
-                ],
-                "place_id": "ChIJXXM2atwZby4Rd7tvppw4S40",
-                "reference": "ChIJXXM2atwZby4Rd7tvppw4S40",
-                "structured_formatting": {
-                    "main_text": "Kuningan Jawa Barat",
-                    "main_text_matched_substrings": [
-                        {
-                            "length": 8,
-                            "offset": 0
-                        }
-                    ],
-                    "secondary_text": "Jalan Raya Bandorasa, Bandorasa Wetan, Kuningan Regency, West Java, Indonesia"
-                },
-                "terms": [
-                    {
-                        "offset": 0,
-                        "value": "Kuningan Jawa Barat"
-                    },
-                    {
-                        "offset": 21,
-                        "value": "Jalan Raya Bandorasa"
-                    },
-                    {
-                        "offset": 43,
-                        "value": "Bandorasa Wetan"
-                    },
-                    {
-                        "offset": 60,
-                        "value": "Kuningan Regency"
-                    },
-                    {
-                        "offset": 78,
-                        "value": "West Java"
-                    },
-                    {
-                        "offset": 89,
-                        "value": "Indonesia"
-                    }
-                ],
-                "types": [
-                    "shopping_mall",
-                    "point_of_interest",
-                    "establishment"
-                ]
-              }
-          ],
-          "status": "OK"
-          }
+                    "user_ratings_total": 1406,
+                    "vicinity": "Jalan Tomang Tinggi No.2, Tomang"
+                 }
+            ]
+        }
+        ```
+    -   **Code:** 400 <br />
+        **Content:**
+        ```json
+        {
+            "html_attributions": [],
+            "results": [],
+            "status": "INVALID_REQUEST"
         }
         ```
 
