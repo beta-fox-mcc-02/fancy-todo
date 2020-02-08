@@ -1,7 +1,11 @@
 const { Todo } = require('../models')
  class TodoController {
   static findAll (req, res, next) {
-    Todo.findAll()
+    Todo.findAll({
+      where: {
+        UserId: req.currentUserId
+      }
+    })
       .then(todo => {
         res.status(200).json(todo)
       })
@@ -79,6 +83,23 @@ const { Todo } = require('../models')
         next(err)
       })
   }
+  
+  static getHolidays(req, res, next) {
+    const api_key = process.env.API_KEY
+    const month = req.body.month;
+    const year = req.body.year;
+    axios({
+        method: 'get',
+        url: month ? `https://calendarific.com/api/v2/holidays?api_key=${api_key}&country=id&year=${year}&month=${month}` : `https://calendarific.com/api/v2/holidays?api_key=${api_key}&country=id&year=${year}`
+    })
+        .then(({ data }) => {
+            res.status(200).json(data.response)
+        })
+        .catch(err => {
+            console.log(err)
+            next(err)
+        })
+}
  }
 
  module.exports = TodoController

@@ -1,8 +1,8 @@
 $(document).ready(function(){
   checkLogin()
   pageNavigator()
-  fetchTodos()
   restrictInputDueDate()
+  getListHolidays()
 
   $("#login").submit(function(e){
     e.preventDefault()
@@ -83,6 +83,10 @@ $(document).ready(function(){
 
   $("#btnLogout").click(function(){
     localStorage.clear()
+    const auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.')
+    });
     checkLogin()
   })
 
@@ -126,6 +130,7 @@ $(document).ready(function(){
 
 function checkLogin () {
   if (localStorage.getItem('token')){
+    fetchTodos()
     pageHome()
     console.log('sudah login')
   } else {
@@ -177,6 +182,9 @@ function fetchTodos () {
   $.ajax({
     url: "http://localhost:3000/todos",
     method: "GET",
+    headers: {
+      token: localStorage.token
+    }
   })
     .done(function(todos) {
       // console.log(todos)
@@ -327,4 +335,24 @@ function addUpdateTodo (id) {
       console.log(err.response)
     })
   console.log('Update todo with id', id)
+}
+
+function onSignIn(googleUser) {
+  const id_token = googleUser.getAuthResponse().id_token;
+  console.log('masuk k onSignIn')
+  axios({
+    method: 'post',
+    url: 'http://localhost:3000/auth/googleSign',
+    data: {
+      id_token
+    }
+  })
+    .then(({ data }) => {
+      console.log(data)
+      localStorage.token = data.token
+      checkLogin()
+    })
+    .catch(err => {
+      console.log(err.response)
+    })
 }
