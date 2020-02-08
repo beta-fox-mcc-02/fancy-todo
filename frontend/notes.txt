@@ -4,3 +4,13 @@
 4. Update todo
 5. Delete todo
 6. Logout
+
+
+
+state => 
+
+Logged in
+
+Logged out
+
+Welcome
