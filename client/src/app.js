@@ -151,7 +151,8 @@ function todosPage() {
       showTodo(todos)
     })
     .catch(err => {
-      console.log('tidak boleh');
+      loginPage();
+      getErrorMessages(err);
       console.log(err.response);
     })
 }
@@ -296,6 +297,17 @@ $(document).ready(() => {
     todosPage()
   }
 
+  // fancy-todo-nav is clicked
+  $('#fancy-todo-nav').on('click', () => {
+    // err.response.data.message
+    // if(!localStorage.access_token){
+    //   registerPage();
+    //   $('#error-message').text(`You`);
+    //   $('#error-alert').show();
+    // }
+    todosPage();
+  })
+
   // register is clicked
   $('.dont-have-account').on('click', () => registerPage())
 
@@ -359,19 +371,6 @@ $(document).ready(() => {
     });
     registerPage();
   })
-
-  // // read all todos
-  // $('#read').on('click', () => {
-  //   findAll()
-  //     .then(todos => {
-  //       $('#find-all-todos').empty();
-  //       showTodo(todos)
-  //     })
-  //     .catch(err => {
-  //       console.log('tidak boleh');
-  //       console.log(err);
-  //     })
-  // })
 
   // cancel new todo
   $('#cancel-create-form').on('click', () => {
