@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Fancy Todo</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $( function() { $( "#duedatepicker-create" ).datepicker();} );
+    $( function() { $( "#duedatepicker-edit" ).datepicker();} );
+  </script>
+    
+</head>
+
+<body>
+    <div class="navbar"> 
+        <button id="menu-home">Home</button>
+        <button id="menu-login">Login</button>
+        <button id="menu-register">Register</button>
+        <button id="menu-logout">Logout</button>
+        <button id="menu-list-todos">Todos List</button>
+        <button id="menu-create-todos">Create Todos</button>
+    </div>
+    <div class="container" id="cont-home">
+        <div class="main">
+           <h1>Selamat Datang</h1>
+        </div>
+    </div>
+    <div class="container" id="cont-login">
+        <div class="main">
+            <center><h3 id="alert-login"></h3></center>
+            <form class="form" id="form-login">
+                <h2>Login Form</h2>
+
+                <label>Email :</label>
+                <input type="text" name="demail" id="email" value="">
+                <label>Password :</label>
+                <input type="password" name="password" id="password" value="">
+                <input type="button" name="login" id="login" value="Login">
+            </form>
+        </div>
+    </div>
+    <div class="container" id="cont-register">
+        <div class="main">
+            <center><h3 id="alert-regis"></h3></center>
+            <form class="form" id="form-register">
+                <h2>Register Form</h2>
+
+                <label>Email :</label>
+                <input type="text" name="demail" id="regis-email" value="">
+                <label>Password :</label>
+                <input type="password" name="password" id="regis-password" value="">
+                <label>Confirm Password :</label>
+                <input type="password" name="password2" id="regis-password2" value="">
+                <input type="button" name="register" id="register" value="Register">
+            </form>
+        </div>
+    </div>
+    <div class="container" id="cont-list-todos">
+        <div class="main">
+            <center><h3 id="alert-list"></h3></center>
+            <table id="todos" border="1"></table>
+        </div>
+    </div>
+    <div class="container" id="cont-create-todos">
+        <div class="main">
+            <center><h3 id="alert-create"></h3></center>
+            <form class="form" id="form-create">
+                <h2>Create Todo Form</h2>
+
+                <label>Title :</label>
+                <input type="text" name="create-title" id="create-title" value="">
+                <label>Description :</label>
+                <input type="text" name="create-description" id="create-description" value="">
+                <label>Due Date :</label>
+                <input type="text" name="duedatepicker-create" id="duedatepicker-create">
+                
+                <input type="button" name="create" id="create" value="Add Todo">
+            </form>
+        </div>
+    </div>
+    <div class="container" id="cont-edit-todos">
+        <div class="main">
+            <center><h3 id="alert-edit"></h3></center>
+            <form class="form" id="form-edit">
+
+                <h2>Edit Todo's Form</h2>
+                <label>Id :</label>
+                <input type="text" name="edit-id" id="edit-id" value="" readonly>
+                <label>Title :</label>
+                <input type="text" name="edit-title" id="edit-title" value="">
+                <label>Description :</label>
+                <input type="text" name="edit-description" id="edit-description" value="">
+                <label>Due Date :</label>
+                <input type="text" name="duedatepicker-edit" id="duedatepicker-edit" value="">
+                <label>Status :</label>
+                <input type="text" name="status" id="edit-status" value="" readonly>
+                
+                <input type="button" name="edit" id="edit" value="Save Todo">
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
