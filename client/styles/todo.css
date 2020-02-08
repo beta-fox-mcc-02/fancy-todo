@@ -87,7 +87,7 @@ ul.navbar-nav {
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: 80%;
+  width: 90%;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
@@ -129,6 +129,7 @@ ul.navbar-nav {
   position: relative;
   flex: 1 1 auto;
   padding: 1rem;
+  display: flex
 }
 
 .modal-footer {
@@ -164,20 +165,19 @@ ul.navbar-nav {
   margin-bottom: 10px;
 }
 
-.modal-body {
-  display: flex;
-}
 
 .modal-body-form {
   flex: 0 0 50%;
 }
 
-.modal-body-options {
-  margin-left: 20px;
+.modal-body-nearby-places {
+  flex: 1 1 auto;
+  margin-left: 15px;
 }
 
-.label-modal-options {
-  font-weight: bolder
+.label-nearby-places {
+  font-weight: bolder;
+  width: 100%;
 }
 
 .label-checkbox {
@@ -185,7 +185,6 @@ ul.navbar-nav {
 	padding-left: 35px;
 	margin-bottom: 6px;
 	cursor: pointer;
-	font-size: 14px;
 	font-weight: 400;
 	-webkit-user-select: none;
 	-moz-user-select: none;
@@ -256,4 +255,26 @@ input[type='checkbox'][disabled] + span.checkmark {
 
 .dropdown-menu {
   left: -70px;
+}
+
+.bold {
+  font-weight: bolder
+}
+
+.color-rating {
+  color: #f5c518;
+}
+
+#sp-loader {
+  width: 100%;
+}
+
+.place-name {
+  color: #5799ef;
+}
+
+.place-address {
+  font-family: Verdana, Arial, sans-serif;
+  color: #333;
+  font-size: 13px;
 }

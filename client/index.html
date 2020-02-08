@@ -24,8 +24,6 @@
 									username
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a id="movie-favourites" class="dropdown-item" href="#">Favorites</a>
-									<div class="dropdown-divider"></div>
 									<a id="navbar-logout" class="dropdown-item" href="#">Logout</a>
 								</div>
 							</li>
@@ -116,20 +114,48 @@
 									<label>&nbsp;Completed</label>
 								</div>
 							</div>
-							<div id="todo-location" class="form-group">
-								<label>Locations</label>
-								<input type="text" id="location" name="location" class="form-control" placeholder="Enter a location">
-							</div>
-						</div>
-						<div class="modal-body-options">
 							<div class="form-group">
-								<label class="label-modal-options">Options</label>
-								<br>
 								<label class="label-checkbox">
 									<input id="options-locations" type="checkbox" class="filled-in">
 									Locations
 									<span class="checkmark"></span>
 								</label>
+								<input type="hidden" id="location">
+							</div>
+							<div id="todo-location" class="form-group">
+								<input type="text" id="search-location" name="location" class="form-control" placeholder="Enter a location">
+								<br>
+								<div id="location-detail">
+									<p>Detail Information</p>
+									<div class="form-group row">
+										<label for="name" class="col-sm-3 col-form-label bold">Name</label>
+										<div class="col-sm-9">
+											<label id="location-detail-name"></label>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="address" class="col-sm-3 col-form-label bold">Address</label>
+										<div class="col-sm-9">
+											<label id="location-detail-address"></label>
+										</div>
+									</div>
+									<div class="form-group row">
+										<label for="phone" class="col-sm-3 col-form-label bold">Phone</label>
+										<div class="col-sm-9">
+											<label id="location-detail-phone-number"></label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="modal-body-nearby-places" class="modal-body-nearby-places">
+							<div class="form-group">
+								<label class="label-nearby-places">Restaurant Nearby Places</label>
+								<br>
+								<div class="loader" id="sp-loader">
+									<img src="./images/loading.gif">
+								</div>
+								<div class="nearby-places" id="nearby-places"></div>
 							</div>
 						</div>
 					</div>

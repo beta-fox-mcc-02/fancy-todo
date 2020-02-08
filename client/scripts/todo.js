@@ -16,14 +16,32 @@ const hideForm = () => {
 }
 
 const initGooglePlaceApi = () => {
-  const input = document.getElementById('location')
+  const input = document.getElementById('search-location')
   if (input) {
     const defaultBounds = new google.maps.LatLngBounds(
       new google.maps.LatLng(-33.8902, 151.1759),
       new google.maps.LatLng(-33.8474, 151.2631));
     const searchBox = new google.maps.places.SearchBox(input, {
-      bounds: defaultBounds
+      bounds: defaultBounds,
     });
+    searchBox.addListener('places_changed', function () {
+      let places = searchBox.getPlaces();
+      if (places.length) {
+        places = places[0]
+        $('#location-detail').show()
+        $('#location-detail-name').text(places.name)
+        $('#location-detail-address').text(places.formatted_address)
+        $('#location-detail-phone-number').text(places.formatted_phone_number ? places.formatted_phone_number : '-')
+        const paramsLocation = [{
+          name: places.name,
+          address: places.formatted_address,
+          phone_number: places.formatted_phone_number ? places.formatted_phone_number : '-',
+          google_place_id: places.place_id,
+        }]
+        $('#location').val(JSON.stringify(paramsLocation))
+        getLocationDetail(places.place_id)
+      }
+    })
   }
 }
 
@@ -41,6 +59,10 @@ const openModalNewTask = () => {
   const minDate = parseDate(new Date())
   $('#due_date').attr('min', minDate)
   $('#todo-location').hide()
+  $('.modal #options-locations').prop('checked', false)
+  $('#modal-body-nearby-places').hide()
+  $('#location-detail').hide()
+  $('#sp-loader').hide()
   $('#title').val('')
   $('#description').val('')
   $('#due_date').val('')
@@ -59,6 +81,7 @@ const closeModal = () => {
 }
 
 const openModalEdit = (id) => {
+  initGooglePlaceApi()
   findTodo(id)
 }
 
@@ -71,13 +94,13 @@ $(document).ready(() => {
   let isLogin = checkLogin()
   if (isLogin) {
     findUser()
-      .then((response) => {
+      .done((response) => {
         $('#navbarDropdown').show()
         $('#header-login').addClass('hide')
         $('#navbarDropdown').text(response.user.username)
         hideForm()
         getAllTodo()
-      }).catch((err) => {
+      }).fail((err) => {
         $('.form-register').hide()
         $('.form-login').removeClass('hide').show()
         $('.todo-container').hide()
@@ -164,6 +187,10 @@ $(document).ready(() => {
       $('#todo-location').show()
     } else {
       $('#todo-location').hide()
+      $('#modal-body-nearby-places').hide()
+      $('#location').val('')
+      $('#search-location').val('')
+      $('#location-detail').hide()
     }
   })
 

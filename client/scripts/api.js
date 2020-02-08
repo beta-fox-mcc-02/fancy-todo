@@ -66,8 +66,8 @@ const login = () => {
 
 function onSignIn(googleUser) {
   $.ajax({
-    method: 'POST',
     url: 'http://localhost:3000/users/gLogin',
+    method: 'POST',
     headers: {
       token: googleUser.getAuthResponse().id_token
     }
@@ -98,7 +98,7 @@ const register = () => {
       password: $('#input-password-register').val()
     }
   })
-    .then(response => {
+    .done(response => {
       $('#form-login').show()
       $('#success-register').removeClass('hide').text(response.message)
       $('#error-register').addClass('hide')
@@ -106,7 +106,7 @@ const register = () => {
       $('#input-email-register').val('')
       $('#input-password-register').val('')
     })
-    .catch(err => {
+    .fail(err => {
       let errorMessage = ''
       for (const e of err.responseJSON.errors) {
         errorMessage += e + '\n'
@@ -135,7 +135,7 @@ const getAllTodo = () => {
       Authorization: 'Bearer ' + localStorage.token
     }
   })
-    .then(todos => {
+    .done(todos => {
       if (todos.data.length) {
         let contentHtml = '<h3>Todo List</h3>'
         contentHtml += '<br></br>'
@@ -174,7 +174,7 @@ const getAllTodo = () => {
         $('#todo-list').html('<h1>You have no todo list</h1>')
       }
     })
-    .catch(err => {
+    .fail(err => {
       $('#todo-list').html()
     })
 }
@@ -183,6 +183,7 @@ const createTodo = () => {
   const title = $('#title').val()
   const description = $('#description').val()
   const due_date = $('#due_date').val()
+  const location = $('#location').val()
   $.ajax({
     url: 'http://localhost:3000/todos',
     method: 'POST',
@@ -192,14 +193,15 @@ const createTodo = () => {
     data: {
       title,
       description,
-      due_date
+      due_date,
+      location
     }
   })
-    .then(newTodo => {
+    .done(newTodo => {
       getAllTodo()
       closeModal()
     })
-    .catch(err => {
+    .fail(err => {
       console.log(err)
     })
 }
@@ -212,12 +214,34 @@ const findTodo = (id) => {
       Authorization: 'Bearer ' + localStorage.token
     }
   })
-    .then(todo => {
+    .done(todo => {
       todo = todo.data
       if (todo.status) {
         $('#status').prop('checked', true)
       } else {
         $('#status').prop('checked', false)
+      }
+      if (todo.Location) {
+        $('#modal-body-nearby-places').show()
+        $('#search-location').val(todo.Location.name)
+        $('#location').val(JSON.stringify([todo.Location]))
+        $('#options-locations').prop('checked', true)
+        $('#location-detail').show()
+        $('#location-detail-name').text(todo.Location.name)
+        $('#location-detail-address').text(todo.Location.address)
+        $('#location-detail-phone-number').text(todo.Location.phone_number)
+        $('#todo-location').show()
+        getLocationDetail(todo.Location.google_place_id)
+      } else {
+        $('#modal-body-nearby-places').hide()
+        $('#search-location').val('')
+        $('#todo-location').hide()
+        $('#search-location').val('')
+        $('#location-detail').hide()
+        $('#options-locations').prop('checked', false)
+        $('#location-detail-name').text('')
+        $('#location-detail-address').text('')
+        $('#location-detail-phone-number').text('')
       }
       $('#todo-status-form').removeClass('hide')
       $('#modal-title').text('Edit Task')
@@ -228,7 +252,7 @@ const findTodo = (id) => {
       $('#modal-add-edit').show()
       $('#todo-id').val(todo.id)
     })
-    .catch(err => {
+    .fail(err => {
       console.log(err)
     })
 }
@@ -238,6 +262,7 @@ const updateTodo = (id) => {
   const description = $('#description').val()
   const due_date = $('#due_date').val()
   const status = $('#status').is(":checked")
+  const location = $('#location').val()
   $.ajax({
     url: 'http://localhost:3000/todos/' + id,
     method: 'PATCH',
@@ -248,7 +273,8 @@ const updateTodo = (id) => {
       title,
       description,
       due_date,
-      status
+      status,
+      location
     }
   })
     .then(todo => {
@@ -268,11 +294,67 @@ const deleteTodo = (id) => {
       Authorization: 'Bearer ' + localStorage.token
     },
   })
-    .then(todo => {
+    .done(todo => {
       $('.modal').hide()
       getAllTodo()
     })
-    .catch(err => {
+    .fail(err => {
+      console.log(err)
+    })
+}
+
+const getNearbyPlaces = (parameters) => {
+  $('#sp-loader').show()
+  $('#nearby-places').html('')
+  $.ajax({
+    url: 'http://localhost:3000/locations/nearby',
+    method: 'GET',
+    data: {
+      radius: parameters.radius,
+      type: parameters.type,
+      location: parameters.location
+    }
+  })
+    .done(nearbyPlaces => {
+      let contentHtml = ''
+      const data = [...nearbyPlaces.results].slice(0, 5)
+      for (const d of data) {
+        contentHtml += '<div class="place-name">' + d.name + '</div>'
+        contentHtml += '<div class="place-address">' + d.vicinity + '</div>'
+        if (d.rating) {
+          contentHtml += '<div class="place-rating"><i class="fa fa-star color-rating"></i>&nbsp;' + d.rating + '</div>'
+        }
+        contentHtml += '<br>'
+      }
+      $('#nearby-places').html(contentHtml)
+      $('#sp-loader').hide()
+      $('#modal-body-nearby-places').show()
+    })
+    .fail(err => {
+      $('#nearby-places').html('')
+    })
+}
+
+const getLocationDetail = (place_id) => {
+  $.ajax({
+    url: 'http://localhost:3000/locations/detail',
+    method: 'GET',
+    data: {
+      place_id
+    }
+  })
+    .done(detail => {
+      const data = detail.result
+      const geometry = data.geometry.location
+      const location = [geometry.lat, geometry.lng].join(',')
+      const parameters = {
+        location,
+        radius: 1500,
+        type: 'restaurant'
+      }
+      getNearbyPlaces(parameters)
+    })
+    .fail(err => {
       console.log(err)
     })
 }
