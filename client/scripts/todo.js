@@ -146,12 +146,16 @@ $(document).ready(() => {
     e.preventDefault();
     $('#form-login').hide()
     $('#form-register').show()
+    $('div.alert').hide()
+    $('#input-email-login').val('')
+    $('#input-password-login').val('')
   })
 
   $('#btn-anchor-login').on('click', (e) => {
     e.preventDefault();
     $('#form-login').show()
     $('#form-register').hide()
+    $('div.alert').hide()
   })
 
   $('#form-login').on('submit', (e) => {

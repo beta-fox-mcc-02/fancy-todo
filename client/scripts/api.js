@@ -35,6 +35,7 @@ const loginFailed = (err) => {
     errorMessages += e + '\n'
   }
   $('#error-login').removeClass('hide').text(errorMessages.substring(0, errorMessages.length))
+  $('#error-login').show()
 }
 
 const login = () => {
@@ -101,6 +102,7 @@ const register = () => {
     .done(response => {
       $('#form-login').show()
       $('#success-register').removeClass('hide').text(response.message)
+      $('#success-register').show()
       $('#error-register').addClass('hide')
       $('#form-register').hide()
       $('#input-email-register').val('')
