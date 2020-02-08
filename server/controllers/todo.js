@@ -6,6 +6,7 @@ const axios = require("axios");
 
 class TodoController {
   static findAll(req, res, next) {
+    console.log(req.UserId, "ini req.UserId")
     Todo.findAll({
         where: {
           UserId: req.UserId
@@ -78,7 +79,8 @@ class TodoController {
       }, {
         where: {
           id: id
-        }
+        },
+        returning: true
       })
       .then(data => {
         res.status(200).json({
@@ -87,6 +89,7 @@ class TodoController {
         });
       })
       .catch(err => {
+        console.log(err)
         next(err);
       });
   }
@@ -120,10 +123,10 @@ class TodoController {
   }
 
   static weather(req, res, next) {
-    let city = req.query.query;
+    // let city = req.query.query;
     axios({
         method: "get",
-        url: `https://www.metaweather.com/api/location/search/?query=${city}`
+        url: `https://www.metaweather.com/api/location/1047378`
       })
       .then(response => {
         res.status(200).json({

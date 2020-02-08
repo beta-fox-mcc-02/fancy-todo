@@ -3,7 +3,11 @@ const {
 } = require("../models/");
 const hashBcrypt = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
-const privateKey = "secret";
+const privateKey = process.env.PRIVATEKEY;
+const {
+    OAuth2Client
+} = require("google-auth-library");
+const client = new OAuth2Client(process.env.CLIENT_ID);
 
 class UserController {
     static register(req, res, next) {
@@ -33,7 +37,6 @@ class UserController {
                 }
             })
             .then(data => {
-                console.log(data.password);
                 if (data) {
                     let passwordCheck = hashBcrypt.check(password, data.password);
                     console.log(passwordCheck)
@@ -50,7 +53,7 @@ class UserController {
                     } else {
                         let err = {
                             err: "WRONG LOGIN DATA",
-                            msg: "USERNAME OR PASSWORD IS WRONG"
+                            msg: "EMAIL OR PASSWORD IS WRONG"
                         };
                         next(err);
                     }
@@ -59,11 +62,53 @@ class UserController {
             .catch(err => {
                 let error = {
                     err: "WRONG LOGIN DATA",
-                    msg: "USERNAME OR PASSWORD IS WRONG"
+                    msg: "EMAIL OR PASSWORD IS WRONG"
                 };
                 next(error);
             });
     }
+
+    static googleLogin(req, res, next) {
+        // console.log(req.headers.id_token)
+        console.log(process.env.CLIENT_ID)
+        let payload = "";
+        client.verifyIdToken({
+                idToken: req.headers.id_token,
+                audience: process.env.CLIENT_ID
+            })
+            .then(result => {
+                console.log(result)
+                payload = result.payload;
+                return User.findOne({
+                    where: {
+                        email: payload.email
+                    }
+                });
+            })
+            .then(data => {
+                if (!data) {
+                    return User.create({
+                        email: payload.email,
+                        password: process.env.GOOGLE_PASSWORD
+                    });
+                } else return data;
+            })
+            .then(data => {
+                let payload = {
+                    id: data.id,
+                    email: data.email
+                };
+                let token = jwt.sign(payload, privateKey);
+                res.status(200).json({
+                    token
+                });
+            })
+            .catch(err => {
+                console.log(err)
+                next(err);
+            });
+    }
 }
+
 
 module.exports = UserController
