@@ -16,7 +16,7 @@ function showTodo(todos) {
         <td>${new Date(el.due_date).toDateString()}</td>
         <td>
           <a href="#" class="edit-todos" onclick="configUpdate(${el.id})">Edit</a> |
-          <a href="#" class="delete-todos" onclick="delete(${el.id})">Delete</a> 
+          <a href="#" class="delete-todos" onclick="configDelete(${el.id})" data-toggle="modal" data-target="#delete-modal">Delete</a> 
         </td>
       </tr>
       `)
@@ -58,6 +58,13 @@ function configUpdate(id) {
       console.log(err.response);
     })
   console.log(id);
+}
+
+// delete todo
+let idDelete;
+function configDelete(id) {
+  idDelete = id;
+  console.log(idDelete);
 }
 
 function dateUpdateForm(inpDate) {
@@ -348,6 +355,24 @@ $(document).ready(() => {
         todosPage();
       })
       .catch(err => {
+        console.log(err.response);
+        getErrorMessages(err);
+      })
+  })
+
+  // delete todo
+  $('#btn-delete-todo').on('click', () => {
+    destroy(idDelete)
+      .then(res => {
+        console.log(res.data);
+        todosPage()
+        return res
+      })
+      .then(res => {
+        $('#delete-modal').modal('toggle');
+      })
+      .catch(err => {
+        todosPage();
         console.log(err.response);
         getErrorMessages(err);
       })

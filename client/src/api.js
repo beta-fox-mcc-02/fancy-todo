@@ -57,6 +57,17 @@ function update(id, data) {
   })
 }
 
+
+function destroy(id) {
+  return axios({
+    method: 'delete',
+    url: `http://localhost:3000/todos/${id}`,
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
+}
+
 // authenticate with backend for google sign in
 function googleSignIn(access_token) {
   return axios({
@@ -67,3 +78,4 @@ function googleSignIn(access_token) {
     }
   })
 }
+
