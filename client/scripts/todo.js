@@ -55,6 +55,7 @@ const parseDate = (date) => {
 }
 
 const openModalNewTask = () => {
+  $('#search-location').val('')
   initGooglePlaceApi()
   const minDate = parseDate(new Date())
   $('#due_date').attr('min', minDate)
