@@ -14,6 +14,8 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <!-- custom CSS -->
   <link rel="stylesheet" href="./style/style.css">
+  <!-- font awesome -->
+  <script src="https://kit.fontawesome.com/b94ec65846.js" crossorigin="anonymous"></script>
   <title>Todo</title>
 </head>
 
@@ -21,7 +23,7 @@
 
   <!-- navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#" id="fancy-todo-nav">Fancy Todo</a>
+    <a class="navbar-brand" href="#" id="fancy-todo-nav"><i class="fas fa-home"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -30,7 +32,7 @@
     <div class="nav collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="nav navbar-nav mx-3 ml-auto">
         <li class="nav-item" id="logout">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i></a>
         </li>
       </ul>
     </div>
@@ -111,14 +113,14 @@
       <h1 class="text-center">My Todos</h1>
       <p class="text-center current-weather mb-5"></p>
       <div class="">
-        <button type="button" class="btn btn-dark mb-1" id="btn-create-form">Create Todo</button>
+        <button type="button" class="btn btn-dark mb-1" id="btn-create-form">Create</button>
         <form class="form-inline my-2 my-lg-0 d-inline-block float-right" id="search-by-id-form">
           <input class="form-control mr-sm-2" type="search" placeholder="Search by id" aria-label="Search" autofocus
             id="search-by-id-input">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
         </form>
       </div>
-      <table class="table mt-1" id="todos">
+      <table class="table mt-1 text-center" id="todos">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>

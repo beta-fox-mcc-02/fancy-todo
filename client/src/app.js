@@ -4,7 +4,7 @@ function showTodo(todos) {
     const weather = todos.data.data[0].currentWeather;
     $('.current-weather').html(`<p>Weather today: <strong>${weather.toUpperCase()}</strong></p>`);
     todos.data.data.forEach((el, index) => {
-      const todoStatus = el.status ? 'Completed' : 'Uncomplete';
+      const todoStatus = el.status ? '<i class="fas fa-check"></i>' : '<i class="fas fa-times"></i>';
       $('#todos tbody').append(`
       <tr>
         <th scope="row">${el.id}</th>
@@ -15,8 +15,8 @@ function showTodo(todos) {
         </td>
         <td>${formatDate(el.due_date)}</td>
         <td>
-          <a href="#" class="edit-todos" onclick="configUpdate(${el.id})">Edit</a> |
-          <a href="#" class="delete-todos" onclick="configDelete(${el.id})" data-toggle="modal" data-target="#delete-modal">Delete</a> 
+          <a href="#" class="edit-todos" onclick="configUpdate(${el.id})"><i class="fas fa-edit"></i></a> |
+          <a href="#" class="delete-todos" onclick="configDelete(${el.id})" data-toggle="modal" data-target="#delete-modal"><i class="fas fa-trash-alt"></i></a> 
         </td>
       </tr>
       `)
