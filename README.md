@@ -313,13 +313,13 @@
 
 ---
 
-**Login User**
+**Google Sign In**
 ----
-  Login a user.
+  Login a user using google sign in.
 
 * **URL**
 
-  /login
+  /googleSignIn
 
 * **Method:**
 

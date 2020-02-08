@@ -298,12 +298,6 @@ $(document).ready(() => {
 
   // fancy-todo-nav is clicked
   $('#fancy-todo-nav').on('click', () => {
-    // err.response.data.message
-    // if(!localStorage.access_token){
-    //   registerPage();
-    //   $('#error-message').text(`You`);
-    //   $('#error-alert').show();
-    // }
     todosPage();
   })
 
@@ -319,7 +313,6 @@ $(document).ready(() => {
     const email = $('#register-input-email').val();
     const password = $('#register-input-password').val();
     const data = { email, password };
-    console.log(data);
     register(data)
       .then(user => {
         loginPage();
@@ -341,7 +334,6 @@ $(document).ready(() => {
     const email = $('#login-input-email').val();
     const password = $('#login-input-password').val();
     const data = { email, password };
-    // loadingPage();
     login(data)
       .then(response => {
         localStorage.access_token = response.data.access_token;
