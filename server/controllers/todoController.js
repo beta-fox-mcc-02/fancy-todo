@@ -156,8 +156,8 @@ module.exports = {
     Todo.findAll({
       where: {
         [Op.or]: [
-          { title: { [Op.iLike]: `%${words}` } },
-          { description: { [Op.iLike]: `%${words}` } }
+          { title: { [Op.iLike]: `%${words}%` } },
+          { description: { [Op.iLike]: `%${words}%` } }
         ]
       }, include: User
     })
