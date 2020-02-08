@@ -15,7 +15,7 @@ function showTodo(todos) {
         </td>
         <td>${new Date(el.due_date).toDateString()}</td>
         <td>
-          <a href="#" class="edit-todos" onclick="update(${el.id})">Edit</a> |
+          <a href="#" class="edit-todos" onclick="configUpdate(${el.id})">Edit</a> |
           <a href="#" class="delete-todos" onclick="delete(${el.id})">Delete</a> 
         </td>
       </tr>
@@ -37,9 +37,11 @@ function showTodo(todos) {
 }
 
 // form update todo
-function update(id) {
+let idUpdate;
+function configUpdate(id) {
   findOne(id)
     .then(todo => {
+      idUpdate = id;
       console.log('ini todo', todo);
       const date = dateUpdateForm(todo.data.data.due_date);
       $('#title-update-form').val(`${todo.data.data.title}`);
@@ -51,7 +53,6 @@ function update(id) {
     })
     .then(todo => {
       updatePage();
-      const title =
     })
     .catch(err => {
       console.log(err.response);
@@ -328,11 +329,28 @@ $(document).ready(() => {
 
   // cancel update todo
   $('#cancel-update-form').on('click', () => {
-    clearInput();
     todosPage();
   })
 
   // update todo
+  $('#update-form').on('submit', e => {
+    e.preventDefault();
 
+    const title = $('#title-update-form').val();
+    const description = $('#desc-update-form').val();
+    const due_date = $('#due-date-update-form').val();
+    const status = $('input[name="radio-update-form"]:checked').val();
+    console.log(title, description, due_date, status);
+    const data = { title, description, status, due_date };
+    update(idUpdate, data)
+      .then(res => {
+        console.log(res.data);
+        todosPage();
+      })
+      .catch(err => {
+        console.log(err.response);
+        getErrorMessages(err);
+      })
+  })
 
 })
