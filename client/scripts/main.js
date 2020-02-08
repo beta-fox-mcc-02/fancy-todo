@@ -1,5 +1,10 @@
 let token = localStorage.getItem('token')
 let gToken = localStorage.getItem('gToken')
+let welcome = localStorage.getItem('welcome')
+
+if (!token) {
+    localStorage.setItem('welcome', 'welcome')
+}
 
 function homePage() {
     if (token) {
@@ -18,6 +23,8 @@ function homePage() {
         $('#edit-todo').hide()
         $('#welcome').show()
         $('#catet-btn').hide()
+        $('#nav-holiday').hide()
+        $('#holidays').hide()
     }
 }
 
@@ -54,6 +61,9 @@ function afterGSignIn(e) {
 }
 
 $(document).ready(() => {
+    $('#holidays').hide()
+    $('#nav-home').hide()
+
     if (token) {
         $('#nav-register').hide()
         $('#nav-login').hide()
@@ -81,19 +91,38 @@ $(document).ready(() => {
         logout()
     })
 
+    $('#nav-g-logout').on('click', (e) => {
+        e.preventDefault()
+        signOut()
+    })
+
     fetch()
     
     homePage()
 
     $('#nav-home').on('click', () => {
-        $('#nav-add-todo').show()
-        $('#home').show()
-        $('#add-todo').hide()
-        $('#edit-todo').hide()
-        $('#list-todo').show()
+        if (welcome) {
+            $('#home').hide()
+            $('#welcome').show()
+            $('#register').hide()
+            $('#login').hide()
+            $('#add-todo').hide()
+            $('#nav-holiday').hide()
+            $('#holidays').hide()
+        } else {
+            $('#welcome').hide()
+            $('#home').show()
+            $('#list-todo').show()
+            $('#nav-add-todo').show()
+            $('#nav-holiday').show()
+            $('#add-todo').hide()
+            $('#edit-todo').hide()
+            $('#holidays').hide()
+        }
     })
 
     $('#nav-login').on('click', () => {
+        $('#nav-home').show()
         $('#register').hide()
         $('#home').hide()
         $('#add-todo').hide()
@@ -123,11 +152,13 @@ $(document).ready(() => {
         login()
     })
 
-    $('#form-register').on('submit', () => {
+    $('#form-register').on('submit', (event) => {
+        event.preventDefault()
         register()
     })
 
-    $('#form-add-todo').on('submit', () => {
+    $('#form-add-todo').on('submit', (e) => {
+        e.preventDefault()
         addTodo()
     })
 
@@ -136,8 +167,19 @@ $(document).ready(() => {
         $('#nav-home').show()
         $('#welcome').hide()
         $('#nav-add-todo').show()
+        $('#home').show()
         $('#list-todo').show()
+        $('#nav-holiday').show()
+        $('#holidays').hide()
+
     })
 
-    // afterGSignIn()
+    $('#nav-holiday').on('click', () => {
+        getHolidays()
+        $('#nav-home').show()
+        $('#nav-add-todo').hide()
+        $('#nav-holiday').hide()
+        $('#holidays').show()
+        $('#list-todo').hide()
+    })
 })

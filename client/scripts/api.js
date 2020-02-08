@@ -5,28 +5,32 @@ function fetch() {
             token: localStorage.getItem('token')
         }
     })
-        .done(todos => {
-            let todoList = todos.data
-            console.log(todoList)
+        .done(response => {
+            $('#todo-content').html('')
+            let todoList = response.data
             todoList.forEach(todo => {
-                $('#list-todo').append(`
-                <tbody>
+                let status = todo.status
+                if (status === false) {
+                    status = `<button class="btn btn-dark" onclick="statusHandle(${todo.id})">Udah dong</button>`
+                } else {
+                    status = 'Mantab!'
+                }
+                $('#todo-content').append(`
                 <tr>
                 <td>${todo.title}</td>
                 <td>${todo.description}</td>
                 <td align="center">${new Date(todo.due_date).toDateString()}</td>
+                <td align="center">${status}</td>
                 <td align="center">
                     <ul>
                         <i class="far fa-edit ngaps-icon" onclick="editTodoForm(${todo.id})"></i> |
                         <i class="far fa-trash-alt ngaps-icon" onclick="deleteTodo(${todo.id})"></i>
                     </ul>
                 </td>
-                </tr>
-                </tbody>`)
+                </tr>`)
             });
         })
         .fail(err => {
-            console.log('error')
             console.log(err)
         })
         .always(_ => {
@@ -35,11 +39,6 @@ function fetch() {
 }
 
 function addTodo() {
-    event.preventDefault()
-    console.log($('#add-title').val())
-    console.log($('#add-description').val())
-    console.log($('#add-due-date').val())
-
     $.ajax("http://localhost:3000/todos", {
         method: 'POST',
         headers: {
@@ -53,8 +52,12 @@ function addTodo() {
     })
         .done(response => {
             console.log(response)
-            location.reload(true)
-            homePage()
+
+            fetch()
+            $('#home').show()
+            $('#list-todo').show()
+            $('#add-todo').hide()
+            $('#nav-add-todo').show()
         })
         .fail(err => {
             console.log(err)
@@ -71,6 +74,7 @@ function editTodoForm(id) {
     $('#add-todo').hide()
     $('#login').hide()
     $('#edit-todo').show()
+    $('#holidays').hide()
 
     $.ajax('http://localhost:3000/todos/' +  id, {
         method: 'GET',
@@ -81,11 +85,23 @@ function editTodoForm(id) {
     })
         .done(response => {
             let todo = response.data
+            let date = todo.due_date
+
+            let dateToUpdate = ''
+
+            for (let i = 0; i < date.length; i++) {
+                if (i <= 9) {
+                    dateToUpdate += date[i]
+                }
+            }
+            
             
             $('#edit-todo').append(`
             <h2>Edit Todo</h2>
 
-            <form class="ngaps-form" id="form-edit-todo" onsubmit="editTodo(${id})">
+            <form class="ngaps-form" id="form-edit-todo">
+                <input type="hidden" value="${id}">
+
                 <label for="title">Title:</label><br>
                 <input type="text" name="title" id="edit-title" value="${todo.title}" required><br><br>
                 
@@ -93,9 +109,9 @@ function editTodoForm(id) {
                 <input type="text" name="description" id="edit-description" value="${todo.description}"><br><br>
 
                 <label for="due-date">Due-date:</label><br>
-                <input type="date" name="due-date" id="edit-due-date" value="${todo.due_date}"><br><br>    
+                <input type="date" name="due-date" id="edit-due-date" value="${dateToUpdate}" required><br><br>    
                     
-                <input type="submit" value="Edit Todo" id="submit">
+                <input type="submit" value="Edit Todo" id="submit" onclick="editTodo(${id})">
             </form>
             `)
         })
@@ -109,11 +125,6 @@ function editTodoForm(id) {
 
 function editTodo(id) {
     event.preventDefault()
-    console.log(id)
-
-    console.log($('#edit-title').val())
-    console.log($('#edit-description').val())
-    console.log($('#edit-due-date').val())
 
     $.ajax('http://localhost:3000/todos/' +  id, {
         method: 'PUT',
@@ -127,9 +138,14 @@ function editTodo(id) {
         }
     })
         .done(response => {
-            console.log(response)
-            location.reload(true)
-            homePage()
+            fetch()
+            $('#home').show()
+            $('#list-todo').show()
+            $('#add-todo').hide()
+            $('#nav-add-todo').show()
+            $('#holidays').hide()
+            $('#edit-todo').hide()
+            $('#holidays').hide()
         })
         .fail(err => {
             console.log(err)
@@ -140,8 +156,6 @@ function editTodo(id) {
 }
 
 function deleteTodo(id) {
-    console.log(id)
-
     $.ajax('http://localhost:3000/todos/' +  id, {
         method: 'DELETE',
         headers: {
@@ -150,13 +164,68 @@ function deleteTodo(id) {
     })
         .done(response => {
             console.log(response)
-            location.reload(true)
-            homePage()
+            fetch()
+            $('#home').show()
+            $('#list-todo').show()
+            $('#add-todo').hide()
+            $('#nav-add-todo').show()
         })
         .fail(err => {
             console.log(err)
         })
         .always(_ => {
             console.log('complete delete todo')
+        })
+}
+
+function getHolidays() {
+    $.ajax("http://localhost:3000/holidays", {
+        method: 'GET'   
+    })
+        .done(response => {
+            let holidays = response.data
+            $('#holidays-content').html('')
+            holidays.forEach(holiday => {
+                $('#holidays-content').append(`
+                    <tr>
+                    <td>${new Date(holiday.date.iso).toDateString()}</td>
+                    <td>${holiday.name}</td>
+                    </tr>`)
+            })
+        })
+        .fail(err => {
+            console.log(err)
+        })
+        .always(_ => {
+            console.log('complete fetch holidays')
+        })
+}
+
+function statusHandle(id) {
+    event.preventDefault()
+
+    $.ajax('http://localhost:3000/todos/' +  id, {
+        method: 'PUT',
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        data: {
+            status: true
+        }
+    })
+        .done(response => {
+            fetch()
+            $('#home').show()
+            $('#list-todo').show()
+            $('#add-todo').hide()
+            $('#nav-add-todo').show()
+            $('#holidays').hide()
+            $('#edit-todo').hide()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+        .always(_ => {
+            console.log('complete update todo')
         })
 }

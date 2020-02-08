@@ -13,6 +13,9 @@
   SECRET=
   PORT=
   SALT=
+  CLIENT_ID=
+  CLIENT_SECRET=
+  SECRET_PASSWORD=
   ```
 
 * **Third Party API Key**

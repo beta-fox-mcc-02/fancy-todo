@@ -1,4 +1,5 @@
 const {Todo} = require('../models')
+const thirdPartyApiController = require('../controllers/thirdPartyApiController')
 
 class TodoController {
     static todoFindAll(req, res, next) {
@@ -9,6 +10,7 @@ class TodoController {
             order: [['id', 'ASC']]
         })
             .then(todos => {
+                console.log(todos)
                 res.status(200).json({
                     data: todos,
                     msg: 'success fetch all todos'
@@ -29,6 +31,7 @@ class TodoController {
             UserId: req.decoded.id
         })
             .then(data => {
+                console.log(data)
                 res.status(201).json({
                     data: data,
                     msg: "success create todo"
@@ -66,12 +69,17 @@ class TodoController {
     static todoUpdate(req, res, next) {
         let id = req.params.id
         let updated = req.body
+        let status = false
+        if (updated.status) {
+            status = true
+        }
         
         Todo.update(
             {
                 title: updated.title,
                 description: updated.description,
-                status: updated.status
+                due_date: updated.due_date,
+                status: status
             },
             {
                 where: {
@@ -91,7 +99,7 @@ class TodoController {
                 }
             })
             .catch(err => {
-                console.log(err)
+                console.log('error update =========', err)
                 next(err)
             })
     }

@@ -46,9 +46,7 @@
                 <li class="ngaps-icon" id="nav-login">sign in</li>
                 <li class="ngaps-icon" id="nav-register">sign up</li>
                 <li class="ngaps-icon" id="nav-logout">sign out</li>
-                <li class="ngaps-icon" id="nav-g-logout">
-                    <a class="gSignOutBtn" href="#" onclick="signOut();">Sign out</a>
-                </li>
+                <li class="ngaps-icon" id="nav-g-logout">Sign out</li>
             </ul>
         </div>
     </div>
@@ -105,15 +103,18 @@
     <!-- todo list -->
     <div id="home">
         <div class="container">
+            <p id="nav-holiday">kapan libur?</p>
             <table id="list-todo" class="table table-hover centre list-todo">
                 <thead>
                     <tr align="center">
                         <th>Todo</th>
                         <th>Description</th>
                         <th>Due-date</th>
+                        <th>Status</th>
                         <th>Diapain</th>
                     </tr>
                 </thead>
+                <tbody id="todo-content"></tbody>
             </table>
         </div>
     </div>
@@ -138,5 +139,20 @@
 
     <!-- form edit todo -->
     <div id="edit-todo" class="ngaps-form-container"></div>
+
+    <!-- holidays -->
+    <div id="holidays">
+        <div class="container">
+            <table class="table table-hover centre list-todo">
+                <thead>
+                    <tr align="center">
+                        <th>Date</th>
+                        <th>Event</th>
+                    </tr>
+                </thead>
+                <tbody id="holidays-content"></tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
