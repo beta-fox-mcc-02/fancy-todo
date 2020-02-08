@@ -9,7 +9,8 @@ class TodoController {
         user_id: req.decoded
       },
       order: [
-        ['id', 'ASC']
+        ['status', 'DESC'],
+        ['due_date', 'ASC']
       ]
     })
       .then(todos => {

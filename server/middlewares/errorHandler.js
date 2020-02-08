@@ -36,7 +36,6 @@ const errorHandler = (err, req, res, next) => {
     }
     res.status(status).json(errorObj)
   } else {
-    console.log(err)
     errorObj.message = 'Internal Server Error'
     errorObj.errors.push(err.message || 'Internal Server Error')
     res.status(err.status || 400).json(errorObj)

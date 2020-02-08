@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
 					notEmpty: {
 						args: true,
 						msg: 'Email is required'
+					},
+					len: {
+						args: [8],
+						msg: 'Password minimum 8 characters'
 					}
 				}
 			},
@@ -52,6 +56,10 @@ module.exports = (sequelize, DataTypes) => {
 					notEmpty: {
 						args: true,
 						msg: 'Username is required'
+					},
+					len: {
+						args: [6],
+						msg: 'Username minimum 6 characters'
 					}
 				}
 			}

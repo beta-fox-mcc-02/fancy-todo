@@ -6,7 +6,11 @@ class LocationController {
     const input = req.query.search
     axios({
       method: 'GET',
-      url: `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${process.env.API_KEY}&input=${input}`,
+      url: `https://maps.googleapis.com/maps/api/place/autocomplete/json`,
+      params: {
+        key: process.env.API_KEY,
+        input: input
+      },
       responseType: 'json'
     })
       .then((locations) => {
