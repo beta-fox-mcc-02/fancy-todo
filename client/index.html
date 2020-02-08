@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="818296196072-bt1ickq4r36nl1r9jis0cds3m68ajra9.apps.googleusercontent.com">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Todo List</title>
+  </head>
+  <body>
+        <div id="nav-home">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">TODO</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav" >
+                        <li class="nav-item" style="margin:0 10px">
+                            <a class="register" href="#">REGISTER</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="login" href="#">LOGIN</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div id="nav-user">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">TODO</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav" >
+                            <li class="nav-item" style="margin:0 10px">
+                                <a id="nav-homeUser" class="home" href="#">Home</a>
+                            </li>
+                            <li class="nav-item" style="margin:0 10px">
+                                <a id="nav-todoList" class="todoList" href="#">Todo List</a>
+                            </li>
+                            <li class="nav-item" style="margin:0 10px">
+                                <a id="nav-addTodo" class="addTodo" href="#">Add Todo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a  id="logout" class="logout" href="#">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+
+        <div id="welcome">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4">Welcome To TODO LIST APPS</h1>
+                    <p class="lead">Check list and update your Todo List</p>
+                </div>
+            </div>
+        </div>
+        
+        <div id="eror" class="alert alert-primary" role="alert">
+                
+        </div>
+
+        <div id="register" >
+            <center>
+                <form style="width:25%;">
+                    <h2>Register</h2>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" id="emailRegister" class="form-control"  aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" id="passwordRegister" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <h2 style="margin: 30px auto">OR</h2>
+                <div id="register-g-sign" class="g-signin2" data-onsuccess="onSignIn"></div>
+            </center>
+        </div>
+
+        <div id="login" >
+            <center>
+                <form style="width:25%;">
+                    <h2>Login</h2>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" id="emailLogin" class="form-control" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" id="passwordLogin" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <h2 style="margin: 30px auto">OR</h2>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <!-- <a href="#" onclick="signOut();">Sign out</a> -->
+            </center>
+        </div>
+
+        
+
+        <div id="content-todo" style="margin-top:30px;">
+            <div class="container">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Due Date</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listdata">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="add-todo" >
+            <center>
+                <form style="width:25%;">
+                    <h2>Add Todo</h2>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <input type="text" id="description" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="due_Date">Due Date</label>
+                        <input type="date" id="due_date" class="form-control">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </center>
+        </div>
+        
+        <div id="update-todo">
+            
+        </div>
+        
+        <!-- <div id="error-hendler"> -->
+            
+        <!-- </div> -->
+        
+        <div id="public-holiday">
+            <section>
+                <div class="leftBox">
+                <div class="content">
+                    <h1>PLANNING YOUR TODO LIST BEFORE HOLIDAY</h1>
+                    <p>Banyak orang beranggapan bahwa membuat to-do-list hanya membuang-buang waktu. Membuat list harian kesannya memang hal yang mudah dan sepele, namun jangan salah ada banyak manfaat lho dari sekadar menulis daftar pekerjaan kita untuk satu hari ke depan. Simak manfaat to-do-list berikut :
+                            <br><br>
+                            1. Lebih terorganisir
+                            Tidak sedikit yang merasakan kesulitan menyelesaikan tumpukan tugas dalam satu hari. Selain bingung harus mulai dari mana, tugas yang terlanjur menggung membuat perasaan jadi malas. Seharusnya hal ini tidak perlu terjadi kalau kita sudah membuat to-do-list harian secara cermat. Tidak hanya sekadar dibuat tapi juga harus bertanggung jawab untuk melakukannya.
+                            <br><br>
+                            2. Lebih produktif
+                            Dalam membuat list kegiatan harian biasanya kita akan membuat skala prioritas dari yang terpenting hingga kurang penting. Dengan begini kita akan terhindar dari kegiatan yang hanya membuang-buang waktu. Rasa puas akan didapat setelah kita berhasil mentelesaikan semua tepat pada waktunya.
+                            <br><br>
+                            3. Meningkatkan memori
+                            Sesekali lupa sih wajar, tapi kalau sering lupa bagaimana ya? Lupa akan hal penting selain merugikan diri sendiri juga bisa merugikan pihak lain. Lupa akan adanya meeting ataupun pertemuan penting dengan client bisa merusak hubungan kerja. Ya, takut lupa akan hal penting bisa kita cegah dengan membuat memo di handphone dengan menyetel jadwal pengingat satu hari sebelumnya atau di pagi hari sebelum beraktivitas. Sehingga hal penting yang sudah terjadwal sejak jauh hari bisa kita masukkan dalam to-do-list harian kita.
+                            <br><br>
+                            4. Alat motivasi
+                            Pekerjaan demi pekerjaan yang sudah terselesaikan dengan baik akan kita coret dalam list kegiatan harian kita. Sehingga tersisa beberapa pekerjaan lagi yang menunggu diselesaikan. Melihat banyaknya list yang sudah kita coret akan memotivasi kita untuk menyelesaikan tugas selanjutnya dengan sebaik-baiknya. Bahkan kemampuan kita dalam menyelesaikan semuanya tepat waktu akan memotivasi kita untuk dalam menyelesaikan to-do-list hari berikutnya.
+                            <br><br>
+                            5. Melatih kedisiplinan
+                            Semua list kegiatan harian yang kita buat sudah melalui rangkaian pemikiran secara matang. Menunda-nunda serta melalaikan sedikit saja pekerjaan akan berimbas terhadap pekerjaan lainnya. Dengan mengikuti pakem yang ada kita akan berlatih kedisiplinan untuk menyelesaikan segala sesuatu tepat pada waktuny.</p>
+                </div>
+                </div>
+                <div class="events">
+                <div id="year">
+                    <h1></h1>
+                </div>
+                <ul id="dating">
+                </ul>
+                </div>
+            </section>
+        </div>
+        
+        
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
