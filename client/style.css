@@ -1,0 +1,79 @@
+input#due-add {
+  width: 265px;
+}
+
+body{
+  background-image: url("https://c.pxhere.com/photos/5c/ba/black_and_white_camera_desk_magazines_organize_organized_pencils_work-916980.jpg!d");
+  background-size: cover;
+}
+div#div-add {
+  width: 80%;
+  margin: auto;
+  padding-bottom: 20px;
+}
+
+div#div-edit {
+  width: 50%;
+  background-color:white;
+  margin: auto;
+  padding-bottom: 20px;
+  border-radius: 7px;
+  height: 475px;
+}
+
+#quote {
+  width: 50%;
+  background-color:rgba(220,220,220, 0.5);
+  margin: 200px auto;
+  border-radius: 7px;
+}
+
+#div-login {
+  width: 50%;
+  background-color: white;
+  border-radius: 10px;
+  height: 400px;
+}
+
+#div-register {
+  width: 50%;
+  background-color: white;
+  border-radius: 10px;
+  height: 350px;
+}
+
+#div-f1{
+  background-color: white;
+  border-radius: 7px;
+  height: 300px;
+  width: 50%;
+}
+
+#listTodo{
+  width: 75%;
+  background-color: ghostwhite;
+  border-radius: 10px;
+}
+
+form#editTodo{
+  width: 80%;
+  margin: auto;
+  height: 400px;
+  padding-top: 20px;
+}
+
+.welcome-home{
+  font-family: 'Chewy', cursive;
+}
+
+#quote{
+  font-family: 'Architects Daughter', cursive;
+}
+
+.welcome-buttom{
+  font-family: 'Alegreya Sans', sans-serif;
+}
+
+#click-logo{
+  font-family: 'Chewy', cursive;
+}

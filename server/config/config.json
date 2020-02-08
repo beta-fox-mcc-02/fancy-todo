@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "fakhran",
+    "password": "Bau_fakhran7",
+    "database": "js_todo",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

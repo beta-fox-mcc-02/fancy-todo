@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Todo App</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="974554864235-ahhop5hp5ml98jn04am1b3124009ql41.apps.googleusercontent.com">
+  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Allan|Architects+Daughter|Chewy|Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="shorcut icon" href="https://image.flaticon.com/icons/svg/45/45802.svg" type="svg">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse" id="top">
+  <div class="container-fluid myheader" >
+    <div class="navbar-header myheader">
+      <a class="navbar-brand" href="#" id="click-logo" >Todo App</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li id="click-home"><a href="#">Home</a></li>
+      <li id="click-list"><a href="#">List Todo</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li id="click-register"><a href="#"><span class="glyphicon glyphicon-user"></span> register</a></li>
+      <li id="click-login"><a href="#"><span class="glyphicon glyphicon-log-in"></span> login</a></li>
+      <li id="click-logout"><a href="#"><span class="glyphicon glyphicon-log-in"></span> logout</a></li>
+    </ul>
+  </div>
+</nav>
+  
+<div class="container" id="div-home">
+  <h3 class="welcome-home">Welcome to Todo App</h3>
+  <p class="welcome-buttom">let's become pruductive</p>
+</div>
+
+  <blockquote class="blockquote text-center" id="quote">
+    <h2 class="mb-0" id="quote-text"></h2>
+    <footer class="blockquote-footer" id="quote-author" ></footer>
+  </blockquote>
+
+
+<div id="listTodo" class="container" style="width: 75%;">
+  <h2>Your List Todo</h2>
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-md">Add</button>
+  <table class="table table-striped" >
+    <thead>
+      <tr>
+        <th>title</th>
+        <th>due date</th>
+        <th>action</th>
+      </tr>
+    </thead>
+    <tbody id="todos" >
+    </tbody>
+  </table>
+</div>
+
+<div class="container" id="div-register" style="width: 50%;" >
+  <h4><span class="warning" id="warning-reg" style="text-align: center; color: red;"></span></h4>
+  <form id="register">
+    <h2>Register</h2>
+    <div class="form-group">
+      <label for="email" >Email :</label>
+      <input class="form-control" type="text" id="e-register" name="email"><br>
+    </div>
+    <div class="form-group">
+      <label for="email">Password :</label>
+      <input class="form-control" type="password" name="password" id="p-register"><br>
+    </div>
+    <input class="btn btn-primary btn-block" type="submit" value="Register">
+  </form>
+</div>
+
+<div class="container" id="div-login" style="width: 50%;">
+  <form id="login">
+    <h4><span class="warning" id="warning-login" style="text-align: center; color: red;"></span></h4>
+    <h2>Login</h2>
+    <div class="form-group">
+      <label for="email">Email :</label>
+      <input class="form-control" type="text" id="e-login" name="email"><br>
+    </div>
+    <div class="form-group">
+      <label for="password">Password :</label>
+      <input class="form-control" type="password" id="p-login" name="password"><br>
+    </div>
+      <input class="btn btn-primary btn-block" type="submit" value="Login"><br>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
+  </form>
+</div>
+
+
+<div id="div-f1" class="container">
+  <h2 >detail</h2>
+  <ul id="todo-findOne">
+  </ul>
+  <div >
+    <input hidden type="text" id="id-select" name="id" value = "">
+  </div>
+  <div id="f1-action">
+    <button id="delete-todo" class="btn btn-danger">delete</button>
+    <button id="edit-todo" class="btn btn-info">edit</button>
+  </div>
+</div>
+
+<div id="div-edit">
+  <form id="editTodo">
+  <h4><span class="warning" id="warning-edit" style="text-align: center; color: red;"></span></h4>
+    <h2>Edit Todo</h2>
+    <div class="form-group">
+      <label for="title">Title :</label>
+      <input type="text" class="form-control" id="t-edit" name="title" value=""><br>
+    </div>
+    <div class="form-group">
+      <label for="description">Description :</label>
+      <input type="text" class="form-control" id="d-edit" name="description" value=""><br>
+    </div>
+    <div class="form-group">
+      <label for="due_date">Due Date :</label>
+      <input type="date" class="form-control" id="due-edit" name="due_date" value=""><br>
+    </div>
+    <div class="form-group">
+      <label for="status">Status :</label>
+      <select id="status-edit" name="status">
+        <option value=true>Completed</option>
+        <option value=false>Uncomplete</option>
+      </select>
+    </div>
+    <input type="submit" class="btn btn-primary">
+  </form>
+</div>
+
+<div  class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div id="div-add" >
+        <form id="addTodo">
+          <h2>Add Todo</h2>
+          <div class="form-group">
+            <label for="title">Title :</label>
+            <input class="form-control" type="text" id="t-add" name="title"><br>
+          </div>
+          <div class="form-group">
+            <label for="description">Description :</label>
+            <textarea name="description" id="d-add" cols="80" rows="10" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="due_date">Due Date :</label>
+            <input class="form-control" type="date" id="due-add" name="due_date"><br>
+          </div>
+          <input type="submit" class="btn btn-primary" value="add">
+          <input type="submit" class="btn btn-danger" data-dismiss="modal" value="close" id="close-add">
+          <h4><span class="warning" id="warning-add" style="text-align: center; color: red;"></span></h4>
+        </form>
+      </div>      
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="./main.js"></script>
+</body>
+</html>
