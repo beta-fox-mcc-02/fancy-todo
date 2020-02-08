@@ -14,16 +14,11 @@ class UserController {
                     msg: 'sucsess register'
                 })
             })
-            .catch(err => {
-                // console.log(err)
-                next(err)
-            })
+            .catch(next)
     }
 
     static login (req, res, next) {
         const {email, password} = req.body
-        // console.log(req.body);
-        
         User.findOne({
             where: {
                 email
@@ -33,18 +28,15 @@ class UserController {
             if (user === null) {
                 next({
                     status: 404,
-                    msg: 'username/password wrong'
+                    msg: 'email not found'
                 })
             } else {
-                
                 const pass = comparePassword(password, user.password)
                 if (pass) {
-                    console.log(pass, 'ini password')
                     const data = generateToken({
                         email,
                         id: user.id
                     })
-                    console.log(data, 'QOOOYYY')
                     res.status(200).json({
                         token: data
                     })
@@ -65,17 +57,13 @@ class UserController {
     }
 
     static googleLogIn (req, res, next) {
-        // console.log(req.headers.token, "HEADERSSS TOKEENNNN")
         const token = req.headers.token
-        // res.status(200).json()
         let email = "";
         client.verifyIdToken({
             idToken: token,
             audience: process.env.CLIENT_ID
         })
             .then(data => {
-                // console.log(data.payload.email, "PAYLOADD EMAIILLL")
-                // res.status(200).json()
                 email = data.payload.email
                 return User.findOne({
                     where: {
@@ -84,9 +72,6 @@ class UserController {
                 })
             })
             .then(data => {
-                // console.log("masuk dari hasil cari email yang sama")
-                // console.log(data, "SETELAH FIND ONE")
-                // res.status(200).json()
                 if(!data) {
                     return User.create({
                         email,
@@ -97,7 +82,6 @@ class UserController {
                 }
             })
             .then(data => {
-                // console.log(data, "SETELAAHHH FIND ONE")
                 const token = generateToken({
                     email,
                     id: data.id

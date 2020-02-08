@@ -2,7 +2,6 @@ const { Todo } = require('../models')
 
 class TodoController {
     static create(req, res, next) {
-        console.log(req.body.due_date)
         Todo.create({
             title: req.body.title,
             description: req.body.description,
@@ -42,7 +41,6 @@ l
     }
 
     static findByPk(req, res, next) {
-        // console.log(req.params.id, 'INI PARAMMSSSS')
         Todo.findByPk(req.params.id)
             .then(todo => {
                 if (todo === null) {
@@ -103,26 +101,11 @@ l
             }
         })
             .then(todo => {
-                console.log(todo)
-                if (todo === 0) {
-                    console.log('YOOOOOOO')
-                    next({
-                        status: 404,
-                        msg: "Data not found"
-                    })
-                } else {
-                    console.log('YEEEEEEE')
-                    res.status(200).json('balik')
-                    // res.status(200).json({
-                    //     data: todo,
-                    //     msg: `id ${pk} succesfully deleted`
-                    // })
-                }
+                res.status(200).json()
             })
-            .catch(err => next({
-                status: 400,
-                msg: 'validations errors'
-            }))
+            .catch(err => {
+                next(err)
+            })
     }
 
 }

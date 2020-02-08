@@ -1,9 +1,9 @@
 const axios = require('axios')
-const api = process.env.API
+const api = process.env.NEWSAPI
 
 class ApiController {
     static getNews(req, res, next) {
-        console.log(api)
+        // console.log(api, 'INI KAHHHHH')
         axios({
             method: 'get',
             url: `https://newsapi.org/v2/top-headlines?country=us&apiKey=${api}`,

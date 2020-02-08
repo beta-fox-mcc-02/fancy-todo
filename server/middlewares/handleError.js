@@ -8,7 +8,7 @@ module.exports = (err, req, res, next) => {
         err.errors.forEach(val => {
             errHandler.errors.push(val.message)
         });
-        console.log(errHandler, "ERROORRRR")
+        // console.log(errHandler, "ERROORRRR")
 
         res.status(status).json({
             msg: errHandler.errors

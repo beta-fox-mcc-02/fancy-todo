@@ -1,6 +1,5 @@
 function onSignIn(googleUser) {
     const id_token = googleUser.getAuthResponse().id_token;
-    // console.log(id_token, "ID TOKEEENNN COOKKKKKSSS")
     axios({
         method: 'POST',
         url: 'http://localhost:3000/googlelogin',
@@ -9,7 +8,6 @@ function onSignIn(googleUser) {
         }
     })
         .then(data => {
-            // console.log(data.data.token, "INIII TOKEEENNNNNN")
             localStorage.setItem('token', data.data.token)
             readTodo(data.data.token)
             $('#signIn').hide()
@@ -18,8 +16,7 @@ function onSignIn(googleUser) {
             $('#getLogOut').show()
             $('#landing-page').hide()
             $('#user-home').show()
-            $('.dont-have-todo').hide()
-            // console.log('macan tutul')  
+            $('.dont-have-todo').hide()  
         })
         .catch(err => {
             console.log(err)

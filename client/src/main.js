@@ -6,10 +6,6 @@ function readTodo(token) {
         }
     })
         .done(({ data }) => {
-            console.log(data, 'READDD TODOOOOOOO')
-            // e.preventDefault()
-            // console.log(data[0].due_date.getFullYear())
-            // style="text-decoration: line-through red
             $('#todos').empty()
             if (data.length === 0) {
                 $('.table').hide()
@@ -18,11 +14,9 @@ function readTodo(token) {
                 for (let i = 0; i < data.length; i++) {
                     if (data[i].status === true) {
                         const a = new Date(data[i].due_date)
-                        console.log(a)
                         const year = a.getFullYear()
                         const month = switchMonth(a.getMonth())
                         const date = a.getDate()
-                        console.log(date, month, year)
                         $('#todos').append(`
                             <tr>
                                 <td style="text-decoration: line-through red;">${i + 1}</td>
@@ -37,11 +31,9 @@ function readTodo(token) {
                             `)
                     } else {
                         const a = new Date(data[i].due_date)
-                        console.log(a)
                         const year = a.getFullYear()
                         const month = switchMonth(a.getMonth())
                         const date = a.getDate()
-                        console.log(date, month, year)
                         $('#todos').append(`
                         <tr>
                             <td>${i + 1}</td>
@@ -60,7 +52,7 @@ function readTodo(token) {
             }
         })
         .fail(err => {
-            console.log(err)
+            alert('error while read your todos')
         })
 }
 
@@ -74,7 +66,6 @@ function done(id) {
         }
     })
         .done(({ data }) => {
-            // console.log(data)
             const id = localStorage.getItem('id')
             const title = data.title
             const description = data.description
@@ -143,7 +134,6 @@ function signIn() {
         }
     })
         .done(data => {
-            console.log(data)
             localStorage.setItem('token', data.token)
             $('#signIn').hide()
             $('#getSignIn').hide()
@@ -151,23 +141,18 @@ function signIn() {
             $('#getLogOut').show()
             $('#landing-page').hide()
             readTodo()
+            alert('Login Success')
             $('#user-home').show()
             $('.dont-have-todo').hide()
         })
         .fail(err => {
             alert(err.responseJSON.msg)
-            // $('.alert').html(`
-            //     ${err.responseJSON.msg}
-            // `)
-            // $('.alert').show()
-            // setTimeout(function () { $('.alert').hide() }, 1000)
         })
 }
 
 function signUp() {
     const email = $('#emailReg').val()
     const password = $('#passwordReg').val()
-    // console.log(email, password)
     $.ajax('http://localhost:3000/register', {
         method: 'POST',
         data: {
@@ -175,23 +160,12 @@ function signUp() {
         }
     })
         .done(() => {
-            // $('#signIn').show()
-            // $('#success-register').show()
             $('#signUp').hide()
             $('#signIn').show()
             alert('Register Success')
-            // console.log('success register')
         })
         .fail(err => {
             alert(err.responseJSON.msg[0])
-            // console.log(err)
-            // $('.alert').html(`
-            //     ${err.responseJSON.msg}
-            // `)
-            // $('.alert').show()
-            // setTimeout(function () { $('.alert').hide() }, 1000)
-            // console.log(err)
-            // console.log('failed register')
         })
 }
 
@@ -199,7 +173,6 @@ function addTodo(e) {
     const title = $('#title-add').val()
     const description = $('#description-add').val()
     const due_date = $('#date-add').val()
-    console.log(title, description, due_date)
     $.ajax('http://localhost:3000/todos', {
         method: 'POST',
         data: {
@@ -210,23 +183,16 @@ function addTodo(e) {
         }
     })
         .done(data => {
-            e.preventDefault()
             readTodo()
+            alert('success add todo')
+            e.preventDefault()
             $('#user-home').show()
             $('.table').show()
             $('.dont-have-todo').hide()
             $('#form-add-todo').hide()
-            alert('success add todo')
-            // console.log(data)
         })
         .fail(err => {
             alert(err.responseJSON.msg[0])
-            // $('.alert').html(`
-            //     ${err.responseJSON.msg[0]}
-            // `)
-            // $('.alert').show()
-            // setTimeout(function () { $('.alert').hide() }, 1000)
-            // console.log(err)
         })
 }
 
@@ -266,11 +232,12 @@ function destroy(id) {
         }
     })
         .done(data => {
+            alert('todos deleted')
             readTodo()
-            console.log('sukses')
         })
         .fail(err => {
-            console.log(err)
+            alert('todos deleted')
+            readTodo()
         })
 }
 
@@ -289,21 +256,18 @@ function edit(id) {
             $("#user-home").hide()
             $('#title-edit').val(`${data.title}`)
             $('#description-edit').val(`${data.description}`)
-            console.log(data)
         })
         .fail(err => {
-            console.log(err)
+            alert('load form edit error')
         })
 
 }
 
 function editTodo(e) {
-    // console.log(updateId)
     const id = localStorage.getItem('id')
     const title = $('#title-edit').val()
     const description = $('#description-edit').val()
     const due_date = $('#date-edit').val()
-    // console.log(title, description, due_date)
     $.ajax(`http://localhost:3000/todos/${id}`, {
         method: 'PUT',
         data: {
@@ -316,19 +280,13 @@ function editTodo(e) {
         .done(data => {
             e.preventDefault()
             readTodo()
+            alert('edit success')
             $('#user-home').show()
             $('.dont-have-todo').hide()
             $('#form-edit-todo').hide()
-            // console.log(data)
         })
         .fail(err => {
             alert(err.responseJSON.msg[0])
-            // $('.alert').html(`
-            //     ${err.responseJSON.msg[0]}
-            // `)
-            // $('.alert').show()
-            // setTimeout(function () { $('.alert').hide() }, 1000)
-            // console.log(err.responseJSON.msg[0])
         })
 }
 
@@ -338,20 +296,24 @@ function api() {
         url: 'http://localhost:3000/news'
     })
         .done(data => {
-            console.log(data.data.articles)
             const news = data.data.articles
+            $('.row').empty()
             news.forEach(el => {
-                $('.card').append(`
-                    <img class="card-img-top" src="${el.urlToImage}" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">${el.title}</p>
-                        <a href="${el.url}">More...</a>
+                $('.row').append(`
+                    <div class="col-3 mr-5">
+                        <div class="card card-block" style="width: 18rem;">
+                            <img class="card-img-top" src="${el.urlToImage}" alt="Card image cap">
+                            <div class="card-body">
+                                <p class="card-text text-wrap">${el.title}</p>
+                                <a href="${el.url}">More...</a>
+                            </div>
+                        </div>
                     </div>
                 `)
             });
         })
         .fail(err => {
-            console.log(err)
+            alert('error fetch api')
         })
 }
 
@@ -362,10 +324,10 @@ function alert(value) {
         destination: "https://github.com/apvarun/toastify-js",
         newWindow: true,
         close: true,
-        gravity: "top", // `top` or `bottom`
-        position: 'left', // `left`, `center` or `right`
+        gravity: "top",
+        position: 'left',
         backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-        stopOnFocus: true, // Prevents dismissing of toast on hover
+        stopOnFocus: true,
     }).showToast();
 }
 
@@ -387,24 +349,26 @@ $(document).ready(() => {
         $('#signIn').hide()
         $('#signUp').show()
         $('#user-home').hide()
-        // $('.alert').hide()
         $('#landing-page').hide()
     })
 
-    $('#signUp').on('submit', () => {
+    $('#signUp').on('submit', (e) => {
+        e.preventDefault()
         signUp()
     })
 
-    $('#signIn').on('submit', () => {
+    $('#signIn').on('submit', (e) => {
+        e.preventDefault()
         signIn()
     })
 
-    $('#getLogOut').on('click', () => {
+    $('#getLogOut').on('click', (e) => {
         const auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
-            console.log('User signed out.');
+            e.preventDefault()
             localStorage.clear()
             api()
+            alert('user logout success')
             $('#landing-page').show()
             $('#getSignUp').show()
             $('#getSignIn').show()
@@ -416,18 +380,19 @@ $(document).ready(() => {
         });
     })
 
-    $('#add-todo').on('click', () => {
-        // $('.alert').hide()
+    $('#add-todo').on('click', (e) => {
+        e.preventDefault()
         $('#user-home').hide()
         $('#form-add-todo').show()
     })
 
     $('#form-add-todo').on('submit', (e) => {
+        e.preventDefault()
         addTodo(e)
     })
 
     $('#form-edit-todo').on('submit', (e) => {
-        // console.log('TESSTTTTT')
+        e.preventDefault()
         editTodo(e)
     })
 
