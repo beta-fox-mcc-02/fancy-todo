@@ -60,6 +60,20 @@ function addTodo() {
     })
 }
 
+function addTodoByDate() {
+    const title = $("#titleTodoByDate").val()
+    const description = $("#descTodoByDate").val()
+    const due_date = $("#dateTodoByDate").val()
+    return $.ajax({
+        method: "POST",
+        url: "http://localhost:3000/todos",
+        data: { title, description, due_date },
+        headers: {
+            "access_token": localStorage.token
+        }
+    })
+}
+
 function destroyTodo(id) {
     $.ajax({
         method: "DELETE",
@@ -118,6 +132,7 @@ function emptyError() {
     $("#errorRegister").empty()
     $("#errorAddTodo").empty()
     $("#errorEditTodo").empty()
+    $("#errorAddTodoByDate").empty()
 }
 
 function isLogin() {
@@ -135,6 +150,7 @@ function showHome() {
     $("#loginPage").hide()
     $("#todoPage").hide()
     $("#editTodoPage").hide()
+    $('#holidayPage').hide()
 }
 
 function showLogin() {
@@ -142,6 +158,7 @@ function showLogin() {
     $("#loginPage").show()
     $("#todoPage").hide()
     $("#editTodoPage").hide()
+    $('#holidayPage').hide()
 
     emptyError()
 }
@@ -151,6 +168,7 @@ function showTodo() {
     $("#loginPage").hide()
     $("#editTodoPage").hide()
     $("#todoPage").show()
+    $('#holidayPage').hide()
     getTodos()
         .done(response => {
             $("#listTodo").empty()
@@ -162,15 +180,30 @@ function showTodo() {
             <th>Action</th>
                 </tr>`))
             response.data.forEach(todo => {
-                $("#listTodo").append((`<tr>
+                if (todo.status) {
+                    $("#listTodo").append(`<tr>
                     <td>${todo.title}</td>
                     <td>${todo.description}</td>
-                    <td>${todo.status}</td>
+                    <td><i class="fa fa-check" aria-hidden="true"></i></td>
                     <td>${formatDate(todo.due_date)}</td>
-                    <td><button class="btn btn-info" onclick="destroyTodo('${todo.id}')">Delete</button>
-                    <button class="btn btn-info" onclick="showEditTodo('${todo.id}')">Edit</button>
+                    <td><a class="btn btn-info icon" onclick="destroyTodo('${todo.id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    <a class="btn btn-info icon" onclick="showEditTodo('${todo.id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <button class="btn btn-success icon" disabled>Completed</button>
                     </td>
-                </tr>`))
+                </tr>`)
+                } else {
+                    $("#listTodo").append(`<tr>
+                    <td>${todo.title}</td>
+                    <td>${todo.description}</td>
+                    <td><i class="fa fa-times" aria-hidden="true"></i>
+                    </td>
+                    <td>${formatDate(todo.due_date)}</td>
+                    <td><a class="btn btn-info icon" onclick="destroyTodo('${todo.id}')"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    <a class="btn btn-info icon" onclick="showEditTodo('${todo.id}')"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    <a class="btn btn-info icon" onclick="complete('${todo.id}')">Complete</a>
+                    </td>
+                </tr>`)
+                }
             });
         })
         .fail(err => {
@@ -183,6 +216,7 @@ function showEditTodo(id) {
     $("#loginPage").hide()
     $("#todoPage").hide()
     $("#editTodoPage").show()
+    $('#holidayPage').hide()
 
     emptyError()
     getTodo(id)
@@ -197,6 +231,45 @@ function showEditTodo(id) {
         })
 }
 
+function showAddTodoByDate(date) {
+    if (localStorage.token) {
+        $('#modalAddTodoByDate').modal('show');
+        $("#dateTodoByDate").val(date);
+        $('#dateTodoByDate').prop("disabled", true);
+    } else {
+        showLogin()
+    }
+    resetInputValue();
+    emptyError();
+}
+
+function complete(id) {
+    const status = true
+    $.ajax({
+        method: "PUT",
+        url: `http://localhost:3000/todos/${id}/status`,
+        data: { status },
+        headers: {
+            "access_token": localStorage.token
+        }
+    })
+        .done(response => {
+            showTodo()
+            resetInputValue()
+            emptyError()
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
+function showHolidays() {
+    $("#homePage").hide()
+    $("#loginPage").hide()
+    $("#todoPage").hide()
+    $("#editTodoPage").hide()
+    $('#holidayPage').show()
+}
 
 //google-sign-in
 function onSignIn(googleUser) {
@@ -210,6 +283,7 @@ function onSignIn(googleUser) {
     })
         .done(response => {
             localStorage.token = response.accessToken
+            console.log(response.payload.image)
             $('#userButton').append(`<img src="${response.payload.image ? response.payload.image : './styles/img/avatar.png'}" alt="" class="avatar"> <h8>${response.payload.first_name} ${response.payload.last_name ? response.payload.last_name : ''}</h8>`)
             isLogin()
             showHome()
@@ -223,8 +297,22 @@ $(document).ready(function () {
     isLogin()
     showHome()
     //klik home
-    $("#navHome").click(function () {
+    $(".navHome").click(function () {
         showHome()
+        resetInputValue()
+    })
+    //klik holiday
+    $(".navHolidays").click(function () {
+        showHolidays()
+        resetInputValue()
+    })
+    //klik startButton di home
+    $('#startButton').click(function () {
+        if (localStorage.token) {
+            showTodo()
+        } else {
+            showLogin();
+        }
         resetInputValue()
     })
     //klik login
@@ -321,6 +409,25 @@ $(document).ready(function () {
                 }
             })
     })
+    //submit add todo by date
+    $("#addTodoFormByDate").submit(function (e) {
+        e.preventDefault();
+        emptyError()
+        addTodoByDate()
+            .done(response => {
+                $('#modalAddTodoByDate').modal('hide')
+                showTodo()
+            })
+            .fail(err => {
+                console.log(err)
+                if (Array.isArray(err.responseJSON.error)) {
+                    $("#errorAddTodoByDate").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error[0]}</div>`))
+                } else {
+                    $("#errorAddTodoByDate").append((`<div class="alert alert-danger" role="alert">${err.responseJSON.error}</div>`))
+                }
+            })
+    })
+
     //submit edit todo
     $("#editTodoForm").submit(function (e) {
         e.preventDefault();

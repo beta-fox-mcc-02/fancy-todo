@@ -115,6 +115,34 @@ class Controller {
                 next(err)
             })
     }
+    static updateStatus(req, res, next) {
+        let update = {
+            status: req.body.status
+        }
+        Todo.update(update, {
+            where: {
+                id: req.params.id
+            },
+            returning: true
+        })
+            .then(data => {
+                if (data[0]) {
+                    res.status(200).json({
+                        message: 'Update success',
+                        data
+                    })
+                } else {
+                    next({
+                        status: 404,
+                        message: 'Not found',
+                        type: 'Data not found'
+                    })
+                }
+            })
+            .catch(err => {
+                next(err);
+            })
+    }
 }
 
 module.exports = Controller;
