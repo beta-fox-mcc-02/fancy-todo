@@ -36,11 +36,13 @@ function getTodos() {
 
 function submitRegister() {
     const email = $("#InputEmailRegister").val();
+    const first_name = $("#InputFnameRegister").val();
+    const last_name = $("#InputLnameRegister").val();
     const password = $("#InputPasswordRegister").val();
     return $.ajax({
         method: "POST",
         url: "http://localhost:3000/register",
-        data: { email, password }
+        data: { email, password, first_name, last_name }
     })
 }
 
@@ -105,6 +107,8 @@ function resetInputValue() {
     $("#dateTodo").val('');
     $("#InputEmailRegister").val('');
     $("#InputPasswordRegister").val('');
+    $("#InputFnameRegister").val('');
+    $("#InputLnameRegister").val('');
     $("#InputEmailLogin").val('');
     $("#InputPasswordLogin").val('');
 }
@@ -118,44 +122,25 @@ function emptyError() {
 
 function isLogin() {
     if (localStorage.token) {
-        $("#navLogin").hide()
-        $("#navRegister").hide()
-        $("#navTodo").show()
-        $("#navLogout").show()
+        $("#publicNav").hide()
+        $("#userButton").show()
     } else {
-        $("#navLogin").show()
-        $("#navRegister").show()
-        $("#navTodo").hide()
-        $("#navLogout").hide()
+        $("#publicNav").show()
+        $("#userButton").hide()
     }
 }
 
 function showHome() {
     $("#homePage").show()
-    $("#registerPage").hide()
     $("#loginPage").hide()
     $("#todoPage").hide()
-    $("#addTodoPage").hide()
     $("#editTodoPage").hide()
 }
 
 function showLogin() {
     $("#homePage").hide()
-    $("#registerPage").hide()
     $("#loginPage").show()
     $("#todoPage").hide()
-    $("#addTodoPage").hide()
-    $("#editTodoPage").hide()
-
-    emptyError()
-}
-
-function showRegister() {
-    $("#homePage").hide()
-    $("#registerPage").show()
-    $("#loginPage").hide()
-    $("#todoPage").hide()
-    $("#addTodoPage").hide()
     $("#editTodoPage").hide()
 
     emptyError()
@@ -163,11 +148,9 @@ function showRegister() {
 
 function showTodo() {
     $("#homePage").hide()
-    $("#registerPage").hide()
     $("#loginPage").hide()
-    $("#todoPage").show()
-    $("#addTodoPage").hide()
     $("#editTodoPage").hide()
+    $("#todoPage").show()
     getTodos()
         .done(response => {
             $("#listTodo").empty()
@@ -197,10 +180,8 @@ function showTodo() {
 
 function showEditTodo(id) {
     $("#homePage").hide()
-    $("#registerPage").hide()
     $("#loginPage").hide()
     $("#todoPage").hide()
-    $("#addTodoPage").hide()
     $("#editTodoPage").show()
 
     emptyError()
@@ -228,8 +209,8 @@ function onSignIn(googleUser) {
         }
     })
         .done(response => {
-            console.log(response)
             localStorage.token = response.accessToken
+            $('#userButton').append(`<img src="${response.payload.image ? response.payload.image : './styles/img/avatar.png'}" alt="" class="avatar"> <h8>${response.payload.first_name} ${response.payload.last_name ? response.payload.last_name : ''}</h8>`)
             isLogin()
             showHome()
         })
@@ -251,21 +232,16 @@ $(document).ready(function () {
         showLogin()
         resetInputValue()
     })
-    //klik register
-    $("#navRegister").click(function () {
-        showRegister()
-        resetInputValue()
-    })
     //klik logout
     $("#navLogout").click(function () {
         var auth2 = gapi.auth2.getAuthInstance();
         auth2.signOut().then(function () {
-            console.log('User signed out.');
+            showHome()
+            localStorage.clear()
+            isLogin()
+            resetInputValue()
+            $('#userButton').empty()
         });
-        showHome()
-        localStorage.clear()
-        isLogin()
-        resetInputValue()
     })
     //klik todo
     $("#navTodo").click(function () {
@@ -279,6 +255,14 @@ $(document).ready(function () {
         resetInputValue()
         emptyError()
     })
+    // klik register
+    // modal
+    $("#registerLink").click(function (e) {
+        e.preventDefault();
+        $('#modalRegister').modal('show')
+        resetInputValue()
+        emptyError()
+    })
     //submit login
     $("#loginForm").submit(function (e) {
         e.preventDefault();
@@ -286,6 +270,7 @@ $(document).ready(function () {
         submitLogin()
             .done(response => {
                 localStorage.token = response.accessToken
+                $('#userButton').append(`<img src="${response.payload.image ? response.payload.image : './styles/img/avatar.png'}" alt="" class="avatar"> <h8>${response.payload.first_name} ${response.payload.last_name ? response.payload.last_name : ''}</h8>`)
                 isLogin()
                 showHome()
             })
@@ -304,6 +289,8 @@ $(document).ready(function () {
         submitRegister()
             .done(response => {
                 localStorage.token = response.accessToken
+                $('#userButton').append(`<img src="${response.payload.image ? response.payload.image : './styles/img/avatar.png'}" alt="" class="avatar"> <h8>${response.payload.first_name} ${response.payload.last_name ? response.payload.last_name : ''}</h8>`)
+                $('#modalRegister').modal('hide')
                 isLogin()
                 showHome()
             })
@@ -351,4 +338,18 @@ $(document).ready(function () {
                 }
             })
     })
+
+    // Closes the sidebar menu
+    $(".menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#sidebar-wrapper").toggleClass("active");
+        $(".menu-toggle > .fa-bars, .menu-toggle > .fa-times").toggleClass("fa-bars fa-times");
+        $(this).toggleClass("active");
+    });
+    // Closes responsive menu when a scroll trigger link is clicked
+    $('#sidebar-wrapper .js-scroll-trigger').click(function () {
+        $("#sidebar-wrapper").removeClass("active");
+        $(".menu-toggle").removeClass("active");
+        $(".menu-toggle > .fa-bars, .menu-toggle > .fa-times").toggleClass("fa-bars fa-times");
+    });
 });
