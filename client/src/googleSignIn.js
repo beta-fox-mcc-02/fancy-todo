@@ -18,6 +18,7 @@ function onSignIn(googleUser) {
             $('#getLogOut').show()
             $('#landing-page').hide()
             $('#user-home').show()
+            $('.dont-have-todo').hide()
             // console.log('macan tutul')  
         })
         .catch(err => {

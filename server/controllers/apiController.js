@@ -3,19 +3,20 @@ const api = process.env.API
 
 class ApiController {
     static getNews(req, res, next) {
+        console.log(api)
         axios({
             method: 'get',
             url: `https://newsapi.org/v2/top-headlines?country=us&apiKey=${api}`,
-            responseType: 'json'
+            // responseType: 'json'
         })
-            .then(kurs => {
+            .then(news => {
                 res.status(200).json({
-                    data: kurs.data
+                    data: news.data
                 })
             })
             .catch(err => {
                 res.status(404).json({
-                    msg: 'error'
+                    msg: err
                 })
             })
     }

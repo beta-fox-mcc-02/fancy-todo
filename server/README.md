@@ -1,4 +1,4 @@
-# rest-api-todo
+# fancy-todo
 
 **Show Todos**
 ----

@@ -11,20 +11,43 @@ function readTodo(token) {
             // console.log(data[0].due_date.getFullYear())
             // style="text-decoration: line-through red
             $('#todos').empty()
-            for (let i = 0; i < data.length; i++) {
-                if (data[i].status === true) {
-                    const a = new Date(data[i].due_date)
-                    console.log(a)
-                    const year = a.getFullYear()
-                    const month = switchMonth(a.getMonth())
-                    const date = a.getDate()
-                    console.log(date, month, year)
-                    $('#todos').append(`
+            if (data.length === 0) {
+                $('.table').hide()
+                $('.dont-have-todo').show()
+            } else {
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i].status === true) {
+                        const a = new Date(data[i].due_date)
+                        console.log(a)
+                        const year = a.getFullYear()
+                        const month = switchMonth(a.getMonth())
+                        const date = a.getDate()
+                        console.log(date, month, year)
+                        $('#todos').append(`
+                            <tr>
+                                <td style="text-decoration: line-through red;">${i + 1}</td>
+                                <td style="text-decoration: line-through red;">${data[i].title}</td>
+                                <td style="text-decoration: line-through red;">${data[i].description}</td>
+                                <td style="text-decoration: line-through red;">${date} ${month} ${year}</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" id="delete" onClick="destroy(${data[i].id})" value="${data[i].id}">Delete</button>
+                                    <button type="button" class="btn btn-warning" id="edit" onClick="edit(${data[i].id})" value="${data[i].id}">Edit</button>
+                                </td>
+                            </tr>
+                            `)
+                    } else {
+                        const a = new Date(data[i].due_date)
+                        console.log(a)
+                        const year = a.getFullYear()
+                        const month = switchMonth(a.getMonth())
+                        const date = a.getDate()
+                        console.log(date, month, year)
+                        $('#todos').append(`
                         <tr>
-                            <td style="text-decoration: line-through red;">${i + 1}</td>
-                            <td style="text-decoration: line-through red;">${data[i].title}</td>
-                            <td style="text-decoration: line-through red;">${data[i].description}</td>
-                            <td style="text-decoration: line-through red;">${date} ${month} ${year}</td>
+                            <td>${i + 1}</td>
+                            <td>${data[i].title}</td>
+                            <td>${data[i].description}</td>
+                            <td>${date} ${month} ${year}</td>
                             <td>
                                 <button type="button" class="btn btn-danger" id="delete" onClick="destroy(${data[i].id})" value="${data[i].id}">Delete</button>
                                 <button type="button" class="btn btn-warning" id="edit" onClick="edit(${data[i].id})" value="${data[i].id}">Edit</button>
@@ -32,26 +55,7 @@ function readTodo(token) {
                             </td>
                         </tr>
                         `)
-                } else {
-                    const a = new Date(data[i].due_date)
-                    console.log(a)
-                    const year = a.getFullYear()
-                    const month = switchMonth(a.getMonth())
-                    const date = a.getDate()
-                    console.log(date, month, year)
-                    $('#todos').append(`
-                    <tr>
-                        <td>${i + 1}</td>
-                        <td>${data[i].title}</td>
-                        <td>${data[i].description}</td>
-                        <td>${date} ${month} ${year}</td>
-                        <td>
-                            <button type="button" class="btn btn-danger" id="delete" onClick="destroy(${data[i].id})" value="${data[i].id}">Delete</button>
-                            <button type="button" class="btn btn-warning" id="edit" onClick="edit(${data[i].id})" value="${data[i].id}">Edit</button>
-                            <button type="button" class="btn btn-success" id="done" onClick="done(${data[i].id})" value="${data[i].id}">Done Todos</button>
-                        </td>
-                    </tr>
-                    `)
+                    }
                 }
             }
         })
@@ -75,7 +79,7 @@ function done(id) {
             const title = data.title
             const description = data.description
             const status = true
-            const due_date  = data.due_date
+            const due_date = data.due_date
             $.ajax(`http://localhost:3000/todos/${id}`, {
                 method: 'PUT',
                 data: {
@@ -87,7 +91,8 @@ function done(id) {
             })
                 .done(data => {
                     readTodo()
-                    $('#user-home')
+                    $('#user-home').show()
+                    $('.dont-have-todo').hide()
                 })
                 .fail(err => {
                     console.log(err)
@@ -98,7 +103,6 @@ function done(id) {
             console.log(err)
         })
 }
-
 
 function switchMonth(val) {
     switch (val) {
@@ -148,13 +152,15 @@ function signIn() {
             $('#landing-page').hide()
             readTodo()
             $('#user-home').show()
+            $('.dont-have-todo').hide()
         })
         .fail(err => {
-            $('.alert').html(`
-                ${err.responseJSON.msg}
-            `)
-            $('.alert').show()
-            setTimeout(function () { $('.alert').hide() }, 1000)
+            alert(err.responseJSON.msg)
+            // $('.alert').html(`
+            //     ${err.responseJSON.msg}
+            // `)
+            // $('.alert').show()
+            // setTimeout(function () { $('.alert').hide() }, 1000)
         })
 }
 
@@ -169,16 +175,21 @@ function signUp() {
         }
     })
         .done(() => {
+            // $('#signIn').show()
+            // $('#success-register').show()
+            $('#signUp').hide()
             $('#signIn').show()
-            console.log('success register')
+            alert('Register Success')
+            // console.log('success register')
         })
         .fail(err => {
-            console.log(err)
-            $('.alert').html(`
-                ${err.responseJSON.msg}
-            `)
-            $('.alert').show()
-            setTimeout(function () { $('.alert').hide() }, 1000)
+            alert(err.responseJSON.msg[0])
+            // console.log(err)
+            // $('.alert').html(`
+            //     ${err.responseJSON.msg}
+            // `)
+            // $('.alert').show()
+            // setTimeout(function () { $('.alert').hide() }, 1000)
             // console.log(err)
             // console.log('failed register')
         })
@@ -202,15 +213,18 @@ function addTodo(e) {
             e.preventDefault()
             readTodo()
             $('#user-home').show()
+            $('.table').show()
+            $('.dont-have-todo').hide()
             $('#form-add-todo').hide()
             // console.log(data)
         })
         .fail(err => {
-            $('.alert').html(`
-                ${err.responseJSON.msg[0]}
-            `)
-            $('.alert').show()
-            setTimeout(function () { $('.alert').hide() }, 1000)
+            alert(err.responseJSON.msg[0])
+            // $('.alert').html(`
+            //     ${err.responseJSON.msg[0]}
+            // `)
+            // $('.alert').show()
+            // setTimeout(function () { $('.alert').hide() }, 1000)
             // console.log(err)
         })
 }
@@ -218,6 +232,7 @@ function addTodo(e) {
 function home() {
     if (localStorage.token) {
         $('#user-home').show()
+        $('.dont-have-todo').hide()
         $('#getSignIn').hide()
         $('#getSignUp').hide()
         $('#getLogOut').show()
@@ -237,6 +252,7 @@ function home() {
         $('#form-add-todo').hide()
         $('#delete-oy').hide()
         $('#form-edit-todo').hide()
+        api()
     }
 }
 
@@ -300,19 +316,57 @@ function editTodo(e) {
             e.preventDefault()
             readTodo()
             $('#user-home').show()
+            $('.dont-have-todo').hide()
             $('#form-edit-todo').hide()
             // console.log(data)
         })
         .fail(err => {
-            $('.alert').html(`
-                ${err.responseJSON.msg[0]}
-            `)
-            $('.alert').show()
-            setTimeout(function () { $('.alert').hide() }, 1000)
+            alert(err.responseJSON.msg[0])
+            // $('.alert').html(`
+            //     ${err.responseJSON.msg[0]}
+            // `)
+            // $('.alert').show()
+            // setTimeout(function () { $('.alert').hide() }, 1000)
             // console.log(err.responseJSON.msg[0])
         })
 }
 
+function api() {
+    $.ajax({
+        method: 'GET',
+        url: 'http://localhost:3000/news'
+    })
+        .done(data => {
+            console.log(data.data.articles)
+            const news = data.data.articles
+            news.forEach(el => {
+                $('.card').append(`
+                    <img class="card-img-top" src="${el.urlToImage}" alt="Card image cap">
+                    <div class="card-body">
+                        <p class="card-text">${el.title}</p>
+                        <a href="${el.url}">More...</a>
+                    </div>
+                `)
+            });
+        })
+        .fail(err => {
+            console.log(err)
+        })
+}
+
+function alert(value) {
+    Toastify({
+        text: `${value}`,
+        duration: 3000,
+        destination: "https://github.com/apvarun/toastify-js",
+        newWindow: true,
+        close: true,
+        gravity: "top", // `top` or `bottom`
+        position: 'left', // `left`, `center` or `right`
+        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+    }).showToast();
+}
 
 $(document).ready(() => {
     home()
@@ -325,13 +379,15 @@ $(document).ready(() => {
         $('#signUp').hide()
         $('#signIn').show()
         $('#user-home').hide()
+        $('#landing-page').hide()
     })
 
     $('#getSignUp').on('click', function () {
         $('#signIn').hide()
         $('#signUp').show()
         $('#user-home').hide()
-        $('.alert').hide()
+        // $('.alert').hide()
+        $('#landing-page').hide()
     })
 
     $('#signUp').on('submit', () => {
@@ -347,6 +403,7 @@ $(document).ready(() => {
         auth2.signOut().then(function () {
             console.log('User signed out.');
             localStorage.clear()
+            api()
             $('#landing-page').show()
             $('#getSignUp').show()
             $('#getSignIn').show()
@@ -359,7 +416,7 @@ $(document).ready(() => {
     })
 
     $('#add-todo').on('click', () => {
-        $('.alert').hide()
+        // $('.alert').hide()
         $('#user-home').hide()
         $('#form-add-todo').show()
     })

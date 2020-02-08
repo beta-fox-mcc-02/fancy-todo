@@ -9,29 +9,36 @@
         content="769420659096-7nmb1mlj15uaocjaee57tlng203ufjft.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <link rel="stylesheet" href="./src/style.css">
     <title>TODO YUHU</title>
 </head>
 
 <body>
     <!-- NAV BAR -->
-    <nav class="nav">
-        <ul class="nav justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link active" href="#" id="getHome">HOME</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="getSignIn">SIGN IN</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="getSignUp">SIGN UP</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" id="getLogOut">LOGOUT</a>
-            </li>
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <!-- <a class="navbar-brand" href="#">Navbar w/ text</a> -->
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="nav justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" id="getHome">HOME</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="getSignIn">SIGN IN</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="getSignUp">SIGN UP</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="getLogOut">LOGOUT</a>
+                </li>
+            </ul>
+        </div>
     </nav>
-
 
     <!-- <a href="#" onclick="signOut();">Sign out</a> -->
 
@@ -39,7 +46,13 @@
     <div class="container" id="landing-page">
         <center>
             <h1>WELCOME TO TODO APPS</h1>
-            
+            <div class="card" style="width: 18rem;">
+                <!-- <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+                        card's content.</p>
+                </div> -->
+            </div>
         </center>
     </div>
 
@@ -47,9 +60,12 @@
     <!-- SIGN UP -->
     <div class="container" id="signUp">
         <center>
-            <div class="alert alert-danger" role="alert">
+            <!-- <div class="alert alert-danger" role="alert">
                 This is a primary alert with
-            </div>
+            </div> -->
+            <!-- <div class="alert alert-success" role="alert" id="success-register">
+                Registration Success
+            </div> -->
             <h1>SIGN UP</h1>
             <form>
                 <div class="form-group">
@@ -71,9 +87,9 @@
     <div class="container" id="signIn">
         <center>
             <h1>SIGN IN</h1>
-            <div class="alert alert-danger" role="alert">
+            <!-- <div class="alert alert-danger" role="alert">
                 This is a primary alert with
-            </div>
+            </div> -->
             <form>
                 <div class="form-group">
                     <label for="emailIn">Email address</label>
@@ -96,9 +112,10 @@
     <!-- USERRR HOMEEE -->
     <div class="container" id="user-home">
         <center>
-            <h2>Your All TODOS</h2>
+            <h2>YOUR All TODOS</h2>
             <button type="button" class="btn btn-primary" id="add-todo">ADD TODO</button><br>
             <br>
+            <h3 class="dont-have-todo">You dont have any todo</h3>
             <table class="table">
                 <thead>
                     <tr>
@@ -118,9 +135,9 @@
     <!-- ADD TODOOOOO -->
     <div class="container" id="form-add-todo">
         <center>
-            <div class="alert alert-danger" role="alert">
+            <!-- <div class="alert alert-danger" role="alert">
                 This is a primary alert with
-            </div>
+            </div> -->
             <form>
                 <div class="form-group">
                     <label for="title-add">TITLE</label>
@@ -144,9 +161,9 @@
     <!-- EDIT TODOOO -->
     <div class="container" id="form-edit-todo">
         <center>
-            <div class="alert alert-danger" role="alert">
+            <!-- <div class="alert alert-danger" role="alert">
                 This is a primary alert with
-            </div>
+            </div> -->
             <form>
                 <div class="form-group">
                     <label for="title-add">TITLE</label>
@@ -169,6 +186,7 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="./src/main.js"></script>
     <script src="./src/googleSignIn.js"></script>
 </body>
