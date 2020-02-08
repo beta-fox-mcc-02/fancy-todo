@@ -3,6 +3,8 @@ const {User} = require('../models')
 
 module.exports=
   function (req, res, next) {
+    try{
+
     const {token} = req.headers
     if(token){
       const decoded = jwt.verify(token, process.env.SECRET);
@@ -35,4 +37,8 @@ module.exports=
         msg: `Access token not found`
     })
     }
+  } catch(err){
+    next(err)
+  }
+
   }
