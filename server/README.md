@@ -411,8 +411,47 @@
         "msg": "Invalid Email/Password"
     }
     ```        
+**Find a Todo**
+----
+   Return a quote from 3rd party APIs  in JSON data .
+
+* **URL**
+
+  /quote
+
+* **Method:**
+
+  `GET`
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   None
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+      
+    ```json
+    {
+    "quote": "Fear not for the future, weep not for the past. ",
+    "author": "Percy Shelley"
+    }
+    ```
+ 
+* **Error Response:**
+
+ * **Code:** 500 INTERNAL SERVER ERROR <br />
+    **Content:** `{ msg : "Internal Server Error" }`
+       
 --------
 **3rd Party APIs**
 
-* **OpenAQ**
-  * **URL:** https://docs.openaq.org/#api-_ <br />
+* **forismatic**
+  * **URL:** http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en_ <br />
