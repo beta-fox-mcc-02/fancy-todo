@@ -2,8 +2,7 @@ const jwt = require('jsonwebtoken')
 const { User, Todo } = require('../models')
 
 const checkAuth = (req, res, next) => {
-    let token =
-        req.headers['x-access-token'] || req.headers['authorization'] || ''
+    let token = req.headers['authorization'] || ''
     if (token.substr(0, 7) === 'Bearer ') {
         token = token.slice(7, token.length).trimLeft()
     }

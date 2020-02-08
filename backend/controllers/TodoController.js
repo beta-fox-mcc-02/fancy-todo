@@ -22,7 +22,15 @@ class TodoController {
             .catch(next)
     }
     static findAll(req, res, next) {
-        Todo.findAll()
+        const UserId = req.jwtPayload.id
+
+        Todo.findAll({
+            where: { UserId },
+            order: [
+                ['status', 'ASC'],
+                ['due_date', 'ASC']
+            ]
+        })
             .then(result => {
                 res.status(200).json({
                     data: result
@@ -45,47 +53,55 @@ class TodoController {
             .catch(next)
     }
     static update(req, res, next) {
-        const { title, status, description, location, due_date } = req.body
+        const { title, description, location, due_date } = req.body
         const { id } = req.params
 
         const todo = {
             title,
-            status,
             description,
             location,
             due_date
         }
 
-        Todo.findByPk(id).then(result => {
-            if (result) {
-                Todo.update(todo, { where: { id }, returning: true })
-                    .then(result => {
-                        res.status(200).json({
-                            data: result[1]
-                        })
-                    })
-                    .catch(next)
-            } else {
-                next({ name: 'DataNotFound' })
-            }
-        })
+        console.log(todo)
+
+        Todo.update(todo, { where: { id }, returning: true })
+            .then(result => {
+                console.log(result)
+                res.status(200).json({
+                    data: result[1]
+                })
+            })
+            .catch(err=> {
+                console.log(err)
+                next(err)
+            })
+    }
+    static setStatus(req, res, next) {
+        const { status } = req.body
+        const { id } = req.params
+
+        const todo = {
+            status
+        }
+
+        Todo.update(todo, { where: { id }, returning: true })
+            .then(result => {
+                res.status(200).json({
+                    data: result[1]
+                })
+            })
+            .catch(next)
     }
     static delete(req, res, next) {
         const { id } = req.params
-        Todo.findByPk(id).then(result => {
-            const todo = result
-            if (result) {
-                Todo.destroy({ where: { id } })
-                    .then(result => {
-                        res.status(200).json({
-                            data: todo
-                        })
-                    })
-                    .catch(next)
-            } else {
-                next({ name: 'DataNotFound' })
-            }
-        })
+        Todo.destroy({ where: { id } })
+            .then(result => {
+                res.status(200).json({
+                    data: result
+                })
+            })
+            .catch(next)
     }
 }
 
