@@ -1,5 +1,5 @@
 module.exports = (err,req,res,next)=>{
-  console.log(err, "ini error")
+  // console.log(err, "ini error")
   let status = 500 ;
   let errObj = {
     msg : "Internal Server Error"

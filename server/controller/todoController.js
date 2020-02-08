@@ -83,7 +83,6 @@ class TodoController{
     })
       .then(todo=>{
         if (!todo[0]){
-          console.log('tidak ada todo')
           next({
             status : 404,
             message : "Not Found"
