@@ -43,6 +43,11 @@ function fetchData(){
           $("ul#todo-findOne").append(`<li><b>Description :</b><br>${todo.data.data.description}</li>`);
           let arr = todo.data.data.due_date.split('T')
           $("ul#todo-findOne").append(`<li><b>Due date :</b><br>${arr[0]}</li>`);
+          let status = 'uncomplete'
+          if(todo.data.data.status){
+            status = 'completed'
+          }
+          $("ul#todo-findOne").append(`<li><b>Status :</b><br>${status}</li>`);
           $("#id-select").val(`${el.id}`)
         })
         .catch(err=>{
@@ -198,6 +203,9 @@ $(document).ready(function(){
     $("#div-login").show()
     $("#div-register").hide()
     $("#quote").hide() 
+    $("#warning-reg").html("")
+    $("#e-register").val("")
+    $("#p-register").val("")
   })
 
   $("#click-register").on("click", function(){
@@ -205,6 +213,9 @@ $(document).ready(function(){
     $("#div-register").show()
     $("#div-login").hide()
     $("#quote").hide() 
+    $("#warning-login").html("")
+    $("#e-login").val("")
+    $("#p-login").val("")
   })
 
   $("#click-list").click(function(){
@@ -257,7 +268,11 @@ $(document).ready(function(){
       afterLogin()
     })
     .catch(err=>{
-      $("#warning-login").html(`${err.response.data.errObj.msg}`)
+      if(typeof err.response.data.errObj.msg==='string'){
+        $("#warning-login").html(`${err.response.data.errObj.msg}`)
+      } else {
+      $("#warning-login").html(`${err.response.data.errObj.msg[0]}`)
+      }
     })
   })
 
@@ -269,6 +284,9 @@ $(document).ready(function(){
     const data = {title, description, due_date}
     addTodo(data)
     .then(todo=>{
+      $("#t-add").val("")
+      $("#d-add").val("")
+      $("#due-add").val("")
       showList()
     })
     .catch(err=>{
@@ -328,14 +346,21 @@ $(document).ready(function(){
     const title = $("#t-edit").val()
     const description = $("#d-edit").val()
     const due_date = $("#due-edit").val()
-    const data = {title, description, due_date}
+    const status = $("#status-edit").val()
+    const data = {title, description, due_date, status}
+    console.log(data)
     updateTodo(data,id)
     .then(result=>{
-      console.log(result.data)
+      console.log(result)
       showList()
+      $("#warning-edit").html("")
     })
     .catch(err=>{
-      console.log(err)
+      if(typeof err.response.data.errObj.msg==='string'){
+        $("#warning-edit").html(`${err.response.data.errObj.msg}`)
+      } else {
+      $("#warning-edit").html(`${err.response.data.errObj.msg[0]}`)
+      }
     })
   })
 
@@ -343,5 +368,9 @@ $(document).ready(function(){
     $("#t-add").val("")
     $("#d-add").val("")
     $("#due-add").val("")
+  })
+
+  $("#click-logo").on("click", function(){
+    showHome()
   })
 });

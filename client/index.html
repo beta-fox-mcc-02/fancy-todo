@@ -5,8 +5,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="974554864235-ahhop5hp5ml98jn04am1b3124009ql41.apps.googleusercontent.com">
+  <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans|Allan|Architects+Daughter|Chewy|Permanent+Marker&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="shorcut icon" href="https://image.flaticon.com/icons/svg/776/776541.svg" type="svg">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
@@ -15,7 +17,7 @@
 <nav class="navbar navbar-inverse" id="top">
   <div class="container-fluid myheader" >
     <div class="navbar-header myheader">
-      <a class="navbar-brand" href="#">Todo App</a>
+      <a class="navbar-brand" href="#" id="click-logo" >Todo App</a>
     </div>
     <ul class="nav navbar-nav">
       <li id="click-home"><a href="#">Home</a></li>
@@ -30,16 +32,14 @@
 </nav>
   
 <div class="container" id="div-home">
-  <h3>Welcome to Todo App</h3>
-  <p>let's become pruductive</p>
+  <h3 class="welcome-home">Welcome to Todo App</h3>
+  <p class="welcome-buttom">let's become pruductive</p>
 </div>
 
   <blockquote class="blockquote text-center" id="quote">
     <h2 class="mb-0" id="quote-text"></h2>
     <footer class="blockquote-footer" id="quote-author" ></footer>
   </blockquote>
-
-
 
 
 <div id="listTodo" class="container" style="width: 75%;">
@@ -72,7 +72,6 @@
     </div>
     <input class="btn btn-primary btn-block" type="submit" value="Register">
   </form>
-  <!-- <span id="warning-reg"></span> -->
 </div>
 
 <div class="container" id="div-login" style="width: 50%;">
@@ -108,6 +107,7 @@
 
 <div id="div-edit">
   <form id="editTodo">
+  <h4><span class="warning" id="warning-edit" style="text-align: center; color: red;"></span></h4>
     <h2>Edit Todo</h2>
     <div class="form-group">
       <label for="title">Title :</label>
@@ -121,11 +121,18 @@
       <label for="due_date">Due Date :</label>
       <input type="date" class="form-control" id="due-edit" name="due_date" value=""><br>
     </div>
+    <div class="form-group">
+      <label for="status">Status :</label>
+      <select id="status-edit" name="status">
+        <option value=true>Completed</option>
+        <option value=false>Uncomplete</option>
+      </select>
+    </div>
     <input type="submit" class="btn btn-primary">
   </form>
 </div>
 
-<div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div  class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <div id="div-add" >
