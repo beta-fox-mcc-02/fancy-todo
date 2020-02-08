@@ -5,20 +5,6 @@ const { generateToken } = require('../helpers/jwt')
 const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
-  static findAll(req, res, next) {
-    User.findAll({
-      include: [{
-        model: Todo,
-        order: [['id']]
-      }],
-      order: [['id']],
-      attributes: {
-        exclude: ['password']
-      }
-    })
-    .then(users => res.status(200).json(users))
-    .catch(next)
-  }
 
   static login(req, res, next) {
     let { user, password } = req.body 
@@ -50,6 +36,7 @@ class UserController {
             id: user.id,
           }
           let token = generateToken(userObj)
+          req.currentUserId = user.id
           res.status(200).json(
             {
               username: user.username,
@@ -63,28 +50,55 @@ class UserController {
 
   //google sign in
   static gsignin(req, res, next) {
-    let token = req.body.token
+    const CLIENT_ID = process.env.CLIENT_ID
+    let userObj = {}
+    let id_token = req.headers.id_token
+    // console.log(id_token)
     // let audience
     const client = new OAuth2Client(CLIENT_ID);
-    async function verify() {
-      const ticket = await client.verifyIdToken({
-          idToken: token,
+    client.verifyIdToken({
+          idToken: id_token,
           audience: CLIENT_ID,  // Specify the CLIENT_ID of the app that accesses the backend
           // Or, if multiple clients access the backend:
           //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
-      });
-      const payload = ticket.getPayload();
-      const userid = payload['sub'];
-      // If request specified a G Suite domain:
-      //const domain = payload['hd'];
-    }
-verify().catch(console.error);
+      })
+        .then(ticket => {
+          const payload = ticket.getPayload();
+          userObj.username = payload.name
+          userObj.email = payload.email
+          return User.findOne({
+            where: {
+              [Op.or] : [
+                {username: userObj.username},
+                {email: userObj.email}
+              ]
+            }
+          })
+        })
+        .then(user => {
+          if (user) {
+            return user
+          }
+          else {
+            userObj.password = process.env.DEFAULT_PWD
+            return User.create (userObj)
+          } 
+        })
+        .then(user => {
+          let token = generateToken({id: user.id}) 
+          res.status(201).json(
+            {
+              username: user.username,
+              token 
+            })
+        })
+        .catch(next)
   }
 
   static register(req, res, next) {
     let { username, email, password } = req.body
     User.create ({username, email, password})
-      .then(newUser => res.status(200).json({newUser, msg:"login success"}))
+      .then(newUser => res.status(201).json({newUser, msg:"Register success"}))
       .catch(next)
   }
 

@@ -13,9 +13,6 @@ router.get('/', TodoController.findAll)
 //create new todo
 router.post('/', TodoController.createTodo)
 
-//show API
-router.get('/currency', TodoController.currencyAPI)
-
 //find specific todo based on Primary Key
 router.get('/:id', TodoController.findByPk)
 
@@ -24,5 +21,8 @@ router.put('/:id', authorize, TodoController.update)
 
 //delete one todo
 router.delete('/:id', authorize, TodoController.destroy)
+
+//show API
+router.get('/currency', TodoController.currencyAPI)
 
 module.exports = router

@@ -6,6 +6,7 @@ module.exports = {
     const input  = req.headers.token
     const decoded = verifyToken(input)
     let id = decoded.id
+    // console.log(input, decoded, 'jagyfwkuegf===========================')
     User.findByPk(id)
       .then(user => {
         if (!user) next({
@@ -21,8 +22,9 @@ module.exports = {
 
   authorize: (req, res, next) => {
     let currentId = req.currentUserId
-    let ownerId = req.params.id
-    User.findByPk(ownerId)
+    let todoId = +req.params.id
+    console.log(currentId, todoId, '================================')
+    User.findByPk(currentId)
       .then(user => {
         if (!user) next({
           name: "AuthorizationError"

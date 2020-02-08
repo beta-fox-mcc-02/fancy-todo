@@ -4,7 +4,11 @@ const { Todo } = require('../models')
 
 class TodoControler {
   static findAll(req, res, next) {
+    console.log(req.currentUserId)
     Todo.findAll({
+      where: {
+        UserId: req.currentUserId
+      },
       order: [['id']]
     })
       .then(todos => res.status(200).json(todos))
@@ -18,6 +22,7 @@ class TodoControler {
       status: req.body.status,
       due_date: req.body.due_date
     }
+    console.log("masuk create",newTodo , 4324234234234324)
 
     Todo.create(newTodo)
       .then(todo => {

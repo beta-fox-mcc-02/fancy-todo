@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="google-signin-client_id" content="370221113936-iotp9458nc43cg8l3r93baq05gj149j7.apps.googleusercontent.com">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <title>Fancy Todo</title>
 </head>
 <body>
@@ -35,7 +36,7 @@
               <label for="password">Password</label>
               <input type="password" name="password" class="form-control" id="password">
             </div>
-            <button type="submit" class="btn btn-secondary">Submit</button>
+            <button type="submit" class="btn btn-secondary">Login</button>
           </form>
     
           <hr>
@@ -47,39 +48,21 @@
     </div>
     <div class="col-4"></div>
   </div>
-  <a href="#" onclick="signOut();">Sign out</a>
+  
   <!-- content -->
   <div class="row" id="content" style="margin: 50px;">
     <div class="col-2"></div>
     <div class="col-8">
-      <span id="title"><h3>Your Todo List</h3></span>
+      <div class="row">
+        <div class="col-md-4">
+          <span id="title"><h3>Your Todo List</h3></span>
+        </div>
+        <div class="col-md-4 offset-md-4">
+          <button type="button" class="btn btn-secondary" >Create new todo</button>
+        </div>
+      </div>
       <div id="todos">
-        <ul style="list-style: none;">
-          <li style="margin: 10px;">
-            <div class="card">
-              <h4 class="card-header" style="background-color: orange;">Todo name</h4>
-              <div class="card-body" style="background-color: rosybrown;">
-                <h5 class="card-title">Todo description description</h5>
-                <p class="card-text">Due Date: due_date</p>
-                <p class="card-text">status</p>
-                <a href="#" class="btn btn-secondary">Mark as done</a>
-                <a href="#" class="btn btn-secondary">Edit</a>
-                <a href="#" class="btn btn-secondary">Delete</a>
-              </div>
-          </li>
-
-          <li style="margin: 10px;">
-            <div class="card">
-              <h4 class="card-header" style="background-color: orange;">Todo name</h4>
-              <div class="card-body" style="background-color: rosybrown;">
-                <h5 class="card-title">Todo description description</h5>
-                <p class="card-text">Due Date: due_date</p>
-                <p class="card-text">status</p>
-                <a href="#" class="btn btn-secondary">Mark as done</a>
-                <a href="#" class="btn btn-secondary">Edit</a>
-                <a href="#" class="btn btn-secondary">Delete</a>
-              </div>
-          </li>
+        <ul style="list-style: none;" id="todo-card">
         </ul>
 
         </div>
@@ -87,10 +70,39 @@
     </div>
     <div class="col-2"></div>
   </div>
+
+  <!-- new todo form -->
+  <div class="row justify-content-md-center" id="newTodo">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Input your new todo</h5>
+        </div>
+        <div class="card-body">
+          <form id="newTodoForm">
+            <div class="form-group">
+              <label for="title">Todo title</label>
+              <input type="text" class="form-control" name="judul" id="judul">
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input type="text" class="form-control" name="description" id="description">
+            </div>
+            <div class="form-group">
+              <label for="due_date">Due date</label>
+              <input type="date" class="form-control" name="due_date" id="due_date">
+            </div>
+            <button type="submit" class="btn btn-secondary">Submit</button>
+          </form>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="./main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 </html>
