@@ -14,7 +14,7 @@ module.exports = function(req, res, next) {
     else {
         try {
             Todo.findByPk(req.params.id)
-                .then(data => {
+                .then(data => {            
                     if(req.decode.id === data.UserId)
                         next();
                     else {
@@ -24,7 +24,7 @@ module.exports = function(req, res, next) {
                         }
                     }
                 })
-            console.log(req);
+            
             
             const decoded = jwt.decode(token);
             req.user = decoded;

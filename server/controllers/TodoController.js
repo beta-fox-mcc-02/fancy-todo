@@ -3,8 +3,6 @@ const axios = require('axios');
 
 class TodoController{
     static findAll(req, res, next) {
-        console.log(1);
-        
         Todo.findAll()
         // ({
         //     include: [{ model: User }]
@@ -25,7 +23,8 @@ class TodoController{
             title : req.body.title,
             description : req.body.description,
             status : req.body.status,
-            due_date : req.body.due_date
+            due_date : req.body.due_date,
+            UserId : req.user.id
         }
         
         Todo.create(data)
