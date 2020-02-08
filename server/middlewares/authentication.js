@@ -2,6 +2,7 @@ const { checkToken } = require('../helpers/jwt')
 const { User } = require('../models')
 
 function isTokenValid (req, res, next) {
+   console.log('authentication')
    let token = req.headers.token
    if(token) {
       try {
@@ -13,7 +14,7 @@ function isTokenValid (req, res, next) {
          })
             .then(user => {
                if(user) {
-                  req.decoded = user.id
+                  req.decoded = +user.id
                   next()
                } else {
                   next({

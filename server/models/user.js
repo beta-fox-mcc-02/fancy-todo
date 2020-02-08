@@ -4,12 +4,15 @@ const { encryptPassword } = require('../helpers/bcrypt')
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model
 
-  class User extends Model {}
+  class User extends Model {
+    static associate (models) {
+      this.hasMany(models.Todo)
+    }
+  }
 
   User.init({
     email: {
       type : DataTypes.STRING,
-      unique : true,
       validate : {
         isEmail : true
       }
@@ -18,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       type : DataTypes.STRING,
       validate : {
         len : {
-          args : [8],
-          msg : 'password length must have at least 8 character'
+          args : [5],
+          msg : 'password length must have at least 5 character'
         }
       }
     }
@@ -32,9 +35,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   })
-  User.associate = function(models) {
-    // associations can be defined here
-    User.hasMany(models.Todo)
-  };
+  
   return User;
 };

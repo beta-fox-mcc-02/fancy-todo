@@ -35,16 +35,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type : DataTypes.BOOLEAN,
-      defaultValue : false,
-      validate : {
-        notEmpty : true
-      }
+      defaultValue : false
     },
     due_date: {
       type : DataTypes.DATE,
       validate : {
         notEmpty : true
       }
+    }, 
+    UserId: {
+      type: DataTypes.STRING
     }
   }, {
     sequelize

@@ -3,6 +3,7 @@ const axios = require('axios')
 
 class TodoController {
    static search(req, res) {
+      console.log('masuk ke settingan API', '================')
       axios({
          method: 'get',
          url: 'https://developers.zomato.com/api/v2.1/search?entity_id=74&entity_type=city',
@@ -18,16 +19,17 @@ class TodoController {
    }
 
    static findAll(req, res, next) {
-      Todo.findAll()
+      console.log(req.decoded)
+      // console.log('testing 1234567890')
+      Todo.findAll({
+         where : {
+            UserId : +req.decoded
+         }
+      })
          .then(task => {
-            res.status(200).json({
-               data: task,
-               msg: 'success get todo list'
-            })
+            res.status(200).json(task)
          })
-         .catch(err => {
-            next(err)
-         })
+         .catch(next)
    }
 
    static create(req, res, next) {

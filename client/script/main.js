@@ -1,171 +1,15 @@
-function onSignIn(googleUser) {
-   let id_token = googleUser.getAuthResponse().id_token;
-   // console.log(id_token)
-   // console.log(googleUser)
-   $.ajax({
-      method: "POST",
-      url: "http://localhost:3000/googleSignIn",
-      headers : {
-         token : id_token
-      }
-   })
-         .done(data => {
-            console.log('success in main.js')
-            localStorage.setItem('token', data.token)              
-         })
-         .fail(err => {
-            $("div#formLogin").hide()
-         })
+let token = localStorage.getItem('token')
+
+//reset page
+function resetPage() {
+   $("#homePage").hide()
+   $("#formLogin").hide()
+   $("#formRegister").hide()
+   $("#todoList").hide()
+   $("#listZomato").hide()
 }
 
-function addTodoList() {
-   $("#showTodoList").empty()
-   $.ajax({
-      method: "POST",
-      url: "http://localhost:3000/todos",
-      data : {
-         title: $("#addTitle").val(),
-         description: $("#addDescription").val(),
-         due_date : $("#addDueDate").val()
-      },
-      headers : {
-         token : localStorage.getItem("token")
-      }
-   })
-      .done(todos => {
-         fetchTodoList()         
-      })
-      .fail(err => {
-         console.log(err)
-      })
-}
-
-function fetchTodoList() {
-   $("#showTodoList").empty()
-   $.ajax({
-      method: "GET",
-      url: "http://localhost:3000/todos",
-      headers : {
-        token : localStorage.getItem("token")
-      }
-   })
-      .done(todos => {
-         // console.log(todos.data)
-         todos.data.forEach(todo => {
-            // console.log(todo)
-            $("#showTodoList").append(
-               `<div>
-                  <ul class="list-group list-group-flush" >
-                     <li>${todo.title} ${todo.description} ${todo.due_date}</li>
-                  </ul>
-               </div>`
-            )
-         })
-      })
-      .fail(err => {
-         console.log('fail fetch todo list')
-      })
-}
-
-function updateTodoList(id) {
-   $("#showTodoList").empty()
-   $.ajax({
-      method: "PUT",
-      url: `http://localhost:3000/todos/${id}`,
-      data : {
-         title : $("#addTitle").val(),
-         description : $("#description").val(),
-         due_date : $("#due_date").val(),
-      },
-      headers : {
-         token : localStorage.getItem("token")
-      }
-   })
-      .done(todo => {
-         fetchTodoList()
-      })
-      .fail(err => {
-         console.log(err)
-      })
-}
-
-function deleteTodoList(id) {
-   
-   $("#showTodoList").empty()
-   $.ajax({
-      method: "DELETE",
-      url: `http://localhost:3000/todos/${id}`,
-      headers : {
-         token
-      }
-   })
-      .done(todo => {
-         fetchTodoList()
-      })
-      .fail(err => {
-         console.log(err)
-      })
-}
-
-function isLogin() {
-   const email = $("#loginEmail").val()
-   const password = $("#loginPassword").val()
-   // console.log($("#loginEmail").val())
-   // console.log($("#loginPassword").val())
-   $.ajax({
-      method: "POST",
-      url: `http://localhost:3000/users/login`,
-      data : {
-         email,
-         password
-      }
-   })
-      .done(todo => {
-         localStorage.setItem("token", todo.token)
-         $("div#formLogin").hide()
-         $("div#todoList").show()
-         fetchTodoList()         
-      })
-      .fail(err => {
-         console.log(err, 'fail login====================')
-      })
-}
-
-function register() {
-   $.ajax({
-      method: "POST",
-      url: `http://localhost:3000/users/register`,
-      data : {
-         email : $("#registerEmail").val(),
-         password : $("#registerPassword").val()
-      }
-   })
-      .done(todo => {
-         $("div#formRegister").hide()
-         $("div#formLogin").show()
-         console.log('success register')
-      })
-      .fail(err => {
-         console.log(err, 'register')
-      })
-}
-
-function logingOut() {
-   $("#loginEmail").val('')
-   $("#loginPassword").val('')
-
-   localStorage.clear()
-
-   const auth2 = gapi.auth2.getAuthInstance();
-   auth2.signOut().then(function () {
-     console.log('User signed out.');
-   });
-}
-
-function showHome() {
-   $("div.col").hide()
-}
-
+//nav setting when login
 function whenLogin() {
    $("li#navLogin").hide()
    $("li#navLogout").show()
@@ -173,6 +17,7 @@ function whenLogin() {
    $("li#navTodoList").show()
 }
 
+//nav setting when logout
 function whenLogout() {
    $("li#navLogin").show()
    $("li#navLogout").hide()
@@ -180,58 +25,129 @@ function whenLogout() {
    $("li#navTodoList").hide()
 }
 
-$(document).ready(function(){
-   showHome()
-   if(localStorage.token) {
+//nav control 
+function navControl() {
+   if(token) {
       whenLogin()
    } else {
       whenLogout()
-   }   
+   }
+}
 
+//show Homepage
+function showHome() {
+   resetPage()
+   navControl()
+   $("#homePage").show()
+}
+
+//reset error/success warning/notification
+function resetWarning() {
+   $("div#successRegister").hide()
+   $("div#failRegister").hide()
+   $("div#failLogin").hide()
+   $("div#successCreateTodo").hide()
+   $("div#failCreateTodo").hide()
+}
+
+$(document).ready(function(){
+   showHome()
+
+   //nav Logo
+   $("a.navbar-brand").on("click", function() {
+      showHome()
+   })
+
+   //nav Home
    $("li#navHome").on('click', function() {
       showHome()
-      if(localStorage.token) {
-         whenLogin()
-      } else {
-         whenLogout()
-      }
    })
 
+   //nav Login
    $("li#navLogin").on('click', function() {
-      showHome()
+      $("#loginEmail").val('')
+      $("#loginPassword").val('')
+      resetPage()
+      resetWarning()
       $("div#formLogin").show()
-      whenLogin()
-      $("#logingIn").on('click', function(el) {
-         el.preventDefault()
-         isLogin()
-      })
+   })
+   $("button#logingIn").on('click', function(el) {
+      el.preventDefault()
+      resetWarning()
+      isLogin()
    })
 
+   //nav Logout
    $("li#navLogout").on('click', function() {
-      showHome()
+      resetPage()
       whenLogout()
       logingOut()
    })
-   
+
+   //nav Register
    $("li#navRegister").on('click', function() {
-      showHome()
+      $("#registerEmail").val('')
+      $("#registerPassword").val('')
+      resetPage()
       whenLogout()
+      resetWarning()
       $("div#formRegister").show()
-      $("#registerUser").on('click', function(el) {
-         el.preventDefault()
-         register()
-      })
+   })
+   $("button#registerUser").on('click', function(el) {
+      el.preventDefault()
+      register()
    })
 
+   //nav TodoList
    $("li#navTodoList").on("click", function() {
-      showHome()
-      $("div#todoList").show()
+      resetPage()
       whenLogin()
+      resetWarning()
+      $("div#todoList").show()
       fetchTodoList()
-      $("#addTodo").on("submit", function(el) {
-         el.preventDefault()
-         addTodoList()
-      })
+   })
+   $("button#addTodo").on("click", function(el) {
+      el.preventDefault()
+      resetWarning()
+      console.log('addTodo')
+      addTodoList()
    })
 
+   //close Modal
+   $(".close-modal").on("click", function(el) {
+      el.preventDefault()
+      $("#modalDeleteTodo").hide()
+      $("#modalUpdateTodo").hide()
+      $("#todoList").show()
+      $("#zomatoModal").hide()
+
+      fetchTodoList()
+   })
+
+   $("#updateTodoConfirm").on("click", function(el) {
+      el.preventDefault()
+   })
+
+   $("#addZomato").on("click", function(el) {
+      el.preventDefault()
+      $("#zomatoModal").show()
+      $("#todoList").hide()
+   })
+
+   $("#showListZomato").on("click", function(el) {
+      el.preventDefault()
+      $("#listZomato").show()
+      $("#zomatoModal").hide()
+      zomato()
+   })
+
+   $("#backToTodo").on("click", function(el) {
+      el.preventDefault()
+      $("#todoList").show()
+      $("#zomatoModal").hide()
+   })
+
+   $("#restoSelected").on("click", function(el) {
+      el.preventDefault()
+   })
 })
