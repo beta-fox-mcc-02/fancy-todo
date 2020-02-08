@@ -8,17 +8,23 @@ let secretPasswordGoogle = process.env.SECRET_GOOGLE
 class Controller {
     static register(req, res, next) {
         let newUser = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
             email: req.body.email,
             password: req.body.password
         }
         User.create(newUser)
             .then(user => {
                 let payload = {
+                    first_name: user.first_name,
+                    last_name: user.last_name,
                     id: user.id,
                     email: user.email
                 }
                 let token = generateToken(payload);
                 res.status(201).json({
+                    first_name: user.first_name,
+                    last_name: user.last_name,
                     id: user.id,
                     email: user.email,
                     password: user.password,
@@ -39,11 +45,15 @@ class Controller {
                 if (user) {
                     if (comparePass(req.body.password, user.password)) {
                         let payload = {
+                            first_name: user.first_name,
+                            last_name: user.last_name,
                             id: user.id,
-                            email: user.email
+                            email: user.email,
+                            image: user.image,
                         }
                         let token = generateToken(payload);
                         res.status(200).json({
+                            payload,
                             accessToken: token
                         })
                     } else {
@@ -88,26 +98,37 @@ class Controller {
             .then(user => {
                 if (user) {
                     let payload = {
+                        first_name: user.first_name,
+                        last_name: user.last_name,
                         id: user.id,
                         email: user.email,
+                        image: user.image,
                     }
                     let token = generateToken(payload);
                     res.status(200).json({
+                        payload,
                         accessToken: token
                     })
                 } else {
                     let newUser = {
+                        first_name: payload.first_name,
+                        last_name: payload.last_name,
                         email: payload.email,
-                        password: secretPasswordGoogle
+                        password: secretPasswordGoogle,
+                        image: payload.picture
                     }
                     User.create(newUser)
                         .then(user => {
                             let payload = {
+                                first_name: user.first_name,
+                                last_name: user.last_name,
                                 id: user.id,
                                 email: user.email,
+                                image: user.image,
                             }
                             let token = generateToken(payload);
                             res.status(200).json({
+                                payload,
                                 accessToken: token
                             })
                         })

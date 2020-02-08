@@ -11,12 +11,28 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <title>Fancy Todo</title>
+    <title>FancyTodo</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Fancy Todo</a>
+    <a id="userButton" class="menu-toggle rounded" href="#">
+    </a>
+    <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger" href="#">Home</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger" href="#" id="navTodo">My Todos</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger" href="#" id="navLogout">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <nav id="publicNav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Fancy <strong>Todo</strong></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -28,10 +44,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navHome">Home <span class="sr-only"></span></a>
                 </li>
-                <!-- nav todo -->
-                <li class="nav-item" id="navTodo">
-                    <a class="nav-link" href="#">My Todos <span class="sr-only"></span></a>
-                </li>
             </ul>
 
             <ul class="nav justify-content-end">
@@ -39,21 +51,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#" id="navLogin">Login</a>
                 </li>
-                <!-- nav login register -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="navRegister">Register</a>
-                </li>
-                <!-- nav login logout -->
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="navLogout">Logout</a>
-                </li>
             </ul>
         </div>
     </nav>
 
     <!-- todo page -->
     <div class="container" id="todoPage">
-        <button id="addTodoButton" type="button" class="btn btn-success">Add To Do</button>
+        <button id="addTodoButton" type="button" class="btn btn-success">Add Todo</button>
         <table class="table" id="listTodo">
         </table>
 
@@ -90,7 +94,7 @@
                                 <textarea class="form-control" id="descTodo"></textarea>
                             </div>
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>
                 </div>
@@ -112,14 +116,14 @@
             </div>
             <div class="col-md-auto">
                 <div class="row justify-content-md-center">
-                    <h1>Login</h1>
+                    <h1></h1>
                 </div>
                 <!-- error -->
                 <div class="row justify-content-md-center error" id="errorLogin">
                 </div>
                 <form id="loginForm">
                     <div class="form-group">
-                        <label for="InputEmailLogin">Email address</label>
+                        <label for="InputEmailLogin">Email</label>
                         <input type="email" class="form-control" id="InputEmailLogin" name="email">
                     </div>
                     <div class="form-group">
@@ -128,43 +132,61 @@
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Login</button>
                 </form>
-                <p>Other Sign In Options</p>
                 <div id="otherOption">
                     <div class="g-signin2" data-onsuccess="onSignIn"></div>
                 </div>
+                <p class="customP">Don't Have Any Account? <a href="" id="registerLink">Register Here</a></p>
             </div>
             <div class="col col-lg-2">
             </div>
         </div>
-    </div>
 
-    <!-- register page -->
-    <div class="container" id="registerPage">
-        <div class="row justify-content-md-center">
-            <div class="col col-lg-2">
-            </div>
-            <div class="col-md-auto">
-                <div class="row justify-content-md-center">
-                    <h1>Register</h1>
-                </div>
-                <!-- error -->
-                <div class="row justify-content-md-center error" id="errorRegister">
-                </div>
-                <form id="registerForm">
-                    <div class="form-group">
-                        <label for="InputEmailRegister">Email address</label>
-                        <input type="email" class="form-control" id="InputEmailRegister" name="email">
+        <!-- modal register -->
+        <div id="modalRegister" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop='static'>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- content -->
+                    <div class="modal-body removePadding">
+                        <div class="row">
+                            <div class="col customMargin">
+                                <div id="errorRegister">
+                                </div>
+                                <form id="registerForm">
+                                    <div class="form-group">
+                                        <label for="InputFnameRegister">First Name</label>
+                                        <input type="text" class="form-control" id="InputFnameRegister"
+                                            name="first_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputLnameRegister">Last Name</label>
+                                        <input type="text" class="form-control" id="InputLnameRegister"
+                                            name="last_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputEmailRegister">Email address</label>
+                                        <input type="email" class="form-control" id="InputEmailRegister" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputPasswordRegister">Password</label>
+                                        <input type="password" class="form-control" id="InputPasswordRegister"
+                                            name="password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </form>
+                            </div>
+                            <div class="col bg"><button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </span></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="InputPasswordRegister">Password</label>
-                        <input type="password" class="form-control" id="InputPasswordRegister" name="password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
-            <div class="col col-lg-2">
+                </div>
+
             </div>
         </div>
+
+
     </div>
 
     <!-- update page -->
