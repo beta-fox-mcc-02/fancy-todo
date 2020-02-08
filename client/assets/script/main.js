@@ -58,7 +58,6 @@ function fetchStandard(status) {
           `<div class="card" style="margin-bottom: 1rem" id=${todo.id}>
             <div class="card-body">
               <h5 class="card-title">${todo.title}</h5>
-              <h5> test </h5>
               <h6 class="card-subtitle mb-2 text-muted">${todo.status ? "Done" : "Ongoing"}</h6>
               <p class="card-text">${todo.description}</p>
               <button class="btn btn-info btn-sm show-detail fas fa-book-open" style="position: absolute;
