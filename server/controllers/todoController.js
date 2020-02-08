@@ -23,7 +23,8 @@ class TodoController {
     }
 
     static findAll(req, res, next) {
-        Todo.findAll()
+        let UserId = +req.decoded.id
+        Todo.findAll({where: {UserId: UserId}})
             .then((todos) => {
                 res.status(200).json({
                     data: todos
@@ -94,8 +95,9 @@ class TodoController {
 
     static delete(req, res, next) {
         let id = req.params.id
+        let UserId = +req.decoded.id
 
-        Todo.destroy({where: {id}})
+        Todo.destroy({where: {id: id, UserId: UserId}})
             .then((todos) => {
                 if (!todos) {
                     let errObj = {

@@ -1,8 +1,51 @@
 const { User }        = require('../models')
 const {checkPassword} = require('../helpers/hashPassword')
 const jwt             = require('../helpers/jwt')
+const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
+
 
 class UserController {
+
+      static gSign (req, res, next) {
+        let access_token = req.headers.access_token
+        let email = ""
+        client.verifyIdToken({
+          idToken: access_token,
+          audience: process.env.CLIENT_ID
+        })
+        .then(data => {
+          // console.log(data.payload.email)
+          email = data.payload.email
+          return User.findOne({
+            where: { email }
+          })
+        })
+        .then(data => {
+          if (!data) {
+            return User.create({
+              email,
+              password: process.env.DUMMYPASSWORD
+            })
+          } else {
+            return data
+          }
+        })
+        .then(data => {
+          let access_token = jwt.generate({
+            id: data.id,
+            email: data.email
+          })
+          res.status(200).json({
+            access_token,
+            email: data.email,
+            isLogin: true
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
 
       static register(req, res, next) {
         let { email, password } = req.body

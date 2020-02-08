@@ -64,6 +64,12 @@ module.exports = (sequelize, DataTypes) => {
         notNull: {
           args: true,
           msg: 'Date is still null'
+        },
+        notToday(value) {
+          const dateUser = new Date(value)
+          if (dateUser < new Date()) {
+            throw new Error (`choose future date`)
+          }
         }
       },
       allowNull: false

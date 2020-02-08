@@ -13,6 +13,7 @@ router.use((req, res, next) => {
 })
 
 //register & login
+router.post('/googleSignIn', UserController.gSign)
 router.post('/register', UserController.register)
 router.post('/login', UserController.login)
 

@@ -1,6 +1,9 @@
-**REST API TODO**
+**FANCY TODO**
 ----
-  Membuat REST API dengan Express dan Sequelize 
+**AUTHOR: EDYCAKRA SINAGA**
+
+----
+
 
 * **BASE URL**
 

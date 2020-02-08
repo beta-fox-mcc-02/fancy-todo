@@ -4,54 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="966388135969-de6jg7bq6n9k9q2mq60i7k05hmr89kq7.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>FANCY TODO APP</title>
     <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 <body>
     <div class="container">
-        <div class="col-md-6 mx-auto p-0">
+        <div class="col-md-10 mx-auto p-0">
             <div class="card">
-                <h1>TODO APP</h1>
-                <!-- radio button login/register -->
-                <div class="login-box">
-                    <input type="radio" id="tab-1" name="tab"><label for="tab-1">Login</label>
-                    <input type="radio" id="tab-2" name="tab"><label for="tab-2">Register</label>
-                </div>
-                <!-- login -->
-                <form id="login-form">
-                    <div class="group"><label for="email" id="label">Email</label></div>
-                    <input type="text" id="email-login" placeholder="enter your email">
-                    <div class="group"><label for="password" id="label">Password</label></div>
-                    <input type="password" id="password-login" placeholder="enter your password">
-                    <div class="group"><input type="submit" id="button1" value="Login"></div>
-                </form>
-                <!-- register -->
-                <form id="register-form">
-                    <div class="group"><label for="email" id="label">Email</label></div>
-                    <input type="text" id="email-register" placeholder="enter your email">
-                    <div class="group"><label for="password" id="label">Password</label></div>
-                    <input type="password" id="password-register" placeholder="create your password">         
-                    <div class="group"><input type="submit" id="button2" value="Register"></div>               
-                </form>
+                <h1 id="mainTitle">TODO APP</h1>
+                <!-- navbar -->
+                <nav>                  
+                    <div class="navbar" id="navbar">
+                      <ul>
+                        <li><a href="#" >Home</a></li>
+                    </ul>
+                    <li><a href="#" id="logout">Logout</a></li>
+                    </div>
+                </nav>
+                <center>
+                    <div class="frontPage" id="frontPage">
+                        <div class="welcomeTitle">WELCOME TO TODO APP</div><br>
+                        <div class="login-box">
+                            <input type="radio" id="tab-1" name="tab"><label for="tab-1">Login</label>
+                            <input type="radio" id="tab-2" name="tab"><label for="tab-2">Register</label>
+                        </div>              
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>  
+                    </div>
+                </center>
+                
+                <center>
+
+                    <!-- login -->
+                    <form id="login-form">
+                        <div class="group"><label for="email" id="label">Email</label></div>
+                        <input type="text" id="email-login" placeholder="enter your email">
+                        <div class="group"><label for="password" id="label">Password</label></div>
+                        <input type="password" id="password-login" placeholder="enter your password">
+                        <div class="group"><input type="submit" id="button1" value="Login"></div>
+                    </form>
+                    <!-- register -->
+                    <form id="register-form">
+                        <div class="group"><label for="email" id="label">Email</label></div>
+                        <input type="text" id="email-register" placeholder="enter your email">
+                        <div class="group"><label for="password" id="label">Password</label></div>
+                        <input type="password" id="password-register" placeholder="create your password">         
+                        <div class="group"><input type="submit" id="button2" value="Register"></div>               
+                    </form>
+                </center>
                 <!-- todos -->
                 <div id="todo-dashboard">
-                    <form id="addTodo">
-                        <div class="formTitle">Add Todo</div>
-                        <input class="input1" type="text" placeholder="title" name="todoTitle" id="todoTitle" required>
-                        <br>
-                        <input class="input1" type="text" placeholder="description" name="todoDescription" id="todoDescription" required>
-                        <br>
-                        <input class="input1" type="Date" name="todoDueDate" id="todoDueDate">
-                        <br>
-                        <button class="button" type="submit" id="addTodoButton">Add Todo</button>
-                    </form>
+                    <!-- add todo -->
+                    <center>
+                        <form id="addTodo">
+                            <div class="formTitle">Add Todo</div>
+                            <input class="input1" type="text" placeholder="title" name="todoTitle" id="todoTitle" required>
+                            <br>
+                            <input class="input1" type="text" placeholder="description" name="todoDescription" id="todoDescription" required>
+                            <br>
+                            <input class="input1" type="date" name="todoDueDate" id="todoDueDate">
+                            <br>
+                            <button class="button" type="submit" id="addTodoButton">Add Todo</button>
+                        </form>
+                    </center>
+                    <!-- view all -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listTodo">
+
+                        </tbody>
+                    </table>
+                    <button class="btn btn-outline-dark" type="submit" id="addingbutton">Click to Add</button>
+                    <!-- 3rd party api : air visual  -->
+                    <div class="btn btn-outline-dark" id="air-visual" style="width: 100%;"></div>
+                    <!-- edit todo -->
+                    <center>
+                        <form id="editTodo">
+                            <div class="editTitle">Edit Todo</div>
+                            <input type="text" class="edit1" placeholder="new title" name="editTitle" id="editTitle">
+                            <br>
+                            <input type="text" class="edit1" placeholder="new description" name="editDescription" id="editDescription">
+                            <br>
+                            <select class="edit1" name="editStatus" id="editStatus">
+                                <option value="false">Ongoing</option>
+                                <option value="true">Done</option>
+                            </select>
+                            <br>
+                            <input type="date" class="edit1" name="editDate" id="editDate">
+                            <br>
+                            <button class="button" type="submit" id="editTodoButton">Edit Todo</button>
+                        </form>
+                    </center>
                 </div>
             </div>
         </div>
     </div>
+    <footer>
+        <center>
+            <div>
+                <p>&copy; Edycakra Sinaga - Hacktiv8 Student - 2020</p>
+            </div>
+        </center>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="js/main.js"></script>
 </html>
