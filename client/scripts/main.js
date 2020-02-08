@@ -376,8 +376,9 @@ $(document).ready(function () {
         emptyError()
         submitRegister()
             .done(response => {
+                console.log(response)
                 localStorage.token = response.accessToken
-                $('#userButton').append(`<img src="${response.payload.image ? response.payload.image : './styles/img/avatar.png'}" alt="" class="avatar"> <h8>${response.payload.first_name} ${response.payload.last_name ? response.payload.last_name : ''}</h8>`)
+                $('#userButton').append(`<img src="${response.image ? response.image : './styles/img/avatar.png'}" alt="" class="avatar"> <h8>${response.first_name} ${response.last_name ? response.last_name : ''}</h8>`)
                 $('#modalRegister').modal('hide')
                 isLogin()
                 showHome()
