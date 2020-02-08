@@ -9,7 +9,7 @@ function onSignIn(googleUser) {
             localStorage.setItem('token', response.data.token)
             localStorage.setItem('id', response.data.id)
             localStorage.setItem('name', response.data.name)
-            $("span.name").append(`Welcome ${response.data.name}!`)
+            initialInterface()
         })
         .catch((err) => {
             console.log(err)

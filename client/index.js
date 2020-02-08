@@ -11,6 +11,7 @@ function initialInterface() {
     else {
         showLogout()
         findData()
+        $("span.name").empty()
         $("span.name").append(`Welcome ${localStorage.getItem('name')}!`)
     }
 }
@@ -19,6 +20,7 @@ function showLogin() {
     $("#sidebar").hide()
     $("#upperbar").hide()
     $("main").hide()
+    $("section#todo-container").hide()
     $("#login-form").show()
 }
 
@@ -32,17 +34,19 @@ function showLogout() {
 
 function findData() {
     $("section#todo-container").show()
-    $("section#todo-container").empty()
     $.ajax({
         method: "GET",
         url: "http://localhost:3000/todos",
+        data: {
+            UserId: localStorage.getItem('id')
+        }
     })
         .done((result) => {
-            console.log(result.data)
+            $("section#todo-container").empty()
             let userID = localStorage.getItem('id')
+            let status
+            let class_name
             result.data.forEach((key) => {
-                let status;
-                let class_name;
                 if(!key.status) {
                     status = `mark as done`
                     class_name = 'status-false'
@@ -62,7 +66,6 @@ function findData() {
                     <div id="box-button">
                         <button class="${class_name}" name="statusID" onclick="completeTask(${key.id}, ${userID})">${status}</button>
                         <button class="delete-button" name="deleteID" onclick="deleteTask(${key.id}, ${userID})">delete</button>
-                        <button class="edit-button" name="editID" onclick="">edit</button>
                     </div>
                 </div>
                 `)
@@ -90,9 +93,7 @@ function register() {
             localStorage.setItem('name', result.data.name)
             $("#input-email").val('')
             $("#input-password").val("")
-            showLogout()
-            findData()
-            $("span.name").append(`Welcome ${result.data.name}!`)
+            initialInterface()
         })
         .catch((err) => {
             console.log(err)
@@ -125,9 +126,7 @@ function login() {
             localStorage.setItem('name', result.data.name)
             $("#input-email").val('')
             $("#input-password").val("")
-            showLogout()
-            findData()
-            $("span.name").append(`Welcome ${result.data.name}!`)
+            initialInterface()
         })
         .catch((err) => {
             $("#input-email").val('')
@@ -142,8 +141,7 @@ function createTodo() {
     let title = $("#todo-title").val()
     let description = $("#todo-desc").val()
     let due_date = $("#todo-due").val()
-
-    if(title.length > 0 && title.length <= 15 && due_date) {
+    if(title.length && due_date) {
         axios({
             method: "POST",
             url: "http://localhost:3000/todos",
@@ -162,6 +160,9 @@ function createTodo() {
                 $("#create-todo-form").hide()
             })
             .catch((err) => {
+                $("#todo-title").val('')
+                $("#todo-desc").val('')
+                $("#todo-due").val('')
                 console.log(err)
             })
     }
@@ -243,6 +244,7 @@ $(document).ready(() => {
     })
 
     $("#todo-button").on("click", () => {
+        $("section#todo-container").empty()
         $("section#todo-container").hide()
         $("section#actual-news-guardian").hide()
         $("#create-todo-form").show()
