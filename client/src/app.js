@@ -48,7 +48,7 @@ function configUpdate(id) {
       $('#desc-update-form').val(`${todo.data.data.description}`);
       $('#due-date-update-form').val(date);
       console.log('isi status', todo.data.data.status);
-      $(`input[name="radio-update-form"][value="${todo.data.data.status}"]`).attr('checked', true);
+      $(`input[name="radio-update-form"][value="${todo.data.data.status}"]`).prop('checked', true);
       return todo;
     })
     .then(todo => {
