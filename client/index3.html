@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="./styles/style.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta name="google-signin-client_id" content="887462420817-oscf1d0lqkv4ubass5ckuovaqbcg9d8s.apps.googleusercontent.com">
+    <title>Fancy Todo</title>
+</head>
+<body>
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Fancy Todo</a>
+          </div>
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <!-- <li><a href="#">Page 1</a></li>
+            <li><a href="#">Page 2</a></li> -->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+          </ul>
+        </div>
+      </nav>
+
+
+    <div id="error_message"></div>
+    <div id="login_page">
+        <form id="login_form">
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="Input email" id="email">
+            <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Input password" id="password">
+            <br>
+            <input type="submit" id="button_login" value="Login">
+        </form>
+    </div>
+    <br>
+    <input type="submit" id="button_logout" value="logout">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div id="register_page">
+        <form id="register_form">
+            <label for="email">Email</label>
+            <input type="text" name="email" placeholder="Input email" id="email_register">
+            <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Input password" id="password_register">
+            <br>
+            <input type="submit" id="button_register" value="Register">
+        </form>
+    </div>
+
+    <div id="newtask_page">
+        <form id="newtask_form">
+           
+            <label for="title">Title</label>
+            <input type="text" name="Title" placeholder="Task title" id="task_title">
+            <br>
+            <label for="description">Description</label>
+            <input type="text" name="description" placeholder="Task description" id="task_description">
+            <br>
+            <label for="due_date">Due Date</label>
+            <input type="date" name="due_date" id="task_due_date">
+            <br>
+            <input type="submit" id="button_newtask" value="Add new task">
+        </form>
+    </div>
+    
+    <ul id="task_list"></ul>
+    
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+    <!-- Google sign in -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- API & Layout -->
+    <script>
+        function onSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        }
+        
+
+        function gSignIn(token) {
+            return $.ajax({
+                method: 'POST',
+                url: 'http://localhost:3000/googleSignIn'
+            })
+        }
+    
+        function getTodo() {
+            $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:3000/todos',
+                    headers: {'access_token': localStorage.getItem('access_token')}
+                })
+                    .done( (task) => {
+                        console.log(task);
+                        $('#task_list').empty();
+                        task.data.forEach(el => {
+                            console.log(el)
+                            if(el.status) {
+                                el.status = 'Completed';
+                            } else {
+                                el.status = 'Uncomplete';
+                            }
+                            $('#task_list').append(`<li>Title: ${el.title} <br> 
+                                Description: ${el.description} <br> 
+                                Due Date: ${el.due_date.replace('T00:00:00.000Z', '')} <br>
+                                Status: ${el.status}
+                                </li>`);
+                        });
+                    })
+                    .fail( (err) => {
+                        console.log(err);
+                    })
+                    .always( () => {
+                        console.log('Complete');
+                    })
+        }
+
+        function homePage() {
+            if(localStorage.access_token) {
+                // $("#error_message").hide();
+                $('#button_logout').show();
+                $('#login_page').hide();
+                $('#register_page').hide();
+                $('.g-signin2').hide();
+               getTodo();
+            } else {
+                $("#newtask_page").hide();
+                $('#button_logout').hide();
+                $("#login_page").show();
+            }
+        }
+        homePage();
+
+        $(document).ready(function() {
+
+            $('#register_form').submit(function(e) {
+                e.preventDefault();
+                const email = $('#email_register').val();
+                const password = $('#password_register').val();
+                $.ajax({
+                    url:'http://localhost:3000/register',
+                    type: 'POST',
+                    data: {
+                        email: email,
+                        password: password
+                    }
+                })
+                    .done( (token) => {
+                        //nanti di sini show login form
+                        $("#register_page").hide();
+                        $('#password_register').val('');
+                        $('#email_register').val('');
+                    })
+                    .fail( (err) => {
+                        $("#test2").html("<b>Hello world!</b>");
+                        console.log(err);
+                    })
+                    .always( () => {
+                        console.log('complete');
+                    })
+            })
+            
+            $('#button_logout').click(function() {   
+                localStorage.clear();
+                $('#task_list').empty();
+                // $("#register_page").show();
+                // $("#login_page").show();
+                // $("#newtask_form").hide();
+                homePage();
+            })
+
+            $('#login_form').submit(function(e) {
+                e.preventDefault();
+                const email = $('#email').val();
+                const password = $('#password').val();
+                $.ajax({
+                    url:'http://localhost:3000/login',
+                    type: 'POST',
+                    data: {
+                        email: email,
+                        password: password
+                    }
+                })
+                    .done( (token) => {
+                        
+                        localStorage.setItem('access_token', token);
+                        $('#newtask_page').show();
+                        getTodo();
+                        $('#email').val('');
+                        $('#password').val('');
+                        $("#error_message").remove();
+                        homePage();
+                    })
+                    .fail( (err) => {
+                        $("#error_message").html(`<h5 style="color: red">${err.responseJSON.message}</h5>`);
+                        console.log(err);
+                    })
+                    .always( () => {
+                        console.log('complete');
+                    })
+            })
+
+            $('#newtask_form').submit(function(e) {
+                e.preventDefault();
+                const title = $('#task_title').val();
+                const description = $('#task_description').val();
+                const due_date = $('#task_due_date').val();
+                // const token = localStorage.getItem('access_key');
+                console.log(title, description, due_date, '========= dari html')
+
+                $.ajax({
+                    url:'http://localhost:3000/todos',
+                    type: 'POST',
+                    data: {
+                        title: title,
+                        description: description,
+                        due_date: due_date
+                    },
+                    headers: {
+                        'access_token': localStorage.getItem('access_token')
+                    }
+                })
+                    .done( (token) => {
+
+                        getTodo();
+                    })
+                    .fail( (err) => {
+                        console.log(err);
+                    })
+                    .always( () => {
+                        console.log('complete');
+                    })
+            })
+            
+            // console.log(localToken)
+            
+
+        })
+    </script>
+</body>
+</html>
