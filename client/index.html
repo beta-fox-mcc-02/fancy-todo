@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id"
+        content="539169343052-ck6st9oeel1c00ope1scvr4bfk6nalt1.apps.googleusercontent.com">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>FancyTodo</title>
+</head>
+
+<body>
+    <!-- user navigation -->
+    <a id="userButton" class="menu-toggle rounded" href="#">
+    </a>
+    <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger navHome" href="#" id="">Home</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger navHolidays" href="#" id="">Find Holidays</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger" href="#" id="navTodo">My Todos</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a class="js-scroll-trigger" href="#" id="navLogout">Logout</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- guest navigation -->
+    <nav id="publicNav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Fancy <strong>Todo</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!-- nav home -->
+                <li class="nav-item">
+                    <a class="nav-link navHome" href="#" id="">Home <span class="sr-only"></span></a>
+                </li>
+                <!-- nav find holidays -->
+                <li class="nav-item">
+                    <a class="nav-link navHolidays" href="#" id="">Find Holidays <span class="sr-only"></span></a>
+                </li>
+            </ul>
+
+            <ul class="nav justify-content-end">
+                <!-- nav login login -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="navLogin">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- todo page -->
+    <div class="container" id="todoPage">
+        <button id="addTodoButton" type="button" class="btn btn-success">Add Todo</button>
+        <table class="table" id="listTodo">
+        </table>
+
+        <!-- modal add todo -->
+        <div id="modalAddTodo" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop='static'>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="addModalLabel">Add Todo</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- content -->
+                    <div class="modal-body">
+                        <form id="addTodoForm">
+                            <div id="errorAddTodo">
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label for="titleTodo" class="col-form-label">Title:</label>
+                                    <input type="text" class="form-control" id="titleTodo">
+                                </div>
+                                <div class="col">
+                                    <label for="dateTodo" class="col-form-label">Due Date:</label>
+                                    <input type="date" class="form-control" id="dateTodo">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="descTodo" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="descTodo"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- home page -->
+    <div class="container" id="homePage">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="home-title">We Could Help You to Plan Your Todo List</h1>
+                <a class="btn btn-outline-info btn-lg" href="#" role="button" id="startButton">Let's make a list!</a>
+            </div>
+            <div class="col-md-6 right-align">
+            </div>
+        </div>
+    </div>
+
+    <!-- holiday page -->
+    <div class="container" id="holidayPage">
+        <h1 class="home-title">Don't Miss Your Holidays</h1>
+        <form id="formHolidays">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="monthSelect">Months</label>
+                </div>
+                <select class="custom-select" id="monthSelect">
+                    <option value="" selected>Select Month...</option>
+                </select>
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="yearSelect">Years</label>
+                </div>
+                <select class="custom-select" id="yearSelect">
+                    <option value="2020" selected>Select Year...</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        <!-- modal add todo by date -->
+        <div id="modalAddTodoByDate" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop='static'>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="addModalLabelByDate">Add Todo</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    <!-- content -->
+                    <div class="modal-body">
+                        <form id="addTodoFormByDate">
+                            <div id="errorAddTodoByDate">
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label for="titleTodoByDate" class="col-form-label">Title:</label>
+                                    <input type="text" class="form-control" id="titleTodoByDate">
+                                </div>
+                                <div class="col">
+                                    <label for="dateTodoByDate" class="col-form-label">Due Date:</label>
+                                    <input type="date" class="form-control" id="dateTodoByDate">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="descTodoByDate" class="col-form-label">Description:</label>
+                                <textarea class="form-control" id="descTodoByDate"></textarea>
+                            </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- table Holiday -->
+        <table class="table" id="tableHolidays">
+            <caption id="captionHolidays"></caption>
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody id="inputHolidays">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- login page -->
+    <div class="container" id="loginPage">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-2">
+            </div>
+            <div class="col-md-auto">
+                <div class="row justify-content-md-center">
+                    <h1></h1>
+                </div>
+                <!-- error -->
+                <div class="row justify-content-md-center error" id="errorLogin">
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="InputEmailLogin">Email</label>
+                        <input type="email" class="form-control" id="InputEmailLogin" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="InputPasswordLogin">Password</label>
+                        <input type="password" class="form-control" id="InputPasswordLogin" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </form>
+                <div id="otherOption">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </div>
+                <p class="customP">Don't Have Any Account? <a href="" id="registerLink">Register Here</a></p>
+            </div>
+            <div class="col col-lg-2">
+            </div>
+        </div>
+
+        <!-- modal register -->
+        <div id="modalRegister" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
+            aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop='static'>
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <!-- content -->
+                    <div class="modal-body removePadding">
+                        <div class="row">
+                            <div class="col customMargin">
+                                <div id="errorRegister">
+                                </div>
+                                <form id="registerForm">
+                                    <div class="form-group">
+                                        <label for="InputFnameRegister">First Name</label>
+                                        <input type="text" class="form-control" id="InputFnameRegister"
+                                            name="first_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputLnameRegister">Last Name</label>
+                                        <input type="text" class="form-control" id="InputLnameRegister"
+                                            name="last_name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputEmailRegister">Email address</label>
+                                        <input type="email" class="form-control" id="InputEmailRegister" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputPasswordRegister">Password</label>
+                                        <input type="password" class="form-control" id="InputPasswordRegister"
+                                            name="password">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Register</button>
+                                </form>
+                            </div>
+                            <div class="col bg"><button type="button" class="close" data-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- update page -->
+    <div class="container" id="editTodoPage">
+        <div class="row justify-content-md-center">
+            <div class="col col-lg-2">
+            </div>
+            <div class="col-md-auto">
+                <div class="row justify-content-md-center">
+                    <h1>Edit</h1>
+                </div>
+                <!-- error -->
+                <div class="row justify-content-md-center error" id="errorEditTodo">
+                </div>
+                <form id="editTodoForm">
+                    <div class="form-group">
+                        <label for="titleTodoEdit">Title</label>
+                        <input type="text" class="form-control" id="titleTodoEdit" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="descTodoEdit">Description</label>
+                        <input type="text" class="form-control" id="descTodoEdit" name="description">
+                    </div>
+                    <div class="form-group">
+                        <label for="dateTodoEdit">Due Date</label>
+                        <input type="date" class="form-control" id="dateTodoEdit" name="due_date">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+            <div class="col col-lg-2">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/getHolidays.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css?family=Rubik:400,700&display=swap');
+
+* {
+    font-family: 'Rubik', sans-serif;;
+}
+
+body {
+    background-color: whitesmoke;
+}
+
+#homePage {
+    margin-top: 50px;
+}
+
+#holidayPage {
+    padding-top: 50px;
+}
+
+.home-title {
+font-size: 60px;
+font-weight: 700;
+margin-bottom: 15px;
+border-bottom:aliceblue solid 36px;
+}
+
+.icon {
+    color: whitesmoke !important;
+}
+
+.right-align {
+    text-align: right;
+}
+
+#userButton:hover{
+    text-decoration: none;
+}
+
+.avatar {
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+table {
+    text-align: center;
+}
+
+.customMargin {
+    margin: 20px;
+}
+
+.removePadding {
+    padding: 0 !important;
+}
+
+.bg {
+    background-color: bisque;
+}
+.customP {
+        text-align: center;
+        margin-top: 12px;
+}
+
+#publicNav {
+    line-height: 3.5 !important;
+}
+
+#otherOption {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+#addTodoButton {
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+#sidebar-wrapper {
+    position: fixed;
+    z-index: 2;
+    right: 0;
+    width: 250px;
+    height: 100%;
+    transition: all 0.4s ease 0s;
+    transform: translateX(250px);
+    background: slategray;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 250px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 100px
+}
+
+.sidebar-nav li.sidebar-nav-item a {
+    display: block;
+    text-decoration: none;
+    color: #fff;
+    padding: 15px;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    font-size: 1.2rem;
+    background: rgba(52, 58, 64, 0.1);
+    height: 80px;
+    line-height: 50px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 15px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #fff;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+#sidebar-wrapper.active {
+    right: 250px;
+    width: 250px;
+    transition: all 0.4s ease 0s;
+}
+
+.menu-toggle {
+    position: fixed;
+    right: 20px;
+    top: 15px;
+    text-align: center;
+    color: #fff;
+    background: rgba(52, 58, 64, 0.5);
+    z-index: 999;
+    padding: 20px;
+}
+
+.menu-toggle:focus, .menu-toggle:hover {
+    color: #fff;
+}
+
+.menu-toggle:hover {
+    background: #343a40;
+}
