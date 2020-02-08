@@ -1,2 +1,5 @@
 PORT=3000
+CLIENT_ID=1052869190512-edmrv7g6gnhsbsjkpbisuqj31kjc2sq9.apps.googleusercontent.com
+PASSWORD=GSIGNIN
 SECRET=SECRET
+WEATHERKEY=36b442b69ffe4271a3ba5ce470bf86a4

@@ -9,17 +9,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       title: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull:{
+            args:true,
+            msg:"title cant be empty"
+          }
+        }
       },
       description: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          notNull:{
+            args:true,
+            msg:"description cant be empty"
+          }
+        }
       },
-      status: {
-        type: Sequelize.BOOLEAN
-      },
-      due_date: {
-        type: Sequelize.STRING
-      },
+      status: Sequelize.BOOLEAN,
+      due_date: Sequelize.DATE,
+      UserId: Sequelize.INTEGER,
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       validate:{
         notNull:{
-          args:false,
+          args:true,
           msg:"email can't be empty"
         },
         isEmail:{
@@ -27,12 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       validate:{
         notNull:{
-          args:false,
+          args:true,
           msg:"password can't be empty"
         },
         len:{
-          args:[3],
-          msg:'minimum password length is 3'
+          args:[5],
+          msg:'minimum password length is 5'
         }
       }
     }

@@ -1,6 +1,9 @@
 const { Todo, User } = require('../models')
 const { generateToken } = require('../helper/jwt')
 const { checkPassword } = require('../helper/bcrypt')
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.CLIENT_ID);
+
 
 class Controller {
     static create(req, res, next) {
@@ -24,7 +27,7 @@ class Controller {
     }
     static findAll(req, res, next) {
         Todo.findAll({
-            where:{
+            where: {
                 UserId: req.decoded.id
             },
             order: [['id', 'ASC']],
@@ -138,8 +141,9 @@ class Controller {
         const token = generateToken(email)
         User.findOne({ where: { email } })
             .then(data => {
+                const hash = data.password
                 if (data) {
-                    if (checkPassword(password)) {
+                    if (checkPassword(password, hash)) {
                         res.status(200).json({
                             data: {
                                 id: data.id,
@@ -166,6 +170,37 @@ class Controller {
                 }
             })
             .catch(next)
+    }
+    static googleSignIn(req, res, next) {
+        let email = ''
+
+        client.verifyIdToken({
+            idToken: req.headers.token,
+            audience: process.env.CLIENT_ID
+        })
+            .then(data => {
+                email = data.payload.email
+                return User.findOne({ where: { email } })
+            })
+            .then(data => {
+                // console.log(data,'data user tod')
+                if (!data) {
+                    return User.create({
+                        email,
+                        password: process.env.PASSWORD
+                    })
+                } else {
+                    return data
+                }
+            })
+            .then(data => {
+                const token = generateToken(email)
+                res.status(200).json({
+                    id: data.dataValues.id,
+                    token
+                })
+            })
+            .catch(err => console.log(err, 'error gobloog'))
     }
 }
 

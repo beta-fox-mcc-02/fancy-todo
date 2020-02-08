@@ -1,21 +1,27 @@
 const axios = require('axios')
 
-class Api{
-    static news(req,res,next){
+class Api {
+    static weather(req, res, next) {
+        const { city } = req.params
+        console.log(req.params,'kalo masuk saya solat maghrib')
+        console.log(req.body,'kalo masuk saya solat isya')
+        const apiKey = process.env.WEATHERKEY
         axios({
-            method: 'get',
-            url: 'https://newsapi.org/v2/everything?q=bitcoin&from=2020-01-04&sortBy=publishedAt&apiKey=14675b73ba414f61acb2aadf52a2e5a8',
+            method:'GET',
+            url:`https://api.weatherbit.io/v2.0/current?&city=${city}&country=id&key=${apiKey}`,
             responseType: 'json'
-          })
-            .then(news=>{
+        })
+            .then(weather=>{
                 res.status(200).json({
-                    data:news.data
+                   weather 
                 })
             })
-            .catch(next)
+            .catch(err=>{
+                res.status(500).json({
+                    err
+                })
+            })
     }
 }
-
-//14675b73ba414f61acb2aadf52a2e5a8
 
 module.exports = Api
