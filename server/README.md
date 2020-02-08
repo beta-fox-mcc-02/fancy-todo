@@ -256,6 +256,7 @@
         ```
 ----
 
+
 **Delete Todos**
 ----
   Return json information delete.
@@ -361,7 +362,7 @@
         **Content:**
         ```
         {
-            "msg": "errors"
+            "msg": "<based on validation error sequelize>"
         }
         ``` 
 
@@ -428,6 +429,98 @@
         }
         ```
 
+    * **Code:** 500 <br />
+    **Content:**
+        ```
+        {
+            "msg": "Internal Server Error"
+        }
+
+----
+
+**Google Login**
+----
+  Login with Google Account.
+
+* **URL**
+
+  /googlelogin
+
+* **Method:**
+
+  `post`
+  
+*  **URL Params**
+
+    None
+
+* **Data Params**
+
+    ```
+    <based on google>
+    ```
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+    {
+        "token": "....."
+    }
+    ```
+ 
+* **Error Response:**
+    * **Code:** 500 <br />
+    **Content:**
+        ```
+        {
+            "msg": "Internal Server Error"
+        }
+
+----
+
+**3rd party API**
+* **API**
+    ```
+    News
+    ```
+* **URL**
+
+    /news
+
+* **Mehtod**
+
+    'GET'
+
+* **URL Params**
+    
+    none
+
+* **Data Params**
+
+    noen
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** 
+    ```
+        {
+            "source": {
+                "id": null,
+                "name": "....."
+            },
+            "author": ".....",
+            "title": ".....",
+            "description": "....",
+            "url": "....",
+            "urlToImage": ".....",
+            "content": "...."
+        }
+    ```
+ 
+* **Error Response:**
     * **Code:** 500 <br />
     **Content:**
         ```

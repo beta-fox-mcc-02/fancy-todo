@@ -216,6 +216,7 @@ function addTodo(e) {
             $('.table').show()
             $('.dont-have-todo').hide()
             $('#form-add-todo').hide()
+            alert('success add todo')
             // console.log(data)
         })
         .fail(err => {
