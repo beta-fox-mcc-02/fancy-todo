@@ -153,7 +153,7 @@ function addTodo() {
       showMainContent()
     })
     .fail(err => {
-      if (err.responseJSON.erros) {
+      if (err.responseJSON.errors) {
         Swal.fire({
           icon: 'error',
           title: 'Oops, something\'s wrong',
@@ -221,7 +221,7 @@ function editTodo(id) {
               </select>
             </div>
             <div style="margin-bottom: 1rem;">
-              <input class="form-control" type="text" name="editLoc" id="editLoc" placeholder="Location" style="width: 32vw" value="Surapati, Bandung">
+              <input class="form-control" type="text" name="editLoc" id="editLoc" placeholder="Location" style="width: 32vw">
             </div>
             <div style="margin-bottom: 1rem;">
               Due Date :
@@ -263,6 +263,21 @@ function editTodo(id) {
             $('#map').show()
             $('#editContainer').hide()
             showMainContent()
+          })
+          .fail(err => {
+            if (err.responseJSON.errors) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Oops, something\'s wrong',
+                text: err.responseJSON.errors[0]
+              })
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Location or Due Date Error',
+                text: 'Please check your input on location and due date field'
+              })
+            }
           })
       })
     })
