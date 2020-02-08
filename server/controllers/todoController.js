@@ -1,5 +1,6 @@
 const { Todo, UserTodo, User } = require('../models')
 const { getLatLon } = require('../helpers/geocode')
+const { Op } = require('sequelize')
 
 module.exports = {
   showAll(req, res, next) {
@@ -29,7 +30,7 @@ module.exports = {
     const created = new Date(due_date)
     let status;
 
-    created > today ? status = false : status = true
+    created >= today ? status = false : status = true
 
     getLatLon(address)
       .then(({ data }) => {
@@ -103,7 +104,7 @@ module.exports = {
     const created = new Date(due_date)
     let status;
 
-    created > today ? status = false : status = true
+    created >= today ? status = false : status = true
 
     getLatLon(address)
       .then(({ data }) => {
@@ -148,5 +149,33 @@ module.exports = {
         }
       })
       .catch(next)
-  }
+  },
+
+  showFiltered(req, res, next) {
+    const { words } = req.body
+    Todo.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.iLike]: `%${words}` } },
+          { description: { [Op.iLike]: `%${words}` } }
+        ]
+      }, include: User
+    })
+      .then(results => {
+        const filtered = []
+        results.forEach(todo => {
+          todo.Users.forEach(user => {
+            if (user.id === req.currentUserId) {
+              filtered.push(todo)
+            }
+          })
+        })
+        res
+          .status(200)
+          .json(filtered.reverse())
+      })
+      .catch(err => {
+        next(err)
+      })
+  },
 }

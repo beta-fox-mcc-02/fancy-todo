@@ -153,11 +153,19 @@ function addTodo() {
       showMainContent()
     })
     .fail(err => {
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops, something\'s wrong',
-        text: err.responseJSON.msg
-      })
+      if (err.responseJSON.erros) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops, something\'s wrong',
+          text: err.responseJSON.errors[0]
+        })
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Location or Due Date Error',
+          text: 'Please check your input on location and due date field'
+        })
+      }
     })
 }
 
@@ -338,8 +346,6 @@ function deleteCollaborator(id) {
     }
   })
     .done(result => {
-      console.log('result.email', result.email)
-      console.log(localStorage.userEmail)
       if (result.email !== localStorage.userEmail) {
         $.ajax({
           url: "http://localhost:3000/todos/collaborator/" + id,
@@ -377,10 +383,25 @@ function addCollaborator() {
     }
   })
     .done(() => {
-      alertify.success(`<span class="fredoka">Collaborator added successfully</span>`)
       showMainContent()
+      alertify.success(`<span class="fredoka">Collaborator added successfully</span>`)
     })
     .fail(err => {
       alertify.error(`<span class="fredoka">${err.responseJSON.msg}</span>`)
     })
+}
+
+function searchTodo() {
+  const words = $('#searchInput').val()
+  console.log(words)
+  return $.ajax({
+    url: "http://localhost:3000/todos/search",
+    method: "post",
+    data: {
+      words
+    },
+    headers: {
+      access_token: localStorage.access_token
+    }
+  })
 }

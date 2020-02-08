@@ -10,16 +10,44 @@ module.exports = (sequelize, DataTypes) => {
     title: {
       type: DataTypes.STRING,
       validate: {
-        notEmpty: false,
+        notEmpty: true,
         notNull: true
       },
       allowNull: false
     },
-    description: DataTypes.STRING,
+    description: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+        notNull: true
+      },
+      allowNull: false
+    },
     status: DataTypes.BOOLEAN,
-    priority: DataTypes.STRING,
-    location: DataTypes.JSON,
-    due_date: DataTypes.DATE
+    priority: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+        notNull: true
+      },
+      allowNull: false
+    },
+    location: {
+      type: DataTypes.JSON,
+      validate: {
+        notEmpty: true,
+        notNull: true
+      },
+      allowNull: false
+    },
+    due_date: {
+      type: DataTypes.DATE,
+      validate: {
+        notEmpty: true,
+        notNull: true
+      },
+      allowNull: false
+    }
   }, { sequelize });
   return Todo;
 };

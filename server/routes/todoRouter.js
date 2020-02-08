@@ -6,6 +6,7 @@ const authorization = require('../middlewares/authorization')
 
 router.use(authentication)
 router.get('/', todoController.showAll)
+router.post('/search', todoController.showFiltered)
 router.get('/collaborator', collaboratorController.showCollaborator)
 router.post('/collaborator', collaboratorController.addCollaborator)
 router.get('/collaborator/:id', collaboratorController.showEmail)
