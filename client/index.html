@@ -13,8 +13,8 @@
 <body>
 
 <nav class="navbar navbar-inverse" id="top">
-  <div class="container-fluid">
-    <div class="navbar-header">
+  <div class="container-fluid myheader" >
+    <div class="navbar-header myheader">
       <a class="navbar-brand" href="#">Todo App</a>
     </div>
     <ul class="nav navbar-nav">
@@ -29,14 +29,22 @@
   </div>
 </nav>
   
-<div class="container-md" id="div-home">
-  <h3>Welcome to Todo</h3>
-  <p>let's be pruductive</p>
+<div class="container" id="div-home">
+  <h3>Welcome to Todo App</h3>
+  <p>let's become pruductive</p>
 </div>
+
+  <blockquote class="blockquote text-center" id="quote">
+    <h2 class="mb-0" id="quote-text"></h2>
+    <footer class="blockquote-footer" id="quote-author" ></footer>
+  </blockquote>
+
+
+
 
 <div id="listTodo" class="container" style="width: 75%;">
   <h2>Your List Todo</h2>
-
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-md">Add</button>
   <table class="table table-striped" >
     <thead>
       <tr>
@@ -46,15 +54,12 @@
       </tr>
     </thead>
     <tbody id="todos" >
-
     </tbody>
   </table>
-
-  <ul >
-  </ul>
 </div>
 
 <div class="container" id="div-register" style="width: 50%;" >
+  <h4><span class="warning" id="warning-reg" style="text-align: center; color: red;"></span></h4>
   <form id="register">
     <h2>Register</h2>
     <div class="form-group">
@@ -65,12 +70,14 @@
       <label for="email">Password :</label>
       <input class="form-control" type="password" name="password" id="p-register"><br>
     </div>
-    <input class="btn btn-primary" type="submit" value="Register">
+    <input class="btn btn-primary btn-block" type="submit" value="Register">
   </form>
+  <!-- <span id="warning-reg"></span> -->
 </div>
 
 <div class="container" id="div-login" style="width: 50%;">
   <form id="login">
+    <h4><span class="warning" id="warning-login" style="text-align: center; color: red;"></span></h4>
     <h2>Login</h2>
     <div class="form-group">
       <label for="email">Email :</label>
@@ -80,48 +87,70 @@
       <label for="password">Password :</label>
       <input class="form-control" type="password" id="p-login" name="password"><br>
     </div>
-    <input class="btn btn-primary btn-block" type="submit" value="Login"><br>
-    <div class="container g-signin2" data-onsuccess="onSignIn"></div>
+      <input class="btn btn-primary btn-block" type="submit" value="Login"><br>
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
   </form>
 </div>
 
-<div id="div-add">
-  <form id="addTodo">
-    <h2>Add Todo</h2>
-    <label for="title">Title :</label>
-    <input type="text" id="t-add" name="title"><br>
-    <label for="description">Description :</label>
-    <input type="text" id="d-add" name="description"><br>
-    <label for="due_date">Due Date :</label>
-    <input type="date" id="due-add" name="due_date"><br>
-    <input type="submit">
-  </form>
-</div>
 
-<div id="div-f1">
-  <h2 >findOne</h2>
+<div id="div-f1" class="container">
+  <h2 >detail</h2>
   <ul id="todo-findOne">
   </ul>
   <div >
     <input hidden type="text" id="id-select" name="id" value = "">
   </div>
   <div id="f1-action">
-    <button id="delete-todo">delete</button>
-    <button id="edit-todo">edit</button>
+    <button id="delete-todo" class="btn btn-danger">delete</button>
+    <button id="edit-todo" class="btn btn-info">edit</button>
   </div>
 </div>
 
 <div id="div-edit">
   <form id="editTodo">
     <h2>Edit Todo</h2>
-    <label for="title">Title :</label>
-    <input type="text" id="t-edit" name="title" value=""><br>
-    <label for="description">Description :</label>
-    <input type="text" id="d-edit" name="description" value=""><br>
-    <label for="due_date">Due Date :</label>
-    <input type="date" id="due-edit" name="due_date" value=""><br>
-    <input type="submit">
+    <div class="form-group">
+      <label for="title">Title :</label>
+      <input type="text" class="form-control" id="t-edit" name="title" value=""><br>
+    </div>
+    <div class="form-group">
+      <label for="description">Description :</label>
+      <input type="text" class="form-control" id="d-edit" name="description" value=""><br>
+    </div>
+    <div class="form-group">
+      <label for="due_date">Due Date :</label>
+      <input type="date" class="form-control" id="due-edit" name="due_date" value=""><br>
+    </div>
+    <input type="submit" class="btn btn-primary">
   </form>
+</div>
+
+<div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md" role="document">
+    <div class="modal-content">
+      <div id="div-add" >
+        <form id="addTodo">
+          <h2>Add Todo</h2>
+          <div class="form-group">
+            <label for="title">Title :</label>
+            <input class="form-control" type="text" id="t-add" name="title"><br>
+          </div>
+          <div class="form-group">
+            <label for="description">Description :</label>
+            <!-- <input class="form-control" type="text" id="d-add" name="description"><br> -->
+            <textarea name="description" id="d-add" cols="80" rows="10" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="due_date">Due Date :</label>
+            <input class="form-control" type="date" id="due-add" name="due_date"><br>
+          </div>
+          <input type="submit" class="btn btn-primary" value="add">
+          <input type="submit" class="btn btn-danger" data-dismiss="modal" value="close" id="close-add">
+          <h4><span class="warning" id="warning-add" style="text-align: center; color: red;"></span></h4>
+        </form>
+      </div>      
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

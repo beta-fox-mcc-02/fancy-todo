@@ -24,11 +24,11 @@ function fetchData(){
   .done(function(todos){
     $("#todos").empty()
     todos.data.forEach(el => {
+      let arr = el.due_date.split('T')
       $("#todos").append(
-        // `<li id="li-${el.id}">${el.title}</li>`
       `<tr>
         <td>${el.title}</td>
-        <td>${el.due_date}</td>
+        <td>${arr[0]}</td>
         <td><a id="li-${el.id}" href="#">detail</a></td>
        </tr>`
         );
@@ -38,10 +38,11 @@ function fetchData(){
           $("#listTodo").hide()
           $("#div-f1").show()
           $("ul#todo-findOne").empty()
-          $("ul#todo-findOne").append(`<li>Title :${todo.data.data.title}</li>`);
-          $("ul#todo-findOne").append(`<li>Description :${todo.data.data.description}</li>`);
+          $("ul#todo-findOne").append(`<li><b>Title :</b><br>${todo.data.data.title}</li>
+          `);
+          $("ul#todo-findOne").append(`<li><b>Description :</b><br>${todo.data.data.description}</li>`);
           let arr = todo.data.data.due_date.split('T')
-          $("ul#todo-findOne").append(`<li>Due date :${arr[0]}</li>`);
+          $("ul#todo-findOne").append(`<li><b>Due date :</b><br>${arr[0]}</li>`);
           $("#id-select").val(`${el.id}`)
         })
         .catch(err=>{
@@ -107,6 +108,21 @@ function googleSignIn(token){
   });
 }
 
+function fetchQuote(){
+  return axios({
+    method : 'get',
+    url : 'http://localhost:3000/quote'
+  }) 
+    .then(result=>{
+      $('#quote-text').html(`${result.data.quote}`)
+      $('#quote-author').html(`${result.data.author}`)
+      console.log(result.data)
+    })
+    .catch(err=>{
+      console.log(err)      
+    })
+}
+
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
   googleSignIn(id_token)
@@ -123,13 +139,30 @@ function onSignIn(googleUser) {
 }
 
 function showHome(){
-  $("#listTodo").hide()
-  $("#div-register").hide()
-  $("#div-login").hide()
-  $("#div-add").hide()
-  $("#div-edit").hide()
-  $("#div-f1").hide() 
-  $("#div-home").show()
+  // fetchQuote()
+  if(!localStorage.token){
+    $("#div-home").show()
+    $("#quote").show()
+    $("#div-register").hide()
+    $("#div-login").hide()
+    $("#div-edit").hide()
+    $("#div-f1").hide()
+    $("#click-list").hide()
+    $("#listTodo").hide() 
+    $("#click-logout").hide()
+    $("#loading").hide() 
+  } else {
+    $("#div-home").show()
+    $("#quote").show()
+    $("#click-register").hide()
+    $("#click-login").hide()
+    $("#div-edit").hide()
+    $("#listTodo").hide()
+    $("#div-register").hide()
+    $("#div-login").hide()
+    $("#div-f1").hide()
+    $("#loading").hide() 
+  }
 }
 
 function afterLogin(){
@@ -141,43 +174,41 @@ function afterLogin(){
   $("#click-list").show()
   $("#listTodo").hide()
   $("#div-home").show()
+  $("#quote").show()
+}
+
+function showList(){
+  fetchData()
+  $("#listTodo").show()
+  $("#div-home").hide()
+  $("#div-register").hide()
+  $("#div-login").hide()
+  $("#div-edit").hide()
+  $("#div-f1").hide()
+  $("#quote").hide() 
+  $("#click-logout").show() 
 }
 
 $(document).ready(function(){
-  if(!localStorage.token){
-    $("#div-register").hide()
-    $("#div-login").hide()
-    $("#div-add").hide()
-    $("#div-edit").hide()
-    $("#div-f1").hide()
-    $("#click-list").hide()
-    $("#listTodo").hide() 
-    $("#click-logout").hide() 
-  } else {
-    $("#click-register").hide()
-    $("#click-login").hide()
-  }
+  fetchQuote()
+  showHome()
 
   $("#click-login").on("click", function(){
     $("#div-home").hide()
     $("#div-login").show()
+    $("#div-register").hide()
+    $("#quote").hide() 
   })
 
   $("#click-register").on("click", function(){
     $("#div-home").hide()
     $("#div-register").show()
+    $("#div-login").hide()
+    $("#quote").hide() 
   })
 
   $("#click-list").click(function(){
-    fetchData()
-    $("#listTodo").show()
-    $("#div-home").hide()
-    $("#div-register").hide()
-    $("#div-login").hide()
-    $("#div-add").hide()
-    $("#div-edit").hide()
-    $("#div-f1").hide() 
-    $("#click-logout").show() 
+    showList()
   });
 
   $("#click-home").click(function(){
@@ -194,9 +225,18 @@ $(document).ready(function(){
         console.log(user.data)
         $("#div-login").show()
         $("#div-register").hide()
+        $("#warning-reg").html("")
+        $("#e-register").val("")
+        $("#p-register").val("")
       })
       .catch(err=>{
-        console.log(err)
+        // console.log(typeof err.response.data.errObj.msg)
+        if(typeof err.response.data.errObj.msg==='string'){
+          $("#warning-reg").html(`${err.response.data.errObj.msg}`)
+        } else {
+        $("#warning-reg").html(`${err.response.data.errObj.msg[0]}`)
+        }
+        console.log(err.response.data)
       })
   });
 
@@ -210,11 +250,14 @@ $(document).ready(function(){
     .then(user=>{
       const token = user.data.accesToken
       localStorage.setItem('token',token)
+      $("#warning-login").html("")
+      $("#e-login").val("")
+      $("#p-login").val("")
       fetchData()
       afterLogin()
     })
     .catch(err=>{
-      console.log(err)
+      $("#warning-login").html(`${err.response.data.errObj.msg}`)
     })
   })
 
@@ -226,11 +269,15 @@ $(document).ready(function(){
     const data = {title, description, due_date}
     addTodo(data)
     .then(todo=>{
-      console.log(todo.data)
-      fetchData()
+      showList()
     })
     .catch(err=>{
-      console.log(err)
+      if(typeof err.response.data.errObj.msg==='string'){
+        $("#warning-add").html(`${err.response.data.errObj.msg}`)
+      } else {
+      $("#warning-add").html(`${err.response.data.errObj.msg[0]}`)
+      }
+      console.log(err.response)
     })
   })
 
@@ -251,9 +298,7 @@ $(document).ready(function(){
     let id = $("#id-select").val()
     deleteTodo(id)
       .then(result=>{
-        console.log(result)
-        $("#f1").hide()
-        fetchData()
+        showList()
       })
       .catch(err=>{
         console.log(err)
@@ -266,7 +311,6 @@ $(document).ready(function(){
     .then(result=>{
       $("#div-f1").hide()
       $("#div-edit").show()
-      console.log(result.data.data.title)
       $("ul#todo-findOne").empty()
       $("#t-edit").val(`${result.data.data.title}`)
       $("#d-edit").val(`${result.data.data.description}`)
@@ -288,10 +332,16 @@ $(document).ready(function(){
     updateTodo(data,id)
     .then(result=>{
       console.log(result.data)
-      fetchData()
+      showList()
     })
     .catch(err=>{
       console.log(err)
     })
+  })
+
+  $("#close-add").on("click", function(){
+    $("#t-add").val("")
+    $("#d-add").val("")
+    $("#due-add").val("")
   })
 });

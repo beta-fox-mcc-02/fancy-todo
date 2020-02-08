@@ -5,9 +5,9 @@ module.exports = (err,req,res,next)=>{
     msg : "Internal Server Error"
   }
   if(err.name == "SequelizeValidationError"){
-    status = 404
-    errObj.msg = "Bad Request"
-    errObj.error = err.errors.map(el=> el.message)
+    status = 400
+    // errObj.msg = "Bad Request"
+    errObj.msg = err.errors.map(el=> el.message)
   } else if (err.name == "JsonWebTokenError"){
     status = 403
     errObj.msg = "You Must Login First "
@@ -18,5 +18,5 @@ module.exports = (err,req,res,next)=>{
     status = err.status
     errObj.msg = err.message
   }
-  res.status(status).json(errObj)
+  res.status(status).json({errObj})
 } 

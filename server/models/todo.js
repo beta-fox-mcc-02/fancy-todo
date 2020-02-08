@@ -1,7 +1,8 @@
 'use strict';
+const validHelper = require('../helpers/validHelper')
 module.exports = (sequelize, DataTypes) => {
   class Todo extends sequelize.Sequelize.Model{}
-  
+  // console.log(costomValid());
   Todo.init({
     title: {
       type : DataTypes.STRING,
@@ -23,8 +24,12 @@ module.exports = (sequelize, DataTypes) => {
     due_date: {
       type : DataTypes.DATE,
       validate : {
+        isAfter : {
+          args : validHelper(),
+          msg : "invalid date" 
+        },
         isDate : {
-          msg : "type must be date"
+          msg : "invalid date"
         }
       }
     },

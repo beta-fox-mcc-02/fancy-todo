@@ -12,12 +12,8 @@ class TodoController{
     })
       .then(todos=>{
         todosAll = todos
-        return axios.get('https://api.openaq.org/v1/locations?city=Jakarta')
-      })
-      .then(result=>{
         res.status(200).json({
           data:todosAll,
-          airQuality:result.data.results[0].count,
           msg : "this is todos",
         })
       })

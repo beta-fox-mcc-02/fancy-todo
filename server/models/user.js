@@ -6,7 +6,15 @@ module.exports = (sequelize, DataTypes) => {
   class User extends sequelize.Sequelize.Model{}
 
   User.init({
-    email: DataTypes.STRING,
+    email: {
+      type : DataTypes.STRING,
+      validate : {
+        isEmail : {
+          args : true,
+          msg : "Email not valid"
+        }
+      }
+    },
     password: DataTypes.STRING
   }, {
     hooks : {
