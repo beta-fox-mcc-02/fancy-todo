@@ -51,16 +51,26 @@ function resetWarning() {
 }
 
 $(document).ready(function(){
-   showHome()
+   resetPage()
+   if(token) {
+      whenLogin()
+   } else {
+      whenLogout()
+   }
+   $("#homePage").show()
 
    //nav Logo
    $("a.navbar-brand").on("click", function() {
-      showHome()
+      resetPage()
+      navControl()
+      $("#homePage").show()
    })
 
    //nav Home
    $("li#navHome").on('click', function() {
-      showHome()
+      resetPage()
+      navControl()
+      $("#homePage").show()
    })
 
    //nav Login

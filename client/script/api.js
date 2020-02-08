@@ -111,7 +111,7 @@ function getModalTodo(id) {
                <option value="true">Complete</option>
                <option value="false">Uncomplete</option>
             </select>
-            <button onclick="updateTodoList(${todo.data.id}, '${convertDate(todo.data.due_date)}')" class="btn btn-secondary" id="updateTodoConfirm">Confirm Update</button>
+            <button onclick="event.preventDefault(); updateTodoList(${todo.data.id}, '${convertDate(todo.data.due_date)}')" class="btn btn-secondary" id="updateTodoConfirm">Confirm Update</button>
             `
          )
       })
@@ -206,20 +206,23 @@ function zomato() {
    })
       .done(data => {
          let restaurant = []
+         let restoId = []
          data.restaurants.forEach((resto, i) => {
             if(i < 10) {
                restaurant.push(resto.restaurant.name)
+               restoId.push(resto.restaurant.id)
             }
          })
          let newData = ''
          let counter = 0
-         restaurant.forEach(resto => {
+         restaurant.forEach((resto,i) => {
             newData += 
             `
                <tr>
                   <td>${++counter}</td>
                   <td>${resto}</td>
-                  <td><a href="" id="restoSelected" onclick="event.preventDefault(); selectResto(${resto})">Select</a></td>
+                  <input type="hidden" value="${restoId[i]}">
+                  <td><button class="btn btn-primary" id="restoSelected" onclick="event.preventDefault(); selectResto('${resto}', ${restoId[i]})">Select</button></td>
                </tr>
             `
          })
@@ -235,8 +238,10 @@ function zomato() {
 //    selectResto()
 // })
 
-function selectResto(resto) {
-   $("#addZomatoTitle").val(resto)
-   $("#zomatoModal").show()
+function selectResto(resto, id) {
+   console.log('masuk select Resto')
    $("#listZomato").hide()
+   $("#zomatoModal").show()
+   $("#addZomatoTitle").val(`${resto}`)
+   
 }
