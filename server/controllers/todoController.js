@@ -3,6 +3,9 @@ const { Todo } = require('../models')
 class TodoController{
     static findAll (req, res, next) {
         Todo.findAll({
+            where:{
+                UserId: req.query.UserId
+            },
             order: [['due_date', 'ASC']]
         })
             .then((data) => {
@@ -64,7 +67,6 @@ class TodoController{
                 else throw new Error()
             })
             .then((data) => {
-                console.log(data)
                 res.status(200).json({
                     data: data,
                     msg: `Success update task on id ${todoId}`

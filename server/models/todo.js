@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       validate: {
         len: {
-          args: [7, 15],
-          msg: `task title has to be more than 7 to 15 characters`
+          args: [7],
+          msg: `task title has to be more than 7`
         }
       }
     },
@@ -30,7 +30,17 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    due_date: DataTypes.DATE
+    due_date: {
+      type: DataTypes.DATE,
+      validate: {
+        isPast(value) {
+          let date = new Date()
+          if(date > value) {
+            throw new Error( `The time has been past behind` )
+          }
+        }
+      }
+    }
   }, {
     sequelize,
     hooks: {
@@ -41,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
       afterFind: (user, options) => {
         if(!user) throw new Error()
         else  {
-          if(user.length == 1 || !user.length) {
+          if(user.length == 0 || !user.length) {
             if(user.description.length > 30) user.description = `${user.description.substring(0, 30)}...`
           }
           else {
