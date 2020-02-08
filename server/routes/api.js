@@ -4,6 +4,6 @@ const authentication = require('../middlewares/authentication')
 
 router.get('/currencyExchange', ThirdApiController.currencyExchange)
 router.get('/randomdogs', ThirdApiController.randomDog)
-router.get('/randomIcon', authentication, ThirdApiController.randomIcon)
+router.get('/randomIcon/:email', ThirdApiController.randomIcon)
 
 module.exports = router

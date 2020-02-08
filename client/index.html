@@ -1,147 +1,307 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Required Meta -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="google-signin-client_id" content="921344250171-shfc9isl6pb5526l054jlqr2c4h4luju.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="./public/css/style.css">
+
+    <!-- CSS Local -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+
+    <!--Fontawesome CDN-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    
+    <!-- Google Sign In -->
+    <meta name="google-signin-client_id" content="921344250171-shfc9isl6pb5526l054jlqr2c4h4luju.apps.googleusercontent.com">
+    
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <title>Fancy Todo</title>
 </head>
-<body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a id="logo-home" class="navbar-brand" href="#">Fancy Todo</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a id="home" class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Actions
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a id="todo-create" class="dropdown-item" href="#">Create</a>
-                <a id="todo-read-all" class="dropdown-item" href="#">Read All</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Credits</a>
-              </div>
-            </li>
-            <li class="nav-item">
-                <a id="btn-login" class="nav-link" href="#">Login</a>
-            </li>
-            <li class="nav-item">
-                <a id="btn-logout" class="nav-link" href="#">Logout</a>
-            </li>
-            <li class="nav-item">
-                <a id="btn-register" class="nav-link" href="#">Register</a>
-            </li>
-          </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a id="logo-home" class="navbar-brand" href="#">Fancy Todo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a id="home" class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li id="dropdown-action" class="nav-item dropdown">
+                    <button type="button" id="username-actions" class="nav-link dropdown-toggle btn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <button type="button" id="todo-read-all" class="dropdown-item btn">Todo Cards</a>
+                        <button type="button" id="btn-logout" class="dropdown-item btn">Logout</a>
+                    </div>
+                </li>
+                <li id="btn-login" class="nav-item">
+                    <button type="button" id="btn-login-click" class="btn" data-toggle="modal" data-target="#loginForm">
+                        Login
+                    </button>
+                </li>
+                <li id="btn-register" class="nav-item">
+                    <button type="button" id="btn-register-click" class="btn" data-toggle="modal" data-target="#registerForm">
+                        Register
+                    </button>
+                </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Welcome Home Page -->
+        <div id="home-page">
+            <h1 class="text-center">Welcome to Fancy Todo</h1>
+            <p class="text-center mx-auto">Your platform for listing plans</p>
+            <img class="img-fluid mx-auto d-block" src="assets/img/carousel-img/undraw_next_tasks_iubr.svg" alt="undraw_next_tasks_iubr">
         </div>
-    </nav>
 
-    <!-- success alert -->
-    <div id="success-alert" class="alert alert-success alert-dismissible fade show" role="alert" style="width: 40%;">
-        <p>Welcome.</p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <!-- warning alert -->
-    <div id="warning-alert" class="alert alert-warning alert-dismissible fade show" role="alert" style="width: 40%;">
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-
-    <!-- Welcome Home Page -->
-    <div id="home-page">
-        <h1>Welcome to Fancy Todo</h1>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur ipsa assumenda voluptatibus aut id excepturi, natus reiciendis alias laboriosam aperiam. Officiis totam architecto, aperiam necessitatibus ut vero harum a incidunt.</p>
-    </div>
-
-    <!-- Form untuk register -->
-    <div id="register">
-        <h2>Register</h2>
-        <form id="register-form">
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="input-new-email" name="email" aria-describedby="emailHelp" style="width: 30%;">
+        <!-- Register Modal -->
+        <div class="modal fade" id="registerForm" tabindex="-1" role="dialog" aria-labelledby="registerFormLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="registerFormLabel">Register</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error-message"></div>
+                        <form id="register-form">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="input-new-name" name="name" aria-describedby="nameHelp" style="width: 60%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="input-new-email" name="email" aria-describedby="passwordHelp" style="width: 60%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="input-new-password" name="password" minlength="6" style="width: 60%;">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="input-new-password" name="password" minlength="6" style="width: 30%;">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
 
-    <!-- Form untuk login -->
-    <div id="login">
-        <h2>Login</h2>
-        <form id="login-form">
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="input-email" name="email" aria-describedby="emailHelp" style="width: 30%;">
+        <!-- Login Modal -->
+        <div class="modal fade" id="loginForm" tabindex="-1" role="dialog" aria-labelledby="loginFormLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginFormLabel">Login</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error-message"></div>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="input-email" name="email" aria-describedby="emailHelp" style="width: 60%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="input-password" name="password" style="width: 60%;">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <span>Or you can login with:</span>
+                            <div id="google-login" class="g-signin2" data-onsuccess="onSignIn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="input-password" name="password" style="width: 30%;">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <h4>OR login with:</h4>
-        <div id="google-login" class="g-signin2" data-onsuccess="onSignIn"></div>
-    </div>
 
-    <!-- Todo cards -->
-    <div id="todo-cards" class="row">
+        <!-- Todo List from User -->
+        <div id="all-todo">
+            <div class="container my-5">
+                <h3 class="text-center">Todo Cards</h3>
+                <div class="card container-fluid">
+                <div class="card-body">
+                    <!-- Todo cards -->
+                    <div id="show-todo">
+                        <div id="todo-cards" class="row">
+
+                        </div>
+                    </div>
+                    
+                    <!-- No todo alert -->
+                    <div id="no-todo-found">
+                        <p class="card-text">It seems that you don't have any todo card yet.</p>
+                    </div>
         
-    </div>
-    
-    <!-- No todo alert -->
-    <div id="no-todo-found">
-        <h1>No Todo Found</h1>
-        <p>It seems that you don't have and todo list yet. You can make one by clicking actions and select 'Create'</p>
-    </div>
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button type="button" id="new-todo-modal" class="btn btn-primary" data-toggle="modal" data-target="#newTodoForm">
+                        Add Todo
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- New Todo Form -->
-    <div id="todo-new">
-        <h2>New Todo</h2>
-        <form id="todo-form">
-        <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" id="input-title" name="title" aria-describedby="emailHelp" required style="width: 30%;">
+        <!-- New Todo Modal -->
+        <div class="modal fade" id="newTodoForm" tabindex="-1" role="dialog" aria-labelledby="newTodoFormLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newTodoFormLabel">New Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error-message"></div>
+                        <form id="todo-form">
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input type="text" class="form-control" id="input-title" name="title" aria-describedby="emailHelp" required style="width: 80%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea name="description" id="input-description" class="form-control" cols="10" rows="10" style="width: 80%; resize: none;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="due_date">Due Date:</label>
+                                <input type="date" class="form-control" id="input-due-date" name="due_date" required>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="description">Description:</label>
-            <textarea name="description" id="input-description" class="form-control" cols="10" rows="10" style="width: 30%;"></textarea>
-        </div>
-        <div class="form-group">
-            <label for="due_date">Due Date:</label>
-            <input type="date" class="form-control" id="input-due-date" name="due_date" required style="width: 30%;">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="public/js/main.js"></script>
-</body>
+        <!-- Update Todo Form -->
+        <div class="modal fade" id="updateTodoForm" tabindex="-1" role="dialog" aria-labelledby="updateTodoFormLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updateTodoFormLabel">Edit Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error-message"></div>
+                        <form id="todo-update-form">
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input type="text" class="form-control" id="update-title" name="title" aria-describedby="titleHelp" required style="width: 80%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea name="description" id="update-description" class="form-control" cols="10" rows="10" style="width: 80%; resize: none;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status:</label> <br>
+                                <input type="radio" name="status" value="true" id="true-status"> Done <br>
+                                <input type="radio" name="status" value="false" id="false-status"> Not Done <br>
+                            </div>
+                            <div class="form-group">
+                                <label for="due_date">Due Date:</label>
+                                <input type="date" class="form-control" id="update-due-date" name="due_date">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Edit</button>
+                            </div>
+                        </form>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <!-- Delete Modal Confirmation -->
+        <div class="modal fade" id="deleteTodoConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteTodoConfirmLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteTodoConfirmLabel">Delete Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="error-message"></div>
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input disabled type="text" class="form-control" id="delete-title" name="title" aria-describedby="titleHelp" required style="width: 80%;">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description:</label>
+                                <textarea disabled name="description" id="delete-description" class="form-control" cols="10" rows="10" style="width: 80%; resize: none;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="status">Status:</label> <br>
+                                <input disabled type="radio" name="status" value="true" id="delete-true-status"> Done <br>
+                                <input disabeld type="radio" name="status" value="false" id="delete-false-status"> Not Done <br>
+                            </div>
+                            <div class="form-group">
+                                <label for="due_date">Due Date:</label>
+                                <input disabled type="date" class="form-control" id="delete-due-date" name="due_date">
+                            </div>
+                        <div class="modal-footer">
+                            <small class="form-text text-muted">Are you sure to delete this todo card?</small>
+                            <button type="button" id="confirm-delete-todo" class="btn btn-danger">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>      
+
+        <!-- Google Script -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+        <!-- Jquery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+        <!-- Boostrap Script -->
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+        <!-- Local Script -->
+        <script src="assets/js/main.js"></script>
+    </body>
 </html>

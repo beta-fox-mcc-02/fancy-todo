@@ -25,7 +25,7 @@ class TodoController {
             where: {
                 UserId: req.decoded.id
             },
-            order: [["id", "ASC"]]
+            order: [["due_date", "ASC"]]
         })
             .then(todos => {
                 res.status(200).json({

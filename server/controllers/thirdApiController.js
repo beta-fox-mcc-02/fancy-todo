@@ -32,7 +32,7 @@ class ThirdApiController {
     static randomIcon(req, res, nex) {
         axios({
             method: 'GET',
-            url: `https://api.kwelo.com/v1/media/identicon/${req.decoded.email}`,
+            url: `https://api.kwelo.com/v1/media/identicon/${req.params.email}`,
             responseType: 'json'
         })
             .then(response => {

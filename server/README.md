@@ -31,11 +31,13 @@ Read method below to know how to create your own user and login afterwards.
   
   * **Request Body**
     ```
+    name          : string,
     email         : string,
     password      : string
     ```
     ```javascript
     {
+        "name": "your_name",
         "email": "your_email",
         "password": "your_password"
     }
@@ -49,7 +51,8 @@ Read method below to know how to create your own user and login afterwards.
     {
         "data": {
             "id": 1,
-            "email": "mail@mail.com"
+            "name": "testName"
+            "email": "test@mail.com"
         },
         "message": "Register success"
     }
@@ -131,6 +134,7 @@ Read method below to know how to create your own user and login afterwards.
     {
         "data": {
             "id": 1,
+            "name": "user_name",
             "email": "mail@mail.com",
             "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJtYWlsQG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkallGblZSRy9sSWZXVEp2Zi5PT3VHZUJJc0djSnhIa2ZLNFlCSzNyU2IvTnRNNGp3VUh4SGUiLCJpYXQiOjE1ODA4MTI3ODN9.MhnMnYvYEXSwq8XgeE-Ax2C4URYYQEeFqaUp8GrFb50"
         },
