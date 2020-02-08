@@ -1,6 +1,7 @@
 const { User } = require('../models')
 const jwt = require('jsonwebtoken')
 const privateKey = process.env.PRIVATEKEY
+const BcryptPassword = require('../helper/encryptPassword.js')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
 
@@ -10,10 +11,18 @@ class UserController {
             email: req.body.email,
             password: req.body.password
         })
-            .then((data) => { 
+            .then((data) => {
+                let payload = {
+                    id: data.id,
+                    email: data.email
+                }
+                let token = jwt.sign(payload, privateKey)
+                let username = data.email.split('@')
+                let name = username[0]
                 res.status(201).json({
-                    data,
-                    msg: `Success adding new User`
+                    token,
+                    id: data.id,
+                    name
                 })
             })
             .catch((err) => { next(err) })
@@ -34,17 +43,22 @@ class UserController {
                             email: data.email
                         }
                         let token = jwt.sign(payload, privateKey)
+                        let username = data.email.split('@')
+                        let name = username[0]
                         res.status(200).json({
-                            email: data.email,
+                            id: data.id,
+                            name,
                             token
                         })
                     }
+                    else next({ err: `EMAIL/PASSWORD Invalid` })
                 }
                 else {
-                    next({ err: `EMAIL/PASSWORD Invalid` })
+                    next({ err: `USER NOT FOUND` })
                 }
             })
-            .catch((err) => { next(err) })
+            .catch((err) => { 
+                next(err) })
     }
 
     static gSignIn (req, res, next) {
@@ -76,8 +90,12 @@ class UserController {
                     email: data.email
                 }
                 let token = jwt.sign(payload, privateKey)
+                let username = data.email.split('@')
+                let name = username[0]
                 res.status(200).json({
-                    token
+                    token,
+                    id: data.id,
+                    name
                 })
             })
             .catch((err) => { next(err) })

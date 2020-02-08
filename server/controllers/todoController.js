@@ -2,25 +2,24 @@ const { Todo } = require('../models')
 
 class TodoController{
     static findAll (req, res, next) {
-        Todo.findAll()
+        Todo.findAll({
+            order: [['due_date', 'ASC']]
+        })
             .then((data) => {
                 res.status(200).json({
                     data,
                     msg: `success find all the data`
                 })
             })
-            .catch((err) => {next(err)})
+            .catch((err) => { next(err) })
     }
 
     static create(req, res, next) {
         Todo.create({
             title: req.body.title,
             description: req.body.description,
-            status: req.body.status,
             due_date: req.body.due_date,
-            UserId: req.currentUserId
-        }, {
-            individualhooks: true
+            UserId: req.body.UserId
         })
             .then((data) => {
                 res.status(201).json({
@@ -28,15 +27,14 @@ class TodoController{
                     msg: `Success adding new task`
                 })
             })
-            .catch((err) => next(err))
+            .catch((err) => {next(err)})
     }
 
     static findById (req, res, next) {
         Todo.findOne({
             where: {
                 id: req.params.id
-            },
-            individualhooks: true
+            }
         })
             .then((data) => {
                 res.status(200).json({
@@ -44,53 +42,53 @@ class TodoController{
                     msg: `Success looking for data based on id ${req.params.id}`
                 })
             })
-            .catch((err) => {
-                next(err)
-            })
+            .catch((err) => { next(err) })
     }
 
-    static updateById (req, res, next) {
-        Todo.update({
-            title: req.body.title,
-            description: req.body.description,
-            status: req.body.status,
-            due_date: req.body.due_date,
-        }, {
-            where: {
-                id: req.params.id
-            },
-            returning: true,
-            individualhooks: true
-        })
+    static setToCompleted (req, res, next) {
+        let todoId = req.params.id
+        let UserId = req.body.UserId
+        Todo.findByPk(todoId)
             .then((data) => {
+                if(data.UserId === UserId) {
+                    return Todo.update({
+                        status: true
+                    }, {
+                        where: {
+                            id: todoId,
+                            UserId
+                        },
+                        returning: true
+                    })
+                }
+                else throw new Error()
+            })
+            .then((data) => {
+                console.log(data)
                 res.status(200).json({
-                    data: data[1],
-                    msg: `Success update task on id ${req.params.id}`
+                    data: data,
+                    msg: `Success update task on id ${todoId}`
                 })
             })
-            .catch((err) => {
-                next(err)})
+            .catch((err) => { next(err) })
     }
 
     static deleteById (req, res, next) {
-        let deleted
-        Todo.findOne({
-            where: {
-                id: req.params.id
-            }
-        })
+        let todoId = req.params.id
+        let UserId = req.body.UserId
+        Todo.findByPk(todoId)
             .then((data) => {
-                deleted = data.dataValues
-                return Todo.destroy({
-                    where: {
-                        id: data.id
-                    },
-                    individualhooks: true
-                })
+                if(data.UserId === UserId) {
+                    return Todo.destroy({
+                        where: {
+                            id: data.id
+                        }
+                    })
+                }
+                else throw new Error()
             })
             .then(() => {
                 res.status(200).json({
-                    data: deleted,
                     msg: `Success delete task on id ${req.params.id}`
                 })
             })

@@ -14,6 +14,17 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: {
           args: true,
           msg: `EMAIL/PASSWORD Invalid`
+        },
+        emailExist(value, next) {
+          User.findOne({
+            where: {
+              email: value
+            }
+          })
+            .then((data) => {
+              if(data) next(`Email Already Exist`)
+              else next()
+            })
         }
       }
     },
