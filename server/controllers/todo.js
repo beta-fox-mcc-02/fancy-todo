@@ -10,6 +10,7 @@ class TodoController {
       },
       order: [
         ['status', 'DESC'],
+        ['id', 'DESC'],
         ['due_date', 'ASC']
       ]
     })
