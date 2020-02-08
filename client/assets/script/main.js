@@ -229,7 +229,7 @@ $(document).ready(function () {
     showMainContent()
   })
 
-  $('#searchForm').submit(event => {
+  $('#searchButton').click(event => {
     event.preventDefault()
     fetchStandard('filtered')
     fetchImportant('filtered')
