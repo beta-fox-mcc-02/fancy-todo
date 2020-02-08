@@ -7,11 +7,20 @@ const parsingDate = (date) => {
   return `${year}-${month}-${day}`
 }
 
+const formatDate = (date) => {
+  date = date.toLocaleDateString()
+  const array = date.split('/')
+  const year = array[2]
+  const month = +array[0] < 10 ? `0${array[0]}` : `${array[0]}`
+  const day = +array[1] < 10 ? `0${array[1]}` : `${array[1]}`
+  return `${day}-${month}-${year}`
+}
+
 const loginSuccess = (data) => {
   $('#error-login').addClass('hide').text()
   $('#form-login').hide()
   $('#header-login').addClass('hide')
-  $('#header-logout').removeClass('hide')
+  $('#navbarDropdown').removeClass('hide')
   $('#header-username').removeClass('hide')
   $('.todo-container').show()
   localStorage.setItem('token', data.token)
@@ -20,7 +29,7 @@ const loginSuccess = (data) => {
 }
 
 const loginFailed = (err) => {
-  $('#header-logout').addClass('hide')
+  $('#navbarDropdown').addClass('hide')
   let errorMessages = ''
   for (const e of err.responseJSON.errors) {
     errorMessages += e + '\n'
@@ -43,7 +52,7 @@ const login = () => {
       loginSuccess(data)
       findUser()
         .done(response => {
-          $('#header-username').text(response.user.username)
+          $('#navbarDropdown').text(response.user.username)
           getAllTodo()
         })
         .fail(err => {
@@ -67,13 +76,7 @@ function onSignIn(googleUser) {
       loginSuccess(data)
       findUser()
         .done(response => {
-          let name = response.user.username
-          name = name.split(' ')
-          let username = ''
-          for (const n of name) {
-            username += n[0].toUpperCase()
-          }
-          $('#header-username').text(username)
+          $('#navbarDropdown').text(response.user.username)
           getAllTodo()
         })
         .fail(err => {
@@ -160,7 +163,7 @@ const getAllTodo = () => {
           contentHtml += '<div class="todo-due_date form-group row">'
           contentHtml += '<label class="col-sm-2 col-form-label">Due Date</label>'
           contentHtml += '<div class="col-sm-10">'
-          contentHtml += '<label>' + new Date(todo.due_date).toLocaleDateString() + '</label>'
+          contentHtml += '<label>' + formatDate(new Date(todo.due_date)) + '</label>'
           contentHtml += '</div>'
           contentHtml += '</div>'
           contentHtml += '<br>'
@@ -172,7 +175,7 @@ const getAllTodo = () => {
       }
     })
     .catch(err => {
-      console.log(err)
+      $('#todo-list').html()
     })
 }
 
@@ -237,7 +240,7 @@ const updateTodo = (id) => {
   const status = $('#status').is(":checked")
   $.ajax({
     url: 'http://localhost:3000/todos/' + id,
-    method: 'PUT',
+    method: 'PATCH',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
     },

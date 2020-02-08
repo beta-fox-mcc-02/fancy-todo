@@ -1,3 +1,4 @@
+const modal = $('.modal')
 const checkLogin = () => {
   let isLogin = false
   if (typeof (Storage) !== "undefined") {
@@ -14,12 +15,41 @@ const hideForm = () => {
   $('.form-login').hide()
 }
 
+const initGooglePlaceApi = () => {
+  const input = document.getElementById('location')
+  if (input) {
+    const defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-33.8902, 151.1759),
+      new google.maps.LatLng(-33.8474, 151.2631));
+    const searchBox = new google.maps.places.SearchBox(input, {
+      bounds: defaultBounds
+    });
+  }
+}
+
+const parseDate = (date) => {
+  date = date.toLocaleDateString()
+  const array = date.split('/')
+  const year = array[2]
+  const month = +array[0] < 10 ? `0${array[0]}` : `${array[0]}`
+  const day = +array[1] < 10 ? `0${array[1]}` : `${array[1]}`
+  return `${year}-${month}-${day}`
+}
+
 const openModalNewTask = () => {
+  initGooglePlaceApi()
+  const minDate = parseDate(new Date())
+  $('#due_date').attr('min', minDate)
+  $('#todo-location').hide()
   $('#title').val('')
   $('#description').val('')
   $('#due_date').val('')
   $('#todo-status-form').addClass('hide')
   $('.modal form').attr('id', 'form-add-new-task')
+  const locationChecked = $('.modal #options-locations:checked')
+  if (locationChecked.length) {
+    $('#todo-location').show()
+  }
   $('#modal-add-edit').show()
   $('#modal-title').text('Add New Task')
 }
@@ -38,15 +68,13 @@ const openModalDelete = (id) => {
 }
 
 $(document).ready(() => {
-
   let isLogin = checkLogin()
   if (isLogin) {
     findUser()
       .then((response) => {
-        $('#header-logout').removeClass('hide')
+        $('#navbarDropdown').show()
         $('#header-login').addClass('hide')
-        $('#header-username').text(response.user.username)
-        $('#header-username').removeClass('hide')
+        $('#navbarDropdown').text(response.user.username)
         hideForm()
         getAllTodo()
       }).catch((err) => {
@@ -58,7 +86,7 @@ $(document).ready(() => {
     $('.form-register').hide()
     $('.todo-container').hide()
     $('#header-login').removeClass('hide')
-    $('#header-logout').addClass('hide')
+    $('#navbarDropdown').addClass('hide')
     $('#header-username').addClass('hide')
   }
 
@@ -75,13 +103,14 @@ $(document).ready(() => {
     closeModal()
   })
 
-  $('#header-logout').on('click', (e) => {
+  $('#navbar-logout').on('click', (e) => {
     e.preventDefault()
     localStorage.clear()
     $('#header-login').removeClass('hide')
     $('#header-username').addClass('hide')
-    $('#header-logout').addClass('hide')
+    $('#navbarDropdown').addClass('hide')
     $('.todo-container').hide()
+    $('.modal').hide()
     const auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(() => {
       console.log('User signed out.');
@@ -127,5 +156,20 @@ $(document).ready(() => {
     e.preventDefault()
     const id = $('#deleted-todo-id').val()
     deleteTodo(id)
+  })
+
+  $('#options-locations').on('change', (e) => {
+    const checked = e.target.checked
+    if (checked) {
+      $('#todo-location').show()
+    } else {
+      $('#todo-location').hide()
+    }
+  })
+
+  $(window).on('click', (e) => {
+    if ($(e.target).hasClass('modal')) {
+      closeModal()
+    }
   })
 })
