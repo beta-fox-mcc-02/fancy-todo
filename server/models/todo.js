@@ -19,7 +19,23 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue : false
     },
-    due_date: DataTypes.DATE,
+    due_date:{
+      type: DataTypes.DATE,
+      allowNull: false,
+      validate : {
+        notEmpty : {
+          args: true,
+          msg : `cannot be empty`
+        },
+        isToday (value) {
+          console.log(`valueeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`);        
+          let date = new Date ()
+          if (new Date(value) <= date) {
+            throw new Error(`date nya bos. anda bukan time traveller`)
+          }
+        }
+      }
+    },
     UserId : DataTypes.INTEGER
   }, {sequelize});
 

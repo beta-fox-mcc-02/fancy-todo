@@ -113,10 +113,10 @@ function fetchMyTodo() {
 
          for (let i = 0; i <= data.length - 1; i++) {
             let status = ''
-            if (data[i].status) {
-               status = `Done`
-            } else {
+            if (!data[i].status) {
                status = `Undone`
+            } else {
+               status = `Done`
             }
             let tanggalan = new Intl.DateTimeFormat('id', {
                weekday: `long`, year: `numeric`, month: `long`, day: `numeric`
@@ -205,10 +205,11 @@ function toggleEditTodo(id) {
                               <input type="date" class="form-control" id="form-editTodo-dueDate" value="${data.due_date}">
                               <small id="emailHelp" class="form-text text-muted">Due date for your todo.</small>
                            </div>
-                           <div class="form-group form-check">
-                              <input type="checkbox" class="form-check-input" id="form-editTodo-status" value="${data.status}">
-                              <label class="form-check-label" for="form-editTodo-status">Done</label>
-                            </div>
+                           <label>Status: </label>
+                           <select id="form-editTodo-status" class="ml-2">
+                              <option value="false">Undone</option>
+                              <option value="true">Done</option>
+                           </select>
                            <div class="text-center">
                               <button type="submit" class="btn btn-info mt-3" onclick="editTodo(${data.id})">Submit</button>
                            </div>
@@ -294,8 +295,7 @@ function editTodo(id) {
    let description = $('#form-editTodo-description').val()
    let status = $('#form-editTodo-status').val()
    let due_date = $('#form-editTodo-dueDate').val()
-   let token = localStorage.token
-
+   let token = localStorage.token   
    axios({
       method: `PUT`,
       url: `http://localhost:3000/todos/${id}`,
@@ -319,7 +319,7 @@ function editTodo(id) {
       .catch(err => {
          console.log(err);
          Toastify({
-            text: `please input all required field`,
+            text: `please input correct value`,
             backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
             className: "info",
           }).showToast();
@@ -445,7 +445,7 @@ $(document).ready(() => {
          })
          .catch(err => {
             Toastify({
-               text: `please input all required field`,
+               text: `please input the correct value`,
                backgroundColor: "linear-gradient(to right, #cc2b5e, #753a88)",
                className: "info",
              }).showToast();
