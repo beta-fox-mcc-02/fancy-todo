@@ -1,4 +1,4 @@
-const { Todo } = require('../models')
+const { Todo, Location } = require('../models')
 const { Op } = require('Sequelize')
 
 class TodoController {
@@ -20,6 +20,7 @@ class TodoController {
         })
       })
       .catch(error => {
+        console.log(error)
         next(error)
       })
   }
@@ -30,23 +31,57 @@ class TodoController {
       description: req.body.description,
       status: req.body.status,
       due_date: req.body.due_date,
-      user_id: req.decoded
+      user_id: req.decoded,
     }
 
     Todo.create(parameters)
       .then((newTodo) => {
-        res.status(201).json({
-          data: newTodo,
-          message: 'Todo is successfully created'
-        })
-      }).catch((error) => {
-        next(error)
+        if (!req.body.location) {
+          res.status(201).json({
+            data: newTodo,
+            message: 'Todo is successfully created'
+          })
+        } else {
+          const paramsLocation = JSON.parse(req.body.location)[0]
+          const todo_id = newTodo.id
+          Location.findOrCreate({ where: paramsLocation })
+            .then(([location, created]) => {
+              const data = location.get({
+                plain: true
+              })
+              Todo.update({ location_id: data.id },
+                {
+                  where: {
+                    id: todo_id
+                  },
+                  returning: true
+                })
+                .then(todo => {
+                  res.status(201).json({
+                    data: todo,
+                    message: 'Todo is successfully created'
+                  })
+                })
+                .catch(err => {
+                  console.log(err)
+                  next(err)
+                })
+            })
+            .catch(err => {
+              console.log(err)
+              next(err)
+            })
+        }
+      }).catch((err) => {
+        console.log(err)
+        next(err)
       });
   }
 
   static getTodo(req, res, next) {
     const id = +req.params.id
     Todo.findOne({
+      include: [Location],
       where: {
         [Op.and]: [
           {
@@ -83,32 +118,67 @@ class TodoController {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
-      due_date: req.body.due_date
+      due_date: req.body.due_date,
+      location_id: req.body.location ? req.body.location : null
     }
 
-    Todo.update(parameters, {
-      where: {
-        id
-      },
-      returning: true
-    })
-      .then(updatedTodo => {
-        if (updatedTodo[0]) {
-          res.status(200).json({
-            data: updatedTodo[1],
-            message: 'Update todo successfully'
+    const location = req.body.location
+    if (location) {
+      const paramsLocation = JSON.parse(req.body.location)[0]
+      Location.findOrCreate({ where: paramsLocation })
+        .then(([location, created]) => {
+          const data = location.get({
+            plain: true
           })
-        } else {
-          const error = {
-            name: 'NOT FOUND',
-            message: 'Todo is not found with id ' + id
+          parameters.location_id = data.id
+          Todo.update(parameters, {
+            where: {
+              id
+            },
+            returning: true
+          })
+            .then(updatedTodo => {
+              if (updatedTodo[0]) {
+                res.status(200).json({
+                  data: updatedTodo[1],
+                  message: 'Update todo successfully'
+                })
+              } else {
+                const error = {
+                  name: 'NOT FOUND',
+                  message: 'Todo is not found with id ' + id
+                }
+                next(error)
+              }
+            })
+            .catch(err => next(err))
+        })
+        .catch(err => next(err))
+    } else {
+      Todo.update(parameters, {
+        where: {
+          id
+        },
+        returning: true
+      })
+        .then(updatedTodo => {
+          if (updatedTodo[0]) {
+            res.status(200).json({
+              data: updatedTodo[1],
+              message: 'Update todo successfully'
+            })
+          } else {
+            const error = {
+              name: 'NOT FOUND',
+              message: 'Todo is not found with id ' + id
+            }
+            next(error)
           }
+        })
+        .catch(error => {
           next(error)
-        }
-      })
-      .catch(error => {
-        next(error)
-      })
+        })
+    }
   }
 
   static deleteTodo(req, res, next) {

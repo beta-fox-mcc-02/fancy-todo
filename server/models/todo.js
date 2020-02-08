@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
 	class Todo extends Model {
 		static associate(models) {
 			Todo.belongsTo(models.User, { foreignKey: 'user_id' });
+			Todo.belongsTo(models.Location, { foreignKey: 'location_id' })
 		}
 	}
 
@@ -55,6 +56,9 @@ module.exports = (sequelize, DataTypes) => {
 				}
 			},
 			user_id: {
+				type: DataTypes.INTEGER
+			},
+			location_id: {
 				type: DataTypes.INTEGER
 			}
 		},

@@ -9,11 +9,11 @@ module.exports = {
       Example:
       return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     */
-    return queryInterface.addConstraint('Todos', ['user_id'], {
+    return queryInterface.addConstraint('Todos', ['location_id'], {
       type: 'foreign key',
-      name: 'foreign_key_user_id',
+      name: 'foreign_key_location_id',
       references: {
-        table: 'Users',
+        table: 'Locations',
         field: 'id'
       },
       onDelete: 'cascade',
@@ -29,6 +29,6 @@ module.exports = {
       Example:
       return queryInterface.dropTable('users');
     */
-    return queryInterface.removeConstraint('Todos', 'foreign_key_user_id')
+    return queryInterface.removeConstraint('Todos', 'foreign_key_location_id')
   }
 };
