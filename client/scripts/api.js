@@ -268,7 +268,7 @@ const updateTodo = (id) => {
   const location = $('#location').val()
   $.ajax({
     url: 'http://localhost:3000/todos/' + id,
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
     },

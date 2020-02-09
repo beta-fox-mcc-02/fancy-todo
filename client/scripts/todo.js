@@ -85,6 +85,8 @@ const closeModal = () => {
 const openModalEdit = (id) => {
   initGooglePlaceApi()
   $('#location').val('')
+  const minDate = parseDate(new Date())
+  $('#due_date').attr('min', minDate)
   findTodo(id)
 }
 
