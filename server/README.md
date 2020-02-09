@@ -1,4 +1,4 @@
-# fancy-todo
+# rest-api-todo
 
 * **BASE URL**
 
