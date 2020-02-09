@@ -4,7 +4,7 @@ function login() {
     password: $("#password").val()
   }
   $.ajax({
-    url: "http://3.0.180.11:3000/login",
+    url: "http://localhost:3000/login",
     method: "POST",
     data: user
   })
@@ -29,7 +29,7 @@ function register() {
     password: $("#password").val()
   }
   $.ajax({
-    url: "http://3.0.180.11:3000/register",
+    url: "http://localhost:3000/register",
     method: "POST",
     data: user
   })
@@ -46,7 +46,7 @@ function register() {
 
 function fetchTodo() {
   return $.ajax({
-    url: "http://3.0.180.11:3000/todos",
+    url: "http://localhost:3000/todos",
     method: "get",
     headers: {
       access_token: localStorage.access_token
@@ -56,7 +56,7 @@ function fetchTodo() {
 
 function fetchOne(id) {
   $.ajax({
-    url: "http://3.0.180.11:3000/todos/" + id,
+    url: "http://localhost:3000/todos/" + id,
     method: "get",
     headers: {
       access_token: localStorage.access_token
@@ -128,7 +128,7 @@ function addTodo() {
   const due_date = $('#duedate').val()
 
   $.ajax({
-    url: 'http://3.0.180.11:3000/todos',
+    url: 'http://localhost:3000/todos',
     method: 'post',
     data: {
       title, description, address, priority, due_date
@@ -171,7 +171,7 @@ function addTodo() {
 
 function deleteTodo(id) {
   $.ajax({
-    url: "http://3.0.180.11:3000/todos/" + id,
+    url: "http://localhost:3000/todos/" + id,
     method: "delete",
     headers: {
       access_token: localStorage.access_token
@@ -194,7 +194,7 @@ function editTodo(id) {
   $('#map').hide()
   $('#editContainer').show()
   $.ajax({
-    url: "http://3.0.180.11:3000/todos/" + id,
+    url: "http://localhost:3000/todos/" + id,
     method: "get",
     headers: {
       access_token: localStorage.access_token
@@ -239,7 +239,7 @@ function editTodo(id) {
         const due_date = $('#editDue').val()
 
         $.ajax({
-          url: 'http://3.0.180.11:3000/todos/' + todo.id,
+          url: 'http://localhost:3000/todos/' + todo.id,
           method: 'put',
           data: {
             title, description, priority, address, due_date
@@ -294,7 +294,7 @@ function onSignIn(googleUser) {
   const google_token = googleUser.getAuthResponse().id_token;
   $.ajax({
     method: 'POST',
-    url: 'http://3.0.180.11:3000/google-auth',
+    url: 'http://localhost:3000/google-auth',
     data: { google_token }
   })
     .done(success => {
@@ -312,7 +312,7 @@ function onSignIn(googleUser) {
 
 function fetchCollId() {
   $.ajax({
-    url: "http://3.0.180.11:3000/todos/collaborator",
+    url: "http://localhost:3000/todos/collaborator",
     method: "get",
     headers: {
       access_token: localStorage.access_token
@@ -332,7 +332,7 @@ function fetchCollEmail(collIds) {
   $('#collaborators').empty()
   collIds.forEach(collId => {
     $.ajax({
-      url: "http://3.0.180.11:3000/todos/collaborator/" + collId,
+      url: "http://localhost:3000/todos/collaborator/" + collId,
       method: "get",
       headers: {
         access_token: localStorage.access_token
@@ -354,7 +354,7 @@ function fetchCollEmail(collIds) {
 
 function deleteCollaborator(id) {
   $.ajax({
-    url: "http://3.0.180.11:3000/todos/collaborator/" + id,
+    url: "http://localhost:3000/todos/collaborator/" + id,
     method: "get",
     headers: {
       access_token: localStorage.access_token
@@ -363,7 +363,7 @@ function deleteCollaborator(id) {
     .done(result => {
       if (result.email !== localStorage.userEmail) {
         $.ajax({
-          url: "http://3.0.180.11:3000/todos/collaborator/" + id,
+          url: "http://localhost:3000/todos/collaborator/" + id,
           method: "delete",
           headers: {
             access_token: localStorage.access_token
@@ -388,7 +388,7 @@ function deleteCollaborator(id) {
 function addCollaborator() {
   const email = $('#collaboratorEmail').val()
   $.ajax({
-    url: "http://3.0.180.11:3000/todos/collaborator",
+    url: "http://localhost:3000/todos/collaborator",
     method: "post",
     data: {
       email
@@ -409,7 +409,7 @@ function addCollaborator() {
 function searchTodo() {
   const words = $('#searchInput').val()
   return $.ajax({
-    url: "http://3.0.180.11:3000/todos/search",
+    url: "http://localhost:3000/todos/search",
     method: "post",
     data: {
       words
