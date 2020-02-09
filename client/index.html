@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/23f0107e08.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="./assets/styles/style.css">
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Satisfy|Shadows+Into+Light|Fredoka+One&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+  <meta name="google-signin-client_id"
+    content="176024940848-brhr4dp5uvhpt3pckpog64m2q30mjf3n.apps.googleusercontent.com">
+  <title>Fancy Todo</title>
+</head>
+
+<body>
+  <!-- ADD TODO MODAL -->
+  <div class="modal fade" id="addTodo" tabindex="-1" role="dialog" aria-labelledby="Add Todo" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title shadowFont" id="exampleModalLabel">ADD TODO</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div style="margin-bottom: 1rem;">
+              <input class="form-control" type="text" name="title" id="title" placeholder="Title">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <textarea class="form-control" name="description" id="description" placeholder="Description"
+                rows="4"></textarea>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <select class="form-control" id="priority" name="priority">
+                <option value="standard" selected>Standard</option>
+                <option value="important">Important</option>
+              </select>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <input class="form-control" type="text" name="location" id="location" placeholder="Location">
+            </div>
+            <div style="margin-bottom: 1rem;">
+              Due Date :
+              <span style="display: grid;"><input type="date" name="duedate" id="duedate"></span>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-sm" id="addTodoButton">ADD</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END OF ADD TODO MODAL -->
+
+
+  <div class="content">
+
+    <!-- -------------------------------------------- CONTENT CONTAINER -------------------------------------------- -->
+    <div class="row contentContainer">
+      <!-- LOGOUT BUTTON -->
+      <button type="button" class="btn btn-outline-dark btn-sm shadowFont" id="logoutButton"
+        style="position: absolute; bottom: 2rem; left: 3rem; width: 200px; font-size: 16px;">LOGOUT
+      </button>
+      <!-- END OF LOGOUT BUTTON -->
+
+      <!-- ADD TODO BUTTON` -->
+      <button type="button" class="btn btn-primary btn-sm"
+        style="position: absolute; bottom: 2rem; right: 22vw; width: 2rem;" data-toggle="modal" data-target="#addTodo">
+        <i class="fas fa-plus"></i>
+      </button>
+      <!-- END OF ADD TODO BUTTON -->
+
+      <!-- LEFT SIDEBAR -->
+      <div class=" col-md-3" style="height: 90vh;">
+        <div class="row satisfy" id="userGreeting" style="padding: 1rem;">
+          <!-- <h3>Hello, someone!</h3> -->
+        </div>
+        <div style="padding: 0rem 1rem; margin: 0 60px;">
+          <div class="row" style="margin-bottom: 5px;">
+            <button type="button" class="btn btn-warning btn-sm shadowFont" style="width: 100%; font-size: 16px;"
+              id="ongoingTodos">To-do
+              Tasks</button>
+          </div>
+          <div class="row" style="margin-bottom: 5px;">
+            <button type="button" class="btn btn-danger btn-sm shadowFont" style="width: 100%; font-size: 16px"
+              id="doneTodos">Completed</button>
+          </div>
+          <div class="row" style="margin-bottom: 5px;">
+            <button type="button" class="btn btn-primary btn-sm shadowFont" style="width: 100%; font-size: 16px"
+              id="allTodos">All
+              Tasks</button>
+          </div>
+        </div>
+      </div>
+      <!-- END OF LEFT SIDEBAR` -->
+
+      <!-- STANDARD TODO -->
+      <div class=" col-md-3">
+        <div style=" margin: 3vh 0px; height: 90vh;">
+          <div class="card text-center" style="height: 100%; border: none; background: none;">
+            <div class="card-header bg-dark text-white shadowFont">
+              STANDARD
+            </div>
+            <div class="card-body" id="standardCard"
+              style="background-color: rgba(20, 100, 170, 1); border-radius: 0 0 5px 5px; overflow: auto;">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END OF STANDARD TODO -->
+
+      <!-- IMPORTANT TODO -->
+      <div class=" col-md-3">
+        <div style="margin: 3vh 0; height: 90vh;">
+          <div class="card text-center" style="height: 100%; border: none; background: none;">
+            <div class="card-header bg-dark text-white shadowFont">
+              IMPORTANT
+            </div>
+            <div class="card-body" id="importantCard"
+              style="background-color: rgba(20, 100, 170, 1); border-radius: 0 0 5px 5px; overflow: auto;">
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END OF IMPORTANT TODO -->
+
+      <!-- RIGHT SIDEBAR -->
+      <div class=" col-md-3" style="height: 90vh;">
+        <div class="row" style="padding: 1rem; margin: 0;">
+          <div class="row" style="margin-bottom: 5px;">
+            <form class="form-inline" id="searchForm">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                style="width: 75%;" id="searchInput">
+              <button class="btn btn-outline-success my-2 my-sm-0 fas fa-search" type="submit" style="width: 20%;"
+                id="searchButton"></button>
+            </form>
+          </div>
+        </div>
+        <div class="row" style="margin: 0;">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title text-center">Collaborator</h5>
+              <div class="row">
+                <table class="table btn-outline-info" style="font-weight: bold;">
+                  <tbody id="collaborators">
+                  </tbody>
+                </table>
+              </div>
+              <form id="addCollaborator">
+                <div class="row">
+                  <input type="email" name="collaboratorEmail" id="collaboratorEmail" style="width: 100%;"
+                    placeholder="Collaborator's Email">
+                </div>
+                <div class="row" style="margin-top: 0.5rem;">
+                  <button class="btn btn-success btn-sm fas fa-plus-circle" type="sumbit"
+                    id="addCollaboratorButton"></button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END OF RIGHT SIDEBAR -->
+
+    </div>
+    <!-- ----------------------------------------- END OF CONTENT CONTAINER ----------------------------------------- -->
+
+    <!-- ---------------------------------------------- LOGIN CONTAINER --------------------------------------------- -->
+    <div class="row loginContainer">
+      <div class=" col-md-8">
+      </div>
+      <div class=" col-md-4 loginBox" style="background: rgba(244,129,56, 0.6);">
+        <div style="align-items: center; justify-content: center; display: flex; height: 100%;">
+          <form id="loginform" class="loginRegisterForm">
+            <div class="form-group">
+              <label for="email" style="font-size: 18px; font-weight: bold;">Email address</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="password" style="font-size: 18px; font-weight: bold;">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-danger" id="loginButton" style="width: 250px;">LOGIN</button>
+            <button type="submit" class="btn btn-danger" id="registerButton" style="width: 250px;">REGISTER</button>
+            <p id="registerLink" style="font-size: 18px; margin-top: 0.5rem;">Don't have Account? <a href=""
+                style="font-weight: bold;">Register
+                here</a></p>
+            <p id="loginLink" style="font-size: 18px; margin-top: 0.5rem;">Have an Account? <a href=""
+                style="font-weight: bold;">Login here</a>
+            </p>
+            <p class="mb-0" style="font-size: 18px;">Sign in with your Google Account</p>
+            <div class="g-signin2" data-onsuccess="onSignIn" data-width="250" data-theme="dark"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- ------------------------------------------- END OF LOGIN CONTAINER ------------------------------------------ -->
+
+    <!-- ---------------------------------------------- DETAIL CONTAINER --------------------------------------------- -->
+    <div class="row detailContainer">
+      <div class="row" style="width: 1000px; height: 500px;">
+        <div class="col contentCol" style="background: rgba(255, 255, 255, 0.8); height: 100%; overflow: auto;"
+          id="todoDetails">
+        </div>
+        <!-- MAP -->
+        <div class="col contentCol mapEditContainer" style="padding: 0;">
+          <div id="map"></div>
+          <div id="editContainer" style="background: rgba(255, 255, 255, 0.8); width: 100%; height: 100%"></div>
+        </div>
+        <!-- END OF MAP -->
+      </div>
+      <button type="button" class="btn btn-success btn-sm" id="backButton"
+        style="position: absolute; bottom: 2rem; left: 2rem; width: 100px;">BACK
+      </button>
+    </div>
+    <!-- ------------------------------------------ END OF DETAIL CONTAINER ------------------------------------------ -->
+  </div>
+
+
+  <!-- JQUERY -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!--  -->
+
+  <!-- SWEET ALERT -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <!--  -->
+
+  <!-- ALERTIFY -->
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  <!--  -->
+
+  <!-- BOOTSTRAP JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+  <!--  -->
+
+  <!-- MAIN JS -->
+  <script src="./assets/script/main.js"></script>
+  <!--  -->
+
+  <!-- GOOGLE MAPS -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJ75z7Ezml_0pgJU0QzJxpoEKDIJSieWA&callback=initMap">
+    </script>
+  <!--  -->
+
+  <!-- MAPS -->
+  <script src="./assets/script/maps.js"></script>
+  <!--  -->
+
+  <!-- AJAX -->
+  <script src="./assets/script/ajaxjobs.js"></script>
+  <!--  -->
+
+  <!-- GOOGLE SIGN IN -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <!--  -->
+</body>
+
+</html>

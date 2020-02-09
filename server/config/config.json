@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "ninoloid",
+    "password": "ninoloid",
+    "database": "restapitodos_betafox",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  }
+}

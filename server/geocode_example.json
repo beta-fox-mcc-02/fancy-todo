@@ -1,0 +1,64 @@
+{
+  "results": [
+    {
+      "address_components": [
+        {
+          "long_name": "Jalan Jendral Sudirman",
+          "short_name": "Jl. Jend. Sudirman",
+          "types": [
+            "route"
+          ]
+        },
+        {
+          "long_name": "Daerah Khusus Ibukota Jakarta",
+          "short_name": "Daerah Khusus Ibukota Jakarta",
+          "types": [
+            "administrative_area_level_1",
+            "political"
+          ]
+        },
+        {
+          "long_name": "Indonesia",
+          "short_name": "ID",
+          "types": [
+            "country",
+            "political"
+          ]
+        }
+      ],
+      "formatted_address": "Jl. Jend. Sudirman, Daerah Khusus Ibukota Jakarta, Indonesia",
+      "geometry": {
+        "bounds": {
+          "northeast": {
+            "lat": -6.2169279,
+            "lng": 106.8156254
+          },
+          "southwest": {
+            "lat": -6.221151,
+            "lng": 106.8112007
+          }
+        },
+        "location": {
+          "lat": -6.219349299999999,
+          "lng": 106.8139745
+        },
+        "location_type": "GEOMETRIC_CENTER",
+        "viewport": {
+          "northeast": {
+            "lat": -6.2169279,
+            "lng": 106.8156254
+          },
+          "southwest": {
+            "lat": -6.221151,
+            "lng": 106.8112007
+          }
+        }
+      },
+      "place_id": "ChIJsTH5rKz2aS4RMjC9l5j_mN8",
+      "types": [
+        "route"
+      ]
+    }
+  ],
+  "status": "OK"
+}
