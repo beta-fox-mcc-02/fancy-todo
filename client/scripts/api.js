@@ -1,3 +1,5 @@
+const BASE_URL = 'https://vast-plains-66239.herokuapp.com'
+
 const parsingDate = (date) => {
   date = date.toLocaleDateString()
   const array = date.split('/')
@@ -42,7 +44,7 @@ const login = () => {
   const email = $('#input-email-login').val()
   const password = $('#input-password-login').val()
   $.ajax({
-    url: 'http://localhost:3000/users/login',
+    url: `${BASE_URL}/users/login`,
     method: 'POST',
     data: {
       email,
@@ -67,7 +69,7 @@ const login = () => {
 
 function onSignIn(googleUser) {
   $.ajax({
-    url: 'http://localhost:3000/users/gLogin',
+    url: `${BASE_URL}/users/gLogin`,
     method: 'POST',
     headers: {
       token: googleUser.getAuthResponse().id_token
@@ -91,7 +93,7 @@ function onSignIn(googleUser) {
 
 const register = () => {
   $.ajax({
-    url: 'http://localhost:3000/users/register',
+    url: `${BASE_URL}/users/register`,
     method: 'POST',
     data: {
       username: $('#input-username-register').val(),
@@ -121,7 +123,7 @@ const register = () => {
 
 const findUser = () => {
   return $.ajax({
-    url: 'http://localhost:3000/users/find',
+    url: `${BASE_URL}/users/find`,
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
@@ -131,7 +133,7 @@ const findUser = () => {
 
 const getAllTodo = () => {
   $.ajax({
-    url: 'http://localhost:3000/todos',
+    url: `${BASE_URL}/todos`,
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
@@ -187,7 +189,7 @@ const createTodo = () => {
   const due_date = $('#due_date').val()
   const location = $('#location').val()
   $.ajax({
-    url: 'http://localhost:3000/todos',
+    url: `${BASE_URL}/todos`,
     method: 'POST',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
@@ -211,7 +213,7 @@ const createTodo = () => {
 
 const findTodo = (id) => {
   $.ajax({
-    url: 'http://localhost:3000/todos/' + id,
+    url: `${BASE_URL}/todos/` + id,
     method: 'GET',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
@@ -267,7 +269,7 @@ const updateTodo = (id) => {
   const status = $('#status').is(":checked")
   const location = $('#location').val()
   $.ajax({
-    url: 'http://localhost:3000/todos/' + id,
+    url: `${BASE_URL}/todos/` + id,
     method: 'PUT',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
@@ -292,7 +294,7 @@ const updateTodo = (id) => {
 
 const deleteTodo = (id) => {
   $.ajax({
-    url: 'http://localhost:3000/todos/' + id,
+    url: `${BASE_URL}/todos/` + id,
     method: 'DELETE',
     headers: {
       Authorization: 'Bearer ' + localStorage.token
@@ -311,7 +313,7 @@ const getNearbyPlaces = (parameters) => {
   $('#sp-loader').show()
   $('#nearby-places').html('')
   $.ajax({
-    url: 'http://localhost:3000/locations/nearby',
+    url: `${BASE_URL}/locations/nearby`,
     method: 'GET',
     data: {
       radius: parameters.radius,
@@ -341,7 +343,7 @@ const getNearbyPlaces = (parameters) => {
 
 const getLocationDetail = (place_id) => {
   $.ajax({
-    url: 'http://localhost:3000/locations/detail',
+    url: `${BASE_URL}/locations/detail`,
     method: 'GET',
     data: {
       place_id
