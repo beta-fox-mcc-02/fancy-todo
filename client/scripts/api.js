@@ -1,4 +1,4 @@
-const BASE_URL = 'https://vast-plains-66239.herokuapp.com'
+const BASE_URL = 'https://stark-caverns-24443.herokuapp.com'
 
 const parsingDate = (date) => {
   date = date.toLocaleDateString()
