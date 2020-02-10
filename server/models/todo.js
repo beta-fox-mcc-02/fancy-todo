@@ -32,7 +32,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     due_date: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      validate: {
+        validDueDate(value) {
+          if(new Date(value).toISOString().split('T')[0] < new Date().toISOString().split('T')[0]) {
+            throw new Error('due date must be today or after this date')
+          }
+        }
+      }
     },
     UserId: {
       type: DataTypes.INTEGER

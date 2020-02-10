@@ -42,7 +42,6 @@ class UserController {
                         let token = generateToken({
                             id: user.id,
                             email: user.email,
-                            password: user.password
                         })
                         res.status(200).json({
                             data: {
@@ -74,12 +73,11 @@ class UserController {
     static gLogin(req, res, next) {
         let payload;
         client.verifyIdToken({
-            idToken: req.headers.idToken,
+            idToken: req.headers.id_token,
             audience: process.env.CLIENT_ID
         })
-            .then(({ticket}) => {
-                payload = ticket
-                console.log(payload)
+            .then((ticket) => {
+                payload = ticket.getPayload()
                 return User.findOne({
                     where: {
                         email: payload.email
@@ -100,13 +98,13 @@ class UserController {
             .then(user => {
                 let result = {
                     id: user.id,
-                    email: user.email,
-                    password: user.password
+                    email: user.email
                 }
-                let token = jwt.sign(result, process.env.CLIENT_SECRET)
+                let token = generateToken(result)
                 res.status(200).json({
                     data: {
                         id: user.id,
+                        name: user.name,
                         email: user.email,
                         token: token
                     },

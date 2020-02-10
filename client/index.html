@@ -242,9 +242,8 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-primary">Edit</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             </div>
-                        </form>
-                            
                         </form>
                     </div>
                 </div>
@@ -263,6 +262,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="error-message"></div>
+                            <div class="form-group">
+                                <input disabled type="hidden" class="form-control" id="delete-todo-id" name="title" aria-describedby="titleHelp" required style="width: 80%;">
+                            </div>
                             <div class="form-group">
                                 <label for="title">Title:</label>
                                 <input disabled type="text" class="form-control" id="delete-title" name="title" aria-describedby="titleHelp" required style="width: 80%;">

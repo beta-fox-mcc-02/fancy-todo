@@ -1,4 +1,4 @@
-const {User, Todo} = require('../models');
+const {Todo} = require('../models');
 
 module.exports = (req, res, next) => {
     Todo.findOne({
@@ -8,7 +8,14 @@ module.exports = (req, res, next) => {
         }
     })
         .then(todo => {
-            next()
+            if(todo.UserId === req.decoded.id) {
+                next()
+            } else {
+                next({
+                    name: "DataNotFound",
+                    errors: `Todo with id ${req.params.id} in user id ${req.decoded.id} not found`
+                })
+            }
         })
         .catch(err => {
             next({

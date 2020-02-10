@@ -84,16 +84,15 @@ function login() {
 }
 
 function onSignIn(googleUser) {
-    const idToken = googleUser.getAuthResponse().id_token;
+    const id_token = googleUser.getAuthResponse().id_token;
     $.ajax({
         method: 'POST',
         url: 'http://localhost:3000/gLogin',
         headers: {
-          idToken
+          id_token
         }
     })
         .done(({data}) => {
-            console.log(data)
             localStorage.token = data.token
             localStorage.currentUser = data.name
             listAll()
@@ -105,7 +104,8 @@ function onSignIn(googleUser) {
             $('#username-actions').append(`<img src="https://robohash.org/${data.name}?set=set5" style="width: 10%;" alt="assets/img/favicon/aeab52dcc9ee9b028f28623a7778de3b.ico"> ${data.name}`)
         })
         .fail(err => {
-            console.log(err.responseJSON.msg)
+            $('.error-message').empty()
+            $('.error-message').append(`<small class="form-text text-muted">${err.responseJSON.msg}</small>`)
         })
     
 }
@@ -127,7 +127,6 @@ function listAll() {
         }
     })
         .done(({data}) => {
-            console.log(data)
             if(data.length) {
                 $('#todo-cards').empty()
                 data.forEach(todo => {
@@ -138,7 +137,7 @@ function listAll() {
                             return 'Not Done'
                         }
                     }
-                    $('#todo-cards').append(`<div class="col-sm-3"><div class="card"><div class="card-body"><h5 class="card-title">${todo.title}</h5><p class="card-text">${todo.description}</p><p class="card-text">Due Date: ${new Date(todo.due_date).toLocaleDateString()}</p><p class="card-text">Status: ${status()}</p><a href="#" class="card-link btn btn-primary" onclick="genUpdateForm(${todo.id})">Edit</a><a href="#" class="card-link btn btn-danger" onclick="deleteTodo(${todo.id})">Delete</a></div></div></div>`)
+                    $('#todo-cards').append(`<div class="col-sm-3"><div class="card"><div class="card-body"><h5 class="card-title">${todo.title}</h5><p class="card-text">${todo.description}</p><p class="card-text">Due Date: ${new Date(todo.due_date).toLocaleDateString()}</p><p class="card-text">Status: ${status()}</p><a href="#" class="card-link btn btn-primary" onclick="genUpdateForm(${todo.id})">Edit</a><a href="#" class="card-link btn btn-danger" onclick="genDeleteConfirm(${todo.id})">Delete</a></div></div></div>`)
                 })
                 $('#home-page').hide();
                 $('#register').hide();
@@ -161,8 +160,7 @@ function listAll() {
             
         })
         .fail(err => {
-            console.log(err)
-            home()
+            loggedUserLandingPage()
         })
 }
 
@@ -207,9 +205,7 @@ function genUpdateForm(id) {
             $('#update-description').val(data.description)
             if(data.status) {
                 $('#true-status').attr('checked',true)
-                // $('#false-status').attr('checked',false)
             } else {
-                // $('#true-status').attr('checked',false)
                 $('#false-status').attr('checked',true)
             }
             let date = new Date(data.due_date)
@@ -218,7 +214,6 @@ function genUpdateForm(id) {
             $('#updateTodoForm').modal('show')
         })
         .fail(err => {
-            console.log(err)
             listAll()
         })
 }
@@ -247,8 +242,36 @@ function updateTodo(id) {
             listAll()
         })
         .fail(err => {
-            console.log(err)
-            genUpdateForm(id)
+            $('.error-message').empty()
+            $('.error-message').append(`<small class="form-text text-muted">${err.responseJSON.msg}</small>`)
+        })
+}
+
+function genDeleteConfirm(id) {
+    $.ajax({
+        method: 'GET',
+        url: `http://localhost:3000/todos/${id}`,
+        headers: {
+            token: localStorage.token
+        }
+    })
+        .done(({data}) => {
+            $('#delete-todo-id').val(data.id)
+            $('#delete-title').val(data.title)
+            $('#delete-description').val(data.description)
+            if(data.status) {
+                $('#delete-true-status').attr('checked',true)
+            } else {
+                $('#delete-false-status').attr('checked',true)
+            }
+            let date = new Date(data.due_date)
+            $('#delete-due-date').val(date.toISOString().split('T')[0])
+            localStorage.id_todo = data.id
+            $('#deleteTodoConfirm').modal('show')
+        })
+        .fail(err => {
+            $('.error-message').empty()
+            $('.error-message').append(`<small class="form-text text-muted">${err.responseJSON.msg}</small>`)
         })
 }
 
@@ -258,16 +281,14 @@ function deleteTodo(id) {
         url: `http://localhost:3000/todos/${id}`,
         headers: {
             token: localStorage.token
-        }
-            .done(({data}) => {
-                listAll()
-            })
-            .fail(err => {
-                console.log(err)
-                listAll()
-            })
-
+        } 
     })
+        .done(({data}) => {
+            listAll()
+        })
+        .fail(err => {
+            listAll()
+        })
 }
 
 $(document).ready(() => {
@@ -339,5 +360,10 @@ $(document).ready(() => {
     $('#todo-update-form').on('submit', event => {
         event.preventDefault()
         updateTodo(localStorage.id_todo)
+    })
+
+    $('#confirm-delete-todo').on('click', () => {
+        deleteTodo($('#delete-todo-id').val())
+        $('#deleteTodoConfirm').modal('hide')
     })
 })
