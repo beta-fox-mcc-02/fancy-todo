@@ -1,4 +1,6 @@
 const { Todo } = require('../models')
+const axios = require('axios')
+
  class TodoController {
   static findAll (req, res, next) {
     Todo.findAll({

@@ -1,7 +1,7 @@
 const { User } = require('../models')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const {OAuth2Client} = require('google-auth-library');
+const {OAuth2Client} = require('google-auth-library')
 
 class UserController {
   static register (req, res, next) {
@@ -70,7 +70,8 @@ class UserController {
           status.msg = "user not found. Create user"
           return User.create({
             name,
-            email
+            email,
+            password: 'google-sign-password'
           })
         } else{
             status.msg = "user found"
@@ -79,7 +80,7 @@ class UserController {
         }
       })
       .then(user=>{
-        const idUser = user._id
+        const idUser = user.id
         const token = jwt.sign({ id: idUser }, process.env.SECRET);
         res.status(status.ids).json({token, msg: status.msg})
       })
