@@ -1,12 +1,13 @@
 let currentUser = localStorage.currentUser
 let updateId
 let city = localStorage.city || 'Jakarta'
+let BASE_URL = 'https://cryptic-thicket-24013.herokuapp.com'
 // USER QUERY
 function onSignIn(googleUser) {
   const token = googleUser.getAuthResponse().id_token;
   $.ajax({
     method: 'POST',
-    url: 'http://localhost:3000/users/glogin',
+    url: `${BASE_URL}/users/glogin`,
     headers: {
       token
     }
@@ -30,7 +31,7 @@ function signInFancy () {
     e.preventDefault()
     $.ajax({
       method: 'POST',
-      url: 'http://localhost:3000/users/login',
+      url: `${BASE_URL}/users/login`,
       data: {
         email: $('#email-login').val(),
         password: $('#password-login').val()
@@ -62,7 +63,7 @@ function signUpFancy () {
     let password = $('#password-register').val()
     $.ajax({
       method: 'POST',
-      url: 'http://localhost:3000/users/register',
+      url: `${BASE_URL}/users/register`,
       data: {
         username,
         email,
@@ -73,6 +74,7 @@ function signUpFancy () {
       $('#username-register').val('')
       $('#email-register').val('')
       $('#password-register').val('')
+      $('#registerModal').modal('hide')
       landingPage()
     })
     .fail( err => {
@@ -104,6 +106,7 @@ function signOut() {
   })
 }
 
+// Notification
 function toastifyFail (msg) {
   Toastify({
     text: `${msg}`,
@@ -136,7 +139,7 @@ function toastifySuccess (msg) {
 function fetchTodo () {
   $.ajax({
     method: 'GET',
-    url: 'http://localhost:3000/todos',
+    url: `${BASE_URL}/todos`,
     headers: {
       token: localStorage.token
     }
@@ -188,7 +191,7 @@ function addTodo () {
     e.preventDefault()
     $.ajax({
       method: 'POST',
-      url: 'http://localhost:3000/todos',
+      url: `${BASE_URL}/todos`,
       data: {
         title: $('#title').val(),
         description: $('#description').val(),
@@ -218,7 +221,7 @@ function editTodo (id) {
   $('#Navbar').show()
   $.ajax({
     method: 'GET',
-    url: `http://localhost:3000/todos/${id}`,
+    url: `${BASE_URL}/todos/${id}`,
     headers: {
       token: localStorage.token
     }
@@ -238,7 +241,7 @@ function updateTodo () {
     e.preventDefault()
     $.ajax({
       method: 'PUT',
-      url: `http://localhost:3000/todos/${updateId}`,
+      url: `${BASE_URL}/todos/${updateId}`,
       data: {
         title: $('#title-update').val(),
         description: $('#description-update').val(),
@@ -267,7 +270,7 @@ function updateTodo () {
 function doneTodo (id, v) {
   $.ajax({
     method: 'PUT',
-    url: `http://localhost:3000/todos/${id}`,
+    url: `${BASE_URL}/todos/${id}`,
     data: {
       status: v
     },
@@ -292,7 +295,7 @@ function doneTodo (id, v) {
 function deleteTodo (id) {
   $.ajax({
     method: 'DELETE',
-    url: `http://localhost:3000/todos/${id}`,
+    url: `${BASE_URL}/todos/${id}`,
     headers: {
       token: localStorage.token
     }
@@ -309,8 +312,11 @@ function deleteTodo (id) {
 
 // PAGE MANAGE
 function landingPage () {
-  $('#contentPage').hide()
   $('#landingPage').show()
+  $('#Navbar').hide()
+  $('#contentPage').hide()
+  $('#formEdit').hide()
+  $('footer').hide()
 }
 
 function contentPage () {
@@ -319,6 +325,7 @@ function contentPage () {
   $('#contentPage').show()
   $('#landingPage').hide()
   $('#formEdit').hide()
+  $('footer').show()
 }
 
 function fetchName () {
@@ -346,10 +353,9 @@ function checkWeather () {
 function fetchWeather (){
     $.ajax({
       method: 'GET',
-      url: `http://localhost:3000/weathers/${city}`
+      url: `${BASE_URL}/weathers/${city}`
     })
     .done( data => {
-      console.log(data)
       let weather = {
         main: data.weather[0].main,
         description: data.weather[0].description,
@@ -397,6 +403,9 @@ $(document).ready(() => {
     fetchName()
     contentPage()
     fetchTodo()
+    // 3rd party
+    checkWeather()
+    fetchWeather()
   } else {
     landingPage()
   }
@@ -408,10 +417,6 @@ $(document).ready(() => {
   // todo
   addTodo()
   updateTodo()
-
-  // 3rd party
-  checkWeather()
-  fetchWeather()
 
   // asd
   backHome()
