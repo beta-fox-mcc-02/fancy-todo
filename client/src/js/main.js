@@ -9,7 +9,7 @@ $(document).ready(function(){
     const email = $('#emailLogin').val()
     const password = $('#passwordLogin').val()
     $.ajax({
-      url: "http://localhost:3000/auth/login",
+      url: "https://safe-cliffs-81037.herokuapp.com/auth/login",
       method: "POST",
       data: { email, password },
     })
@@ -40,7 +40,7 @@ $(document).ready(function(){
     const email = $('#emailRegister').val()
     const password = $('#passwordRegister').val()
     $.ajax({
-      url: "http://localhost:3000/auth/register",
+      url: "https://safe-cliffs-81037.herokuapp.com/auth/register",
       method: "POST",
       data: { name, email, password },
     })
@@ -96,7 +96,7 @@ $(document).ready(function(){
     const status = false
     const due_date = $('#due_date').val()
     $.ajax({
-      url: "http://localhost:3000/todos",
+      url: "https://safe-cliffs-81037.herokuapp.com/todos",
       method: "POST",
       headers: {
         token: localStorage.token
@@ -180,7 +180,7 @@ function pageRegister () {
 function fetchTodos () {
   $('#listTodos').empty()
   $.ajax({
-    url: "http://localhost:3000/todos",
+    url: "https://safe-cliffs-81037.herokuapp.com/todos",
     method: "GET",
     headers: {
       token: localStorage.token
@@ -235,7 +235,7 @@ function restrictInputDueDate () {
 function deleteTodo (id) {
   return axios({
     method: 'delete',
-    url: 'http://localhost:3000/todos/' + id,
+    url: 'https://safe-cliffs-81037.herokuapp.com/todos/' + id,
     headers: {
       token: localStorage.token
     }
@@ -268,7 +268,7 @@ function addDeleteTodo (id) {
 function doneTodo (id) {
   return axios({
     method: 'patch',
-    url: 'http://localhost:3000/todos/' + id,
+    url: 'https://safe-cliffs-81037.herokuapp.com/todos/' + id,
     headers: {
       token: localStorage.token
     },
@@ -312,7 +312,7 @@ function addUpdateTodo (id) {
   if (due_date === '') due_date = undefined
   axios({
     method: 'put',
-    url: 'http://localhost:3000/todos/' + id,
+    url: 'https://safe-cliffs-81037.herokuapp.com/todos/' + id,
     headers: {
       token: localStorage.token
     },
@@ -342,7 +342,7 @@ function onSignIn(googleUser) {
   console.log('masuk k onSignIn')
   axios({
     method: 'post',
-    url: 'http://localhost:3000/auth/googleSign',
+    url: 'https://safe-cliffs-81037.herokuapp.com/auth/googleSign',
     data: {
       id_token
     }

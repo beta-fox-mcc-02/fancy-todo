@@ -41,7 +41,7 @@ function getHolidays() {
     const year = $("#yearSelect").val()
     return $.ajax({
         method: "POST",
-        url: "http://localhost:3000/todos/holidays",
+        url: "https://safe-cliffs-81037.herokuapp.com/todos/holidays",
         data: { month, year }
     })
 }
@@ -60,13 +60,8 @@ function getListHolidays () {
                   <th scope="row">${i}</th>
                   <td>${holiday.name}</td>
                   <td>${holiday.description}</td>
-                  <td><a href="" id="getWeather${i}" >${formatDate(holiday.date.iso)}</a></td>
+                  <td>${formatDate(holiday.date.iso)}</td>
               </tr>`)
-                  $(`#getWeather${i}`).click((e) => {
-                      e.preventDefault()
-                      getAll(`${formatDate(holiday.date.iso)
-                          }`)
-                  })
                   i++
               })
           })
