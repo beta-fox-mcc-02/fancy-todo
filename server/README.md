@@ -16,10 +16,11 @@
 
     None
 
-   **Required:**
- 
-   None
+  * **Headers**  
+    **Authentication:**
 
+    `access_token`
+   
 * **Data Params**
 
   None
@@ -30,17 +31,16 @@
     **Content:** 
     ```json
     {
-      "data": [
-          {
-              "id": "integer",
-              "title": "string",
-              "description": "string",
-              "status": "boolean",
-              "due_date": "date",
-              "createdAt": "date",
-              "updatedAt": "date"
-          }
-      ],
+      "data": [{
+        "id": 2,
+        "title": "Tes",
+        "description": "Deskripsi",
+        "status": false,
+        "due_date": "2020-02-12T00:00:00.000Z",
+        "UserId": 1,
+        "createdAt": "2020-02-11T13:07:54.341Z",
+        "updatedAt": "2020-02-11T13:07:54.341Z"
+      }],
       "message": "Success find all"
     }
     ```
@@ -65,6 +65,11 @@
 
   /todos/
 
+ * **Headers**  
+    **Authentication:**
+
+    `access_token`
+
 * **Method:**
 
   `POST`
@@ -78,7 +83,6 @@
 
   `title=[string]`<br>
   `description=[string]`<br>
-  `status=[boolean]`<br>
   `due_date=[date]`
 
 * **Success Response:**
@@ -87,17 +91,16 @@
     **Content:** 
     ```json
     {
-      "data": [
-          {
-              "id": "integer",
-              "title": "string",
-              "description": "string",
-              "status": "boolean",
-              "due_date": "date",
-              "createdAt": "date",
-              "updatedAt": "date"
-          }
-      ],
+      "data": {
+        "status": false,
+        "id": 3,
+        "title": "New todo",
+        "description": "Todo's description",
+        "due_date": "2020-02-08T00:00:00.000Z",
+        "UserId": 1,
+        "updatedAt": "2020-02-11T13:27:41.903Z",
+        "createdAt": "2020-02-11T13:27:41.903Z"
+      },
       "message": "success creating task"
     }
     ```
@@ -137,6 +140,11 @@
 
   /todos/:id
 
+ * **Headers**  
+    **Authentication:**
+
+    `access_token`
+
 * **Method:**
 
   `GET`
@@ -157,20 +165,19 @@
   * **Code:** 200 <br />
     **Content:** 
      ```json
-    {
-      "data": [
-          {
-              "id": "integer",
-              "title": "string",
-              "description": "string",
-              "status": "boolean",
-              "due_date": "date",
-              "createdAt": "date",
-              "updatedAt": "date"
-          }
-      ],
-      "message": "success findByID"
-    }
+      {
+        "data": {
+          "id": 2,
+          "title": "Tes",
+          "description": "Deskripsi",
+          "status": false,
+          "due_date": "2020-02-12T00:00:00.000Z",
+          "UserId": 1,
+          "createdAt": "2020-02-11T13:07:54.341Z",
+          "updatedAt": "2020-02-11T13:07:54.341Z"
+        },
+        "message": "success findById"
+      }
     ```
 
  
@@ -207,6 +214,11 @@
 * **URL**
 
   /todos/:id
+
+* **Headers**  
+    **Authorization:**
+
+    `access_token`
 
 * **Method:**
 
@@ -295,6 +307,11 @@
 * **URL**
 
   /todos/:id
+
+* **Headers**  
+    **Authentication:**
+
+    `access_token`
 
 * **Method:**
 

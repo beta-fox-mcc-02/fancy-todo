@@ -52,8 +52,7 @@ class Controller {
 
     static findById(req, res, next) {
         Todo.findOne({
-            where: {id: req.params.id},
-            include: ['User']
+            where: {id: req.params.id}
         })
             .then(task => {
                 if(task) {
