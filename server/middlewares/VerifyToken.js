@@ -23,7 +23,6 @@ module.exports = {
                     })
                     .then( (data) => {
                         if(data) {
-                            console.log(decoded)
                             req.decoded = decoded.id;
                             next();
                         } else {
@@ -61,8 +60,7 @@ module.exports = {
             include: ['User']
         })
             .then( data => {
-                console.log(data.User.id)
-                if(data.User.id === userId) {
+                if(data.UserId === userId) {
                     next();
                 } else {
                     const error = {
