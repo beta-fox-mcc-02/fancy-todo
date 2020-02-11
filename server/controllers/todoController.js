@@ -7,7 +7,6 @@ class Controller {
         const data = {
             title: req.body.title,
             description: req.body.description,
-            status: false,
             due_date: req.body.due_date,
             UserId: req.decoded
         }
