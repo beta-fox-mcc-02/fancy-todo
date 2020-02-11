@@ -63,7 +63,7 @@ $(document).ready(function(){
         if (err.responseJSON.name === 'SequelizeUniqueConstraintError') {
           Swal.fire({
             title: 'Email registered!',
-            text: 'Email has been registered. Please login or register with another email ',
+            text: 'Email has been registered. Please login or register with another email',
             icon: 'error',
             confirmButtonText: 'Close'
           })
@@ -95,6 +95,7 @@ $(document).ready(function(){
     const description = $('#addDescriptionTodo').val()
     const status = false
     const due_date = $('#due_date').val()
+    if (due_date === '') due_date = null
     $.ajax({
       url: "https://safe-cliffs-81037.herokuapp.com/todos",
       method: "POST",
