@@ -56,8 +56,7 @@ module.exports = {
         Todo.findOne({
             where: {
                 id: todoId
-            },
-            include: ['User']
+            }
         })
             .then( data => {
                 if(data.UserId === userId) {
