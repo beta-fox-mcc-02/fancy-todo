@@ -10,7 +10,6 @@ class TodoController {
             order: [['id', 'ASC']]
         })
             .then(todos => {
-                console.log(todos)
                 res.status(200).json({
                     data: todos,
                     msg: 'success fetch all todos'
@@ -32,7 +31,6 @@ class TodoController {
             UserId: req.decoded.id
         })
             .then(data => {
-                console.log(data)
                 res.status(201).json({
                     data: data,
                     msg: "success create todo"

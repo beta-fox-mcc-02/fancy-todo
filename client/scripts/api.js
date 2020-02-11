@@ -51,8 +51,6 @@ function addTodo() {
         }
     })
         .done(response => {
-            console.log(response)
-
             fetch()
             $('#home').show()
             $('#list-todo').show()
@@ -163,7 +161,6 @@ function deleteTodo(id) {
         }
     })
         .done(response => {
-            console.log(response)
             fetch()
             $('#home').show()
             $('#list-todo').show()
