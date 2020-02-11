@@ -1,6 +1,7 @@
 const {User} = require('../models/index');
 const bcrypt = require('../helpers/bcrypt');
 const jwtoken = require('../helpers/jwtoken');
+const {OAuth2Client} = require('google-auth-library');
 
 class Controller {
     static register(req, res, next) {
@@ -69,7 +70,6 @@ class Controller {
 
     static googleSignIn(req, res, next){
         let payload
-        const {OAuth2Client} = require('google-auth-library');
         const client = new OAuth2Client(process.env.CLIENT_ID_GOOGLE);
         client.verifyIdToken({
           idToken: req.headers.access_token,
