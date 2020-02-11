@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notNull: {
           args: true,
@@ -22,29 +23,29 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: {
           agrs: true,
           msg: 'invalid email format'
-        },
-        isUnique(value, next) {
-          User.findOne({
-            where: {
-              email: value
-            }
-          })
-            .then(user => {
-              if (user) {
-                if (this.email === user.email) {
-                  next('email is already taken')
-                } else {
-                  next()
-                }
-              } else {
-                next()
-              }
-            })
-            .catch(err => {
-              console.log(err)
-              next(err)
-            })
         }
+        // isUnique(value, next) {
+        //   User.findOne({
+        //     where: {
+        //       email: value
+        //     }
+        //   })
+        //     .then(user => {
+        //       if (user) {
+        //         if (this.email === user.email) {
+        //           next('email is already taken')
+        //         } else {
+        //           next()
+        //         }
+        //       } else {
+        //         next()
+        //       }
+        //     })
+        //     .catch(err => {
+        //       console.log(err)
+        //       next(err)
+        //     })
+        // }
       }
     },
     password: {

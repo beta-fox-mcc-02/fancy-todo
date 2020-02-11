@@ -8,16 +8,6 @@
 
   `GET` | `POST` | `DELETE` | `PUT`
 
-* **.env Template**
-  ```txt
-  SECRET=
-  PORT=
-  SALT=
-  CLIENT_ID=
-  CLIENT_SECRET=
-  SECRET_PASSWORD=
-  ```
-
 * **Third Party API Key**
   ```txt
   f55c06eeac586dffb59e833f89d103316113246d
@@ -45,7 +35,7 @@
 
 * **Headers**
 
-  'token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJoYW16YWhAbWFpbC5jb20iLCJpYXQiOjE1ODA4MTU4NzV9.x9giDxABRbxn_uKUEU0uwESFv9mYsBaJdmphP3WKxqU'
+  token: string
 
 * **Success Response:**
 
