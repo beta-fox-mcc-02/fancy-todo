@@ -2,12 +2,10 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
     generateToken: function (payload) {
-        const secretKey = 'abcdefg';
-        return jwt.sign(payload, secretKey);
+        return jwt.sign(payload, process.env.SECRET_KEY);
     },
 
     verifyToken: function(token, callback) {
-        const secretKey = 'abcdefg'
-        return jwt.verify(token, secretKey, callback);
+        return jwt.verify(token, process.env.SECRET_KEY, callback);
     }
 }

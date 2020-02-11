@@ -70,10 +70,10 @@ class Controller {
     static googleSignIn(req, res, next){
         let payload
         const {OAuth2Client} = require('google-auth-library');
-        const client = new OAuth2Client(149920457263-u795gk1qr3i9bmtvm54d0pa30ta7e055.apps.googleusercontent.com);
+        const client = new OAuth2Client(process.env.CLIENT_ID_GOOGLE);
         client.verifyIdToken({
           idToken: req.headers.access_token,
-          audience: 149920457263-u795gk1qr3i9bmtvm54d0pa30ta7e055.apps.googleusercontent.com
+          audience: process.env.CLIENT_ID_GOOGLE
         })
           .then(ticket => {
             payload = ticket.getPayload();
