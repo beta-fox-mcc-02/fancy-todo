@@ -11,5 +11,4 @@ router.get('/:id', verifyToken.authorization, todoController.findById);
 router.put('/:id', verifyToken.authorization, todoController.update);
 router.delete('/:id', verifyToken.authorization, todoController.delete);
 router.get('/weather', todoController.weatherForecast);
-
 module.exports = router;

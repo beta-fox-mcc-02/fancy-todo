@@ -86,7 +86,7 @@ class Controller {
             if(!user){
               const newUser = {
                 email: payload.email,
-                password: 'zY1YhVT6CFAfQKr3bEyYHSN_'
+                password: process.env.PASSWORD
               }
               return User.create(newUser);
             }else{
