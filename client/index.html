@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-signin-client_id" content="149920457263-dj0i81f2au3i7p4gv0grv41vbgs5bm36.apps.googleusercontent.com">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>Fancy Todo</title>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">Fancy Todo</a>
+          </div>
+          <ul class="nav navbar-nav">
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li id="sign-up-navbar"><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li id="login-navbar"><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li id="logout-navbar"><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+        </div>
+    </nav>
+    <div id="weather"></div>
+    <!-- Error message -->
+    <div id="error_message"></div>
+
+    <!-- Login Form -->
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-auto">
+                <div class="form_page">
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login_inputEmail">Email</label>
+                            <input type="email" class="form-control" id="login_inputEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login_inputPassword">Password</label>
+                            <input type="password" class="form-control" id="login_inputPassword" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <!-- Google SignIn Button -->
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Form -->
+    <div class="container">
+      <div class="row justify-content-md-center">
+          <div class="col-md-auto">
+              <div class="form_page">
+                  <form id="register-form">
+                      <div class="form-group">
+                          <label for="register_inputEmail">Email</label>
+                          <input type="email" class="form-control" id="register_inputEmail" placeholder="Email" required>
+                      </div>
+                      <div class="form-group">
+                          <label for="register_inputPassword">Password</label>
+                          <input type="password" class="form-control" id="register_inputPassword" placeholder="Password" required>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Register</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+    <!-- Add new task -->
+    <div class="container w-75">
+      <form id="newtask-form">
+        <div class="form-group">
+          <label for="title-add-form">Title</label>
+          <input type="text" class="form-control" id="title-add-form" aria-describedby="emailHelp"
+            placeholder="Enter title" autofocus required>
+        </div>
+        <div class="form-group">
+          <label for="desc-add-form">Description</label>
+          <input type="text" class="form-control" id="desc-add-form" aria-describedby="emailHelp"
+            placeholder="Enter description" required>
+        </div>
+        <div class=" form-group">
+          <label for="due-date-add-form">Due Date</label>
+          <input type="date" class="form-control" id="due-date-add-form" aria-describedby="emailHelp" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="submit-add-form">Add</button>
+        <!-- <button type="button" class="btn btn-secondary" id="cancel-add-form">Cancel</button> -->
+      </form>
+    </div>
+
+    <!-- Task List -->
+    <table class="table" id="task-list">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Title</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>    
+      </tbody>
+    </table>
+
+    <!-- Delete Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="delete-modal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure to delete this task?</p>
+          </div>
+          <input type="hidden" value="" id="deleted-task-id">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="delete-confirm-ok">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <!-- Edit task -->
+    <div class="container w-75">
+      <form id="edit-task-form">
+
+        <div class="form-group">
+          <label for="title-edit-form">Title</label>
+          <input type="text" class="form-control" id="title-edit-form" aria-describedby="emailHelp"
+            placeholder="Enter title" autofocus required>
+        </div>
+
+        <div class="form-group">
+          <label for="desc-edit-form">Description</label>
+          <input type="text" class="form-control" id="desc-edit-form" aria-describedby="emailHelp"
+            placeholder="Enter description" required>
+        </div>
+        
+        <div class=" form-group">
+          <label for="due-date-edit-form">Due Date</label>
+          <input type="date" class="form-control" id="due-date-edit-form" aria-describedby="emailHelp" required>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio-update-form" id="completed-update-form" value="true">
+          <label class="form-check-label" for="true-update-form"> Completed </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="radio-update-form" id="uncomplete-update-form" value="false">
+          <label class="form-check-label" for="false-update-form"> Uncomplete </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-edit-form">Edit</button>
+        <button type="button" class="btn btn-secondary" id="cancel-edit-form">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <!-- Google SignIn -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="./scripts/main.js"></script>
+</body>
+</html>
