@@ -51,6 +51,10 @@ module.exports = (sequelize, DataTypes) => {
 					isNotEmpty: (value) => {
 						if (!value) {
 							throw new Error('Due date is required');
+						} else {
+							if (new Date(value) < new Date()) {
+								throw new Error('Due date is lesser than today')
+							}
 						}
 					}
 				}
