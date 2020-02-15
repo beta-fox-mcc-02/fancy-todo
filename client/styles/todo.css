@@ -1,0 +1,280 @@
+.container {
+  margin-top: 80px;
+}
+
+.navbar-wrapper {
+  display: flex;
+  width: 100%
+}
+
+ul.navbar-nav {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.form-login, .form-register {
+  width: 100%;
+  max-width: 420px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-label-group > label {
+  position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+}
+
+.form-label-group > input, .form-label-group > label {
+  height: 3.125rem;
+  padding: .75rem;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.checkbox {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-link {
+  padding-top: 0;
+  padding-right: 0;
+}
+
+.hide {
+  display: none !important
+}
+
+.show {
+  display: block !important
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-header, .modal-footer {
+  display: block
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 90%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+.close {
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 1rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: calc(.3rem - 1px);
+  border-top-right-radius: calc(.3rem - 1px);
+}
+
+.modal-body {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 1rem;
+  display: flex
+}
+
+.modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  padding: .75rem;
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: calc(.3rem - 1px);
+  border-bottom-left-radius: calc(.3rem - 1px);
+}
+
+.color-white {
+  color: #fff !important
+}
+
+.link {
+  color: #007bff !important;
+  cursor: pointer;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.badge {
+  margin-left: 10px;
+}
+
+.todo-title {
+  margin-bottom: 10px;
+}
+
+
+.modal-body-form {
+  flex: 0 0 50%;
+}
+
+.modal-body-nearby-places {
+  flex: 1 1 auto;
+  margin-left: 15px;
+}
+
+.label-nearby-places {
+  font-weight: bolder;
+  width: 100%;
+}
+
+.label-checkbox {
+	position: relative;
+	padding-left: 35px;
+	margin-bottom: 6px;
+	cursor: pointer;
+	font-weight: 400;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.label-checkbox input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+}
+
+
+.checkmark {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 23px;
+	width: 23px;
+	border: 1px solid #d3cfc8;
+	border-radius: 0;
+}
+
+.label-checkbox input:checked ~ .checkmark {
+	background-color: #007bff;
+	border-color: #007bff;
+}
+
+.checkmark:after {
+		content: '';
+		position: absolute;
+		display: none;
+}
+
+.label-checkbox input:checked ~ .checkmark:after {
+	display: block;
+	content: '';
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 7px;
+	height: 10px;
+	border: 2px solid #fff;
+	border-left: none;
+	border-top: none;
+	-webkit-transform: translate(7.75px, 4.5px) rotate(45deg);
+	transform: translate(7.75px, 4.5px) rotate(45deg);
+}
+
+.label-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+input[type='checkbox'][disabled] + span.checkmark {
+	border-color: #414a4c;
+	background-color: #414a4c;
+}
+
+.dropdown-menu {
+  left: -70px;
+}
+
+.bold {
+  font-weight: bolder
+}
+
+.color-rating {
+  color: #f5c518;
+}
+
+#sp-loader {
+  width: 100%;
+}
+
+.place-name {
+  color: #5799ef;
+}
+
+.place-address {
+  font-family: Verdana, Arial, sans-serif;
+  color: #333;
+  font-size: 13px;
+}
