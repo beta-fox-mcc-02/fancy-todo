@@ -34,12 +34,11 @@ function showLogout() {
 
 function findData() {
     $("section#todo-container").show()
+    let token = localStorage.getItem('token')
     $.ajax({
         method: "GET",
         url: "http://localhost:3000/todos",
-        data: {
-            UserId: localStorage.getItem('id')
-        }
+        headers: { token }
     })
         .done((result) => {
             $("section#todo-container").empty()
@@ -141,15 +140,16 @@ function createTodo() {
     let title = $("#todo-title").val()
     let description = $("#todo-desc").val()
     let due_date = $("#todo-due").val()
+    let token = localStorage.getItem('token')
     if(title.length && due_date) {
         axios({
             method: "POST",
             url: "http://localhost:3000/todos",
+            headers: { token },
             data: {
                 title,
                 description,
-                due_date,
-                UserId: localStorage.getItem('id')
+                due_date
             }
         })
             .then(() => {
@@ -170,10 +170,11 @@ function createTodo() {
 }
 
 function completeTask(todoId, UserId) {
+    let token = localStorage.getItem('token')
     axios({
         method: 'PUT',
         url: `http://localhost:3000/todos/${todoId}`,
-        data: { UserId }
+        headers: { token },
     })
         .then((data) => {
             console.log(data, `success`)
@@ -186,10 +187,11 @@ function completeTask(todoId, UserId) {
 }
 
 function deleteTask(todoId, UserId) {
+    let token = localStorage.getItem('token')
     axios({
         method: 'DELETE',
         url: `http://localhost:3000/todos/${todoId}`,
-        data: { UserId }
+        headers: { token }
     })
         .then((message) => {
             console.log(message)
