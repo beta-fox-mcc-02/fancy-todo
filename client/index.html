@@ -1,0 +1,316 @@
+<html>
+    <head>
+        <title></title>
+        <meta name="google-signin-client_id" content="531857425692-sjp79llbq1dgeg6eiu7qc3mtuf6022mp.apps.googleusercontent.com">
+    </head>
+    <body>
+        <header>
+            <div id="sidebar">
+
+            </div>
+            <div id="upperbar">
+                <section id="user-profile">
+                    <span class="name"></span>
+                    <button class="logout">Log Out</button> 
+                </section>
+            </div>
+            <div id="login-form">
+                <section id="form-section">
+                    <h1>SIGN IN HERE</h1>
+                    <form>
+                        <div class="signin-required-field">
+                            <span class="signin-required-field">EMAIL and PASSWORD should not be empty!</span>
+                            <span class="signin-validation-err">EMAIL or PASSWORD not found!</span>
+                            <input id="input-email" type="email" placeholder="Your email" name="email" required><br>
+                            <input id="input-password" type="password" placeholder="Your password" name="password" required><br>
+                        </div>
+                        <div class="login">
+                            <button class="login" type="submit">Sign In</button>
+                        </div>
+                        <div class="register">
+                            <button class="register" type="submit">Register</button>
+                            <button class="cannot-register" disabled>Register</button>
+                            <span class="register">You have already registered<br>Please hover and click <b>Sign In</b> instead</span>
+                        </div>
+                    </form>
+                    <h1>OR</h1>
+                    <h1>SIGN IN WITH</h1>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </section>
+            </div>
+        </header>
+        <main>
+            <section>
+                <button id="todo-button">Create Todo</button>
+                <button id="show-all-todo">Show All</button>
+                <button id="guardian-news">Get News</button>
+                <form id="create-todo-form">
+                    <h1>CREATE NEW TODO</h1>
+                    <input id="todo-title" type="text" name="title" placeholder="Your task title"  minlength="7" required><br>
+                    <input id="todo-desc" type="text" name="description" placeholder="Short description"><br>
+                    <input id="todo-due" type="date" name="due_date" required><br>
+                    <input id="create-todo" type="submit" value="CREATE">
+                </form>
+            </section>
+            <section id="todo-container"></section>
+            <section id="actual-news-guardian">
+                <div id="query-tool">
+                    <input class="query-news" type="search" placeholder="Search keyword">
+                    <button class="query-news">Search</button>
+                </div>
+                <div class="query-news"></div>
+            </section>
+        </main>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="index.js"></script>
+        <script src="gSignIn.js"></script>
+    </body>
+</html>
+
+<style>
+    body{
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    main{
+        margin-left: 20%;
+        margin-top: 5%;
+    }
+
+    #sidebar{
+        background: url("https://pbs.twimg.com/media/CqP9XYpXYAADrZw.jpg");
+        height: 100%;
+        width: 20%;
+        position: fixed;
+        opacity: 50%;
+        top: 0;
+        left: 0;
+    }
+
+    #upperbar{
+        background-color: #ffffff;
+        height: 5%;
+        width: 80%;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        margin-left: 20%;
+        box-shadow: 1px 1px 5px grey;
+    }
+
+    #user-profile{
+        display: flex;
+        flex-direction: column;
+        text-align-last: right;
+    }
+
+    button.logout{
+        background-color: #ffffff;
+        right: 0px;
+        border-style: none;
+        cursor: pointer;
+        opacity: 50%;
+    }
+
+    button.logout:hover, #todo-button:hover, #show-all-todo:hover, #guardian-news:hover{
+        color: rgb(0, 217, 255);
+        text-shadow: 0px 0px 2px rgba(0, 193, 252, 0.397);
+        opacity: 100%;
+    }
+
+    #login-form {
+        width: 30%;
+        background-color: #f3b78ade;
+        padding: 2%;
+        box-sizing: content-box;
+        margin: 8% auto;
+        box-shadow: 1px 0px 20px 5px #888888;
+    }
+
+    #create-todo-form{
+        text-align: -webkit-center;
+        padding: 4%;
+    }
+
+    #todo-title, #todo-desc, #todo-due{
+        width: 75%;
+        height: 5%;
+        border-style: none;
+        border-bottom-style: groove;
+        font-family: inherit;
+    }
+
+    #form-section{
+        text-align: -webkit-center;
+    }
+
+    div.signin-required-field{
+        position: relative;
+        padding-top: 9%;
+    }
+
+    span.signin-required-field, span.signin-validation-err{
+        position: absolute;
+        top: 0.1%;
+        opacity: 90%;
+        color: white;
+        padding: 1%;
+        font-size: 12px;
+        font-style: italic;
+        text-shadow: 0px 0px 10px red;
+    }
+
+    span.signin-required-field:hover, span.signin-validation-err:hover{
+        opacity: 100%;
+        background-color: red;
+        border-radius: 20px;
+    }
+
+    #input-email, #input-password{
+        width: 75%;
+        padding: 3% 4%;
+        font-family: inherit;
+    }
+
+    #input-email:hover, #input-password:hover{
+        box-shadow: 0px 0px 10px rgb(37, 230, 255);
+        font-family: inherit;
+    }
+
+    div.login, div.register{
+        display: contents;
+        position: relative;
+    }
+
+    button.register, button.login, button.cannot-register{
+        padding: 3% 4%;
+        width: 36.8%;
+        cursor: pointer;
+        background-color: white;
+        border-style: none;
+        margin-top: 2%;
+        box-shadow: 0px 0px 5px grey;
+        font-family: inherit;
+    }
+
+    button.register:hover, button.login:hover, button.cannot-register:hover, button.query-news:hover{
+        box-shadow: 0px 0px 10px rgb(37, 230, 255);
+    }
+
+    button.cannot-register{
+        cursor: not-allowed;
+    }
+
+    button.cannot-register:hover{
+        background-color: red;
+        box-shadow: 0px 0px 10px red;
+    }
+
+    span.register{
+        position: absolute;
+        background: black;
+        color: white;
+        padding: 0.5%;
+        margin-left: 0.5%;
+        border-radius: 5px;
+        opacity: 50%;
+    }
+
+    span.register:hover{
+        opacity: 100%;
+    }
+
+    #todo-button, #show-all-todo, #guardian-news{
+        border-style: none;
+        cursor: pointer;
+        background-color: transparent;
+    }
+
+    #todo-container{
+        display: grid;
+        grid-template-columns: auto auto auto auto auto auto;
+        width: 50%;
+    }
+    .gridbox{
+        background-color: rgba(226, 217, 217, 0.8);
+        border-radius: 10px;
+        text-align: center;
+        width: 150px;
+        margin: 10px;
+        height: 200px;
+        word-wrap: break-word;
+    }
+
+    .grid-content{
+        text-align:left ;
+    }
+
+    .status-false, .status-true, .edit-button, .delete-button{
+        width: 100%;
+    }
+
+    #box-title{
+        height: 25%;
+        padding-top: 2%;
+        border-radius: 10px 10px 0px 0px;
+        color: white;
+        -webkit-margin-top-collapse: discard;
+        background-color: #3a3a3a;
+    }
+    
+    #box-desc{
+        margin: auto;
+        height: 25%;
+    }
+
+    #box-button{
+        vertical-align: bottom;
+    }
+
+    div#query-tool{
+        width: 75%;
+        display: flex;
+        flex-direction: column;
+        text-align: -webkit-right;
+        margin: 2% auto 2% auto;
+    }
+
+    input.query-news{
+        border-style: none;
+        border-bottom: 1px groove #00000038;
+        margin: 2% 0px;
+    }
+
+    button.query-news{
+        font-family: inherit;
+        width: 20%;
+        -webkit-text-stroke-width: thin;
+        border-style: none;
+        font-weight: bold;
+        padding: 2%;
+        cursor: pointer;
+        border-radius: 10px;
+        background-color: #d2d2d233;
+    }
+
+    div.news-bar{
+        width: 75%;
+        padding: 2%;
+        background-color: white;
+        box-shadow: 0px 0px 2px;
+        margin: auto auto 1% auto;
+        border-radius: 20px;
+    }
+
+    div.news-bar a{
+        color: black;
+        text-decoration: none;
+        -webkit-text-stroke: medium;
+    }
+
+    div.news-bar:hover{
+        box-shadow: 0px 0px 20px rgba(0, 80, 230, 0.842);
+    }
+</style>
