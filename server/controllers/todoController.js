@@ -2,9 +2,10 @@ const { Todo } = require('../models')
 
 class TodoController{
     static findAll (req, res, next) {
+        console.log(req.currentUserId)
         Todo.findAll({
             where:{
-                UserId: req.query.UserId
+                UserId: req.currentUserId
             },
             order: [['due_date', 'ASC']]
         })
@@ -22,7 +23,7 @@ class TodoController{
             title: req.body.title,
             description: req.body.description,
             due_date: req.body.due_date,
-            UserId: req.body.UserId
+            UserId: req.currentUserId
         })
             .then((data) => {
                 res.status(201).json({
@@ -50,7 +51,7 @@ class TodoController{
 
     static setToCompleted (req, res, next) {
         let todoId = req.params.id
-        let UserId = req.body.UserId
+        let UserId = req.currentUserId
         Todo.findByPk(todoId)
             .then((data) => {
                 if(data.UserId === UserId) {
@@ -77,7 +78,7 @@ class TodoController{
 
     static deleteById (req, res, next) {
         let todoId = req.params.id
-        let UserId = req.body.UserId
+        let UserId = req.currentUserId
         Todo.findByPk(todoId)
             .then((data) => {
                 if(data.UserId === UserId) {

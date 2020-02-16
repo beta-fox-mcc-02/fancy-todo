@@ -8,6 +8,7 @@ module.exports = {
             }
         })
         .then((data) => {
+            console.log(data)
             if(data) {
                 if(data.UserId === req.currentUserId) next()
                 else next({ err: `Unauthorized User` })
