@@ -12,10 +12,10 @@ router.get('/', (req, res) => {
       })
 })
 
-router.use('/todos', todoRoutes)
-router.use('/users', authRoutes)
-router.use('/search', zomato)
 router.post('/googleSignIn', GoogleController.signIn)
+router.use('/users', authRoutes)
+router.use('/todos', todoRoutes)
+router.use('/search', zomato)
 
 router.get('/*', (req, res, next) => {
    next({

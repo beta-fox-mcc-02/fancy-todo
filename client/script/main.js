@@ -1,5 +1,3 @@
-let token = localStorage.getItem('token')
-
 //reset page
 function resetPage() {
    $("#homePage").hide()
@@ -7,6 +5,8 @@ function resetPage() {
    $("#formRegister").hide()
    $("#todoList").hide()
    $("#listZomato").hide()
+   $("#alert").hide()
+   $("#homeAlert").hide()
 }
 
 //nav setting when login
@@ -27,7 +27,7 @@ function whenLogout() {
 
 //nav control 
 function navControl() {
-   if(token) {
+   if(localStorage.token) {
       whenLogin()
    } else {
       whenLogout()
@@ -52,12 +52,12 @@ function resetWarning() {
 
 $(document).ready(function(){
    resetPage()
-   if(token) {
+   if(localStorage.token) {
       whenLogin()
    } else {
       whenLogout()
+      $("#homePage").show()
    }
-   $("#homePage").show()
 
    //nav Logo
    $("a.navbar-brand").on("click", function() {
@@ -119,7 +119,6 @@ $(document).ready(function(){
    $("button#addTodo").on("click", function(el) {
       el.preventDefault()
       resetWarning()
-      console.log('addTodo')
       addTodoList()
    })
 
@@ -130,12 +129,9 @@ $(document).ready(function(){
       $("#modalUpdateTodo").hide()
       $("#todoList").show()
       $("#zomatoModal").hide()
+      $("#modalAddTodo").hide()
 
       fetchTodoList()
-   })
-
-   $("#updateTodoConfirm").on("click", function(el) {
-      el.preventDefault()
    })
 
    $("#addZomato").on("click", function(el) {
@@ -155,9 +151,18 @@ $(document).ready(function(){
       el.preventDefault()
       $("#todoList").show()
       $("#zomatoModal").hide()
+      $("#listZomato").hide()
    })
 
-   $("#restoSelected").on("click", function(el) {
+   $("#addZomatoConfirm").on('click', function(el){
       el.preventDefault()
+      resetWarning()
+      addZomatoList()
+   })
+
+   $("#showModalAddButton").on('click', function(el) {
+      el.preventDefault()
+      $("#todoList").hide()
+      $("#modalAddTodo").show()
    })
 })

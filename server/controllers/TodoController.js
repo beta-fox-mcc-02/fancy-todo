@@ -3,7 +3,7 @@ const axios = require('axios')
 
 class TodoController {
    static search(req, res) {
-      console.log('masuk ke settingan API', '================')
+      // console.log('masuk ke settingan API', '================')
       axios({
          method: 'get',
          url: 'https://developers.zomato.com/api/v2.1/search?entity_id=74&entity_type=city',
@@ -40,13 +40,13 @@ class TodoController {
          .then(task => {
             res.status(200).json({
                data: task,
-               msg: 'success post todo list'
+               msg: 'success create todo list'
             })
          })
          .catch(err => {
             next({
                status : 401,
-               msg : 'You must login first'
+               msg : 'wrong format, date must be after now'
             })
          })
    }
@@ -88,7 +88,7 @@ class TodoController {
          .then(task => {
             res.status(200).json({
                data: task, 
-               msg: 'success update by id'
+               msg: 'success edit todo'
             })
          })
          .catch(err => {
@@ -113,7 +113,7 @@ class TodoController {
             } else {
                res.status(200).json({
                   data: task,
-                  msg: 'success get todo list by id'
+                  msg: 'success delete todo'
                })
             }
          })

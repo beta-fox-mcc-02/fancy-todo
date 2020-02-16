@@ -2,8 +2,8 @@ const { checkToken } = require('../helpers/jwt')
 const { User } = require('../models')
 
 function isTokenValid (req, res, next) {
-   console.log('authentication')
-   let token = req.headers.token
+   const token = req.headers.token
+
    if(token) {
       try {
          let payload = checkToken(token)
@@ -31,7 +31,7 @@ function isTokenValid (req, res, next) {
          next(err)
       }
    } else {
-      next('You must log in first')
+      next(err)
    }
 }    
 

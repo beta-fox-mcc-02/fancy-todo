@@ -1,5 +1,7 @@
 function addTodoList() {
-   $("#showTodoList").empty()
+   $("#showTodoList").html('')
+   $("#alert").html('')
+   $("#alertAddTodo").html('')
    
    $.ajax({
       method: "POST",
@@ -14,20 +16,34 @@ function addTodoList() {
       }
    })
       .done(todos => {
-         console.log('masuk create')
+         // console.log(todos.msg)
+         let success = `
+         <div class="alert alert-success mx-auto" role="alert">
+            ${todos.msg}
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(success)
+         $("#addTitle").val('')
+         $("#addDescription").val('')
+         $("#addDueDate").val('')
+         $("#modalAddTodo").hide()
+         $("#todoList").show()
          fetchTodoList()         
       })
       .fail(err => {
-         $("#successCreateTodo").hide()
-         $("#failCreateTodo").show()
-         console.log('error create')
-         console.log(err)
+         let fail = `
+         <div class="alert alert-danger mx-auto" role="alert">
+            ${err.responseJSON.message}
+         </div>
+         `
+         $("#alertAddTodo").show()
+         $("#alertAddTodo").html(fail)
       })
 }
 
 function fetchTodoList() {
-   $("#showTodoList").empty()
-   console.log('masuk fetch')
+   $("#showTodoList").html('')
    
    $.ajax({
       method: "GET",
@@ -37,7 +53,6 @@ function fetchTodoList() {
       }
    })
       .done(todos => {
-         console.log(todos)
          let data =''
          if(todos.length === 0) {   
             data = 
@@ -52,12 +67,24 @@ function fetchTodoList() {
             `
          } else {
             todos.forEach(todo => {
+               let description
+               let title
+               if(todo.title.length > 20) {
+                  title = todo.title.substring(0, 20) + '.....'
+               } else {
+                  title = todo.title
+               }
+               if(todo.description.length > 40) {
+                  description = todo.description.substring(0, 40) + '......'
+               } else {
+                  description = todo.description
+               }
                // console.log(todo)
                data +=
                   `
                   <tr>
-                    <td>${todo.title}</td>
-                    <td>${todo.description}</td>
+                    <td>${title}</td>
+                    <td>${description}</td>
                     ${todo.status ? `<td class="text-success">complete</td>` : `<td class="text-danger">uncomplete</td>`}
                     <td>${convertDate(todo.due_date)}</td>
                     <td>
@@ -69,19 +96,23 @@ function fetchTodoList() {
             }
             )   
          }
-         $("#failCreateTodo").hide()
-         $("#successCreateTodo").hide()
          $("#showTodoList").html(data)
 
       })
       .fail(err => {
-         console.log(err)
-         console.log('fail fetch todo list')
+         let danger = `
+         <div class="alert alert-danger mx-auto" role="alert">
+            ${err.responseJSON.msg}
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(danger)
       })
 }
 
 function getModalTodo(id) {
    $("#todoList").hide()
+   $("#alertTodo").html('')
    $("#modalUpdateTodo").show()
    $.ajax({
       method: "GET",
@@ -91,7 +122,6 @@ function getModalTodo(id) {
       }
    })
       .then(todo => {
-         console.log(todo)
          $("#todoUpdate").html(
             `
             <div class="form-group">
@@ -111,7 +141,7 @@ function getModalTodo(id) {
                <option value="true">Complete</option>
                <option value="false">Uncomplete</option>
             </select>
-            <button onclick="event.preventDefault(); updateTodoList(${todo.data.id}, '${convertDate(todo.data.due_date)}')" class="btn btn-secondary" id="updateTodoConfirm">Confirm Update</button>
+            <button onclick="event.preventDefault(); updateTodoList(${todo.data.id}, '${convertDate(todo.data.due_date)}')" class="btn btn-success">Save</button>
             `
          )
       })
@@ -119,13 +149,12 @@ function getModalTodo(id) {
 }
 
 function updateTodoList(id, date) {
-   $("#showTodoList").empty()
+   $("#showTodoList").html('')
+   $("#alertTodo").html('')
    // console.log(id, date)
-   let newDate
+   let newDate = $("#updateDueDate").val()
    if(!newDate) {
       newDate = date
-   } else {
-      newDate = $("#updateDueDate").val()
    }
    const title = $("#updateTitle").val()
    const description = $("#updateDescription").val()
@@ -143,13 +172,24 @@ function updateTodoList(id, date) {
       }
    })
       .done(todo => {
-         console.log(todo)
          $("#modalUpdateTodo").hide()
          $("#todoList").show()
+         let success = `
+         <div class="alert alert-success mx-auto" role="alert">
+            ${todo.msg}
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(success)
          fetchTodoList()
       })
       .fail(err => {
-         console.log(err)
+         let error = `
+         <div class="alert alert-danger mx-auto" role="alert">
+            ${err.responseJSON.msg}, cannot use date before now
+         </div>
+         `
+         $("#alertTodo").html(error)
       })
 }
 
@@ -163,7 +203,7 @@ function showModalDeleteTodo(id) {
 }
 
 function deleteTodoList(id) {
-   $("#showTodoList").empty()
+   $("#showTodoList").html('')
 
    $.ajax({
       method: "DELETE",
@@ -175,15 +215,27 @@ function deleteTodoList(id) {
       .done(todo => {
          $("#modalDeleteTodo").hide()
          $("#todoList").show()
+         let success = `
+         <div class="alert alert-success mx-auto" role="alert">
+            ${todo.msg}
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(success)
          fetchTodoList()
       })
       .fail(err => {
-         console.log(err)
+         let danger = `
+         <div class="alert alert-danger mx-auto" role="alert">
+            ${err.responseJSON.msg}
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(danger)
       })
 }
 
 function convertDate (date) {
-   console.log('masuk')
    const year = new Date(date).getFullYear()
    let month = new Date(date).getMonth()+1
    let newDate = new Date(date).getDate()
@@ -205,12 +257,15 @@ function zomato() {
       }
    })
       .done(data => {
+         console.log(data)
          let restaurant = []
          let restoId = []
+         let restoAddress =[]
          data.restaurants.forEach((resto, i) => {
-            if(i < 10) {
+            if(i < 20) {
                restaurant.push(resto.restaurant.name)
                restoId.push(resto.restaurant.id)
+               restoAddress.push(resto.restaurant.location.locality)
             }
          })
          let newData = ''
@@ -221,8 +276,9 @@ function zomato() {
                <tr>
                   <td>${++counter}</td>
                   <td>${resto}</td>
+                  <td>${restoAddress}</td>
                   <input type="hidden" value="${restoId[i]}">
-                  <td><button class="btn btn-primary" id="restoSelected" onclick="event.preventDefault(); selectResto('${resto}', ${restoId[i]})">Select</button></td>
+                  <td><button class="btn btn-primary" onclick="event.preventDefault(); selectResto('${resto}', ${restoId[i]})">Select</button></td>
                </tr>
             `
          })
@@ -230,18 +286,61 @@ function zomato() {
          
       })
       .fail(err => {
-         console.log(err)
+         let fail = `
+         <div class="alert alert-danger mx-auto" role="alert">
+            You have reached maximum for today, please comeback tomorrow
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(fail)
       })
 }
 
-// $("#restoSelected").on("click", function(el) {
-//    selectResto()
-// })
 
 function selectResto(resto, id) {
-   console.log('masuk select Resto')
    $("#listZomato").hide()
    $("#zomatoModal").show()
    $("#addZomatoTitle").val(`${resto}`)
+}
+
+function addZomatoList() {
+   $("#showTodoList").html('')
+   $("#alert").html('')
    
+   $.ajax({
+      method: "POST",
+      url: "http://localhost:3000/todos",
+      data : {
+         title: $("#addZomatoTitle").val(),
+         description: $("#addZomatoDescription").val(),
+         due_date : $("#addZomatoDueDate").val()
+      },
+      headers : {
+         token : localStorage.getItem("token")
+      }
+   })
+      .done(todos => {
+         // console.log(todos.msg)
+         let success = `
+         <div class="alert alert-success mx-auto" role="alert">
+            ${todos.msg}
+         </div>
+         `
+         $("#alert").show()
+         $("#alert").html(success)
+         $("#addZomatoTitle").val('')
+         $("#addZomatoDescription").val('')
+         $("#addZomatoDueDate").val('')
+         fetchTodoList()         
+      })
+      .fail(err => {
+         // console.log(err)
+         let fail = `
+         <div class="alert alert-danger mx-auto" role="alert">
+            ${err.responseJSON.message}
+         </div>
+         `
+         $("#alertZomatoTodo").show()
+         $("#alertZomatoTodo").html(fail)
+      })
 }

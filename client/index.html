@@ -47,6 +47,9 @@
 
          <!-- Show home page -->
          <div id="homePage">
+            <div id="homeAlert">
+
+            </div>
             <h1>Welcome to Todo List</h1>
          </div>
 
@@ -79,11 +82,7 @@
          <div class="card" id="formRegister">
             <div class="form-login">
                <h1 class="text-center">Register</h1>
-               <div style="display : none" id="successRegister" class="alert alert-success" role="alert">
-                  Success register account
-               </div>
-               <div style="display : none" id="failRegister" class="alert alert-danger" role="alert">
-               </div>
+         
                <form>
                   <div class="form-group">
                      <label for="email">Email</label>
@@ -103,16 +102,22 @@
       </div>
    </div>
 
-   <!-- Show todo list with add form -->
+   <!-- Show todo list-->
    <div class="container margin-top: 1rem" id="todoList">
       <div class="row justify-content-md-center">
          <div class="col">
-            <h1>Todo List</h1>
-            <div style="display : none" id="successCreateTodo" class="alert alert-success" role="alert">
-               Success create new todo
+            
+            <!-- Alert -->
+            <div id="alert" role="alert">
+
             </div>
-            <div style="display : none" id="failCreateTodo" class="alert alert-danger" role="alert">
-               Fail create new todo
+
+            <h1 class="text-center">Todo List</h1>
+            
+            <!-- Zomato and add new task button -->
+            <div style="margin-bottom : -20px" class="text-center mt-1">
+               <button class="btn btn-primary" type="submit" id="addZomato">Add list place to eat</button> 
+               <button class="btn btn-primary" type="submit" id="showModalAddButton">Add New Task</button> 
             </div>
 
             <!-- Todo list -->
@@ -131,12 +136,21 @@
                </tbody>
             </table>
 
-            <!-- Zomato -->
-            <div id="zomatoButton">
-               <button class="btn btn-primary" type="submit" id="addZomato">Add list place to eat</button> 
-            </div>
+         </div>
+      </div>
+   </div>
 
-            <!-- Form add todo list-->
+   <!-- Modal Create Todo -->
+   <div class="modal" id="modalAddTodo">
+      <div class="modal-content">
+         <div class="modal-header">
+            <span class="close close-modal">&times;</span>
+            <h5>Add Todo</h5>
+            <div id="alertAddTodo">
+
+            </div>
+         </div>
+         <div class="modal-body">
             <form>
                <div class="form-group">
                   <label for="title">Title</label>
@@ -151,7 +165,7 @@
                   <input type="date" class="form-control" id="addDueDate" placeholder="date" required>
                </div>
                <div>
-                  <button class="btn btn-primary" type="submit" id="addTodo">Add new task</button>
+                  <button class="btn btn-primary mt-2" type="submit" id="addTodo">Add new task</button>
                </div>
             </form>
          </div>
@@ -164,6 +178,11 @@
          <div class="modal-header">
             <span class="close close-modal">&times;</span>
             <h5>Todo where to eat</h5>
+            <div>
+               <div id="alertZomatoTodo">
+   
+               </div>
+            </div>
          </div>
          <div class="modal-body">
             <form>
@@ -194,18 +213,26 @@
    </div>
 
    <!-- Zomato -->
-   <div id="listZomato">
-      <table class="table table-striped custab">
-         <thead>
-            <tr>
-               <th>Restaurant</th>
-            </tr>
-         </thead>
-         <tbody id="zomatoList">
-
-         </tbody>
-         <button id="backToTodo" class="btn btn-primary">Back</button>
-      </table>
+   <div class="container margin-top: 1rem" id="listZomato">
+      <div class="row justify-content-md-center">
+         <div class="col">
+            <div>
+               <h1 class="text-center">RESTAURANT</h1>
+               <table class="table table-striped custab text-center">
+                  <thead>
+                     <th>No</th>
+                     <th>Restaurant</th>
+                     <th>Location</th>
+                     <th>Action</th>
+                  </thead>
+                  <tbody id="zomatoList">
+                  
+                  </tbody>
+                  <button id="backToTodo" class="btn btn-danger">Back</button>
+               </table>
+            </div>
+         </div>
+      </div>
    </div>
 
    <!-- Show modal todo edit start -->
@@ -215,6 +242,11 @@
             <span class="close close-modal">&times;</span>
             <h5>Edit Todo</h5>
          </div>
+         <div>
+            <div id="alertTodo">
+
+            </div>
+         </div>
          <div class="modal-body">
             <form id="todoUpdate">
 
@@ -223,6 +255,7 @@
       </div>
    </div>
 
+   <!-- Show Modal Delete -->
    <div id="modalDeleteTodo" class="modal">
       <div class="modal-content">
          <div class="modal-header">

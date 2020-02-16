@@ -1,7 +1,6 @@
 function onSignIn(googleUser) {
    let id_token = googleUser.getAuthResponse().id_token;
-   // console.log(id_token)
-   // console.log(googleUser)
+
    $.ajax({
       method: "POST",
       url: "http://localhost:3000/googleSignIn",
@@ -10,16 +9,15 @@ function onSignIn(googleUser) {
       }
    })
          .done(data => {
-            console.log('success in login with google')
             localStorage.setItem('token', data.token)
             whenLogin()
             $("div#formLogin").hide()
             $("div#todoList").show() 
             resetWarning() 
+            successNotif('login via google')
             fetchTodoList()            
          })
          .fail(err => {
-            console.log('fail')
             $("div#formLogin").hide()
          })
 }
@@ -27,8 +25,7 @@ function onSignIn(googleUser) {
 function isLogin() {
    const email = $("#loginEmail").val()
    const password = $("#loginPassword").val()
-   // console.log($("#loginEmail").val())
-   // console.log($("#loginPassword").val())
+
    $.ajax({
       method: "POST",
       url: `http://localhost:3000/users/login`,
@@ -43,11 +40,22 @@ function isLogin() {
          $("div#todoList").show()
          whenLogin()
          resetWarning()
+         successNotif('login')
          fetchTodoList()         
       })
       .fail(err => {
          $("#failLogin").show()
       })
+}
+
+function successNotif(msg) {
+   let success = `
+   <div class="alert alert-success mx-auto" role="alert">
+      ${msg} success
+   </div>
+   `
+   $("#alert").show()
+   $("#alert").html(success)
 }
 
 function register() {
@@ -62,10 +70,10 @@ function register() {
       .done(todo => {
          $("div#formRegister").hide()
          $("div#formLogin").show() 
-         $("div#failLogin").hide()        
+         $("div#failLogin").hide()
       })
       .fail(err => {
-         console.log(err.responseJSON.msg)
+         // console.log(err.responseJSON.msg)
          $("div#failRegister").html(err.responseJSON.msg)
          $("div#failRegister").show()
       })
@@ -82,4 +90,11 @@ function logingOut() {
      console.log('User signed out.');
    });
    $("#homePage").show()
+   $("#homeAlert").show()
+   let success = `
+   <div class="alert alert-success mx-auto" role="alert">
+      Log out success
+   </div>
+   `
+   $("#homeAlert").html(success)
 }

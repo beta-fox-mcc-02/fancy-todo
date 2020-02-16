@@ -40,7 +40,15 @@ module.exports = (sequelize, DataTypes) => {
     due_date: {
       type : DataTypes.DATE,
       validate : {
-        notEmpty : true
+        notEmpty : true,
+        isDate : {
+          args : true,
+          msg : "please input a date"
+        },
+        isAfter: {
+          args : `${new Date().getFullYear()}-${new Date().getMonth()}-${new Date().getDate()}`,
+          msg : "Invalid date"
+        }
       }
     }, 
     UserId: {
