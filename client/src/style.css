@@ -1,0 +1,12 @@
+.bg {
+    background-image: url("https://cdn.hipwallpaper.com/i/60/88/rYFh4O.jpg");
+    height: 100vh;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: auto;
+}
+
+.card {
+    max-height: 500px;
+    overflow: auto;
+}
