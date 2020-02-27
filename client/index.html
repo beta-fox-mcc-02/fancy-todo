@@ -81,8 +81,9 @@
          <!-- Show register form -->
          <div class="card" id="formRegister">
             <div class="form-login">
-               <h1 class="text-center">Register</h1>
-         
+              <h1 class="text-center">Register</h1>
+                <div id="failRegister" class="alert alert-danger">
+                </div>         
                <form>
                   <div class="form-group">
                      <label for="email">Email</label>
@@ -123,7 +124,7 @@
             <!-- Todo list -->
             <table class="table table-striped custab">
                <thead>
-                  <tr>
+                  <tr class="text-center">
                      <th scope="col">Title</th>
                      <th scope="col">Description</th>
                      <th scope="col">Status</th>
@@ -133,6 +134,11 @@
                </thead>
                <tbody id="showTodoList">
 
+               </tbody>
+               <tbody id="loadingTodoList">
+                <tr>
+                  <td colspan="5" class="alert alert-info"><b>NOW LOADING</b></td>
+                </tr>
                </tbody>
             </table>
 
@@ -227,6 +233,11 @@
                   </thead>
                   <tbody id="zomatoList">
                   
+                  </tbody>
+                  <tbody id="loading">
+                    <tr>
+                      <td colspan="4" class="alert alert-info"><b>NOW LOADING</b></td>
+                    </tr>
                   </tbody>
                   <button id="backToTodo" class="btn btn-danger">Back</button>
                </table>

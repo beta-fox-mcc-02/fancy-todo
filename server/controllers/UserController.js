@@ -4,14 +4,14 @@ const { generateToken } = require('../helpers/jwt')
 
 class UserController {
    static createUser(req, res, next) {
-      console.log('masuk create')
+      // console.log('masuk create')
       let { email, password } = req.body
       let input = { email, password }
       User.create(input, {
          returning : true
       })
          .then(user => {
-            console.log('then create')
+            // console.log('then create')
             res.status(201).json({
                data : user,
                msg: "register success"

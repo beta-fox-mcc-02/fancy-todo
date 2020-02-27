@@ -73,8 +73,19 @@ function register() {
          $("div#failLogin").hide()
       })
       .fail(err => {
-         // console.log(err.responseJSON.msg)
-         $("div#failRegister").html(err.responseJSON.msg)
+        //  console.log(err.responseJSON.msg)
+
+         let errorMessage = []
+         if (err.responseJSON.msg.length !== 0) {
+          err.responseJSON.msg.forEach(message => {
+            errorMessage.push(message.message)
+          })
+          errorMessage = errorMessage.join(', ')  
+         } else {
+          errorMessage = err.responseJSON.msg
+         }
+         console.log(errorMessage)
+         $("div#failRegister").html(errorMessage)
          $("div#failRegister").show()
       })
 }

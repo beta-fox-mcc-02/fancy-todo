@@ -57,12 +57,12 @@ function fetchTodoList() {
          if(todos.length === 0) {   
             data = 
             `
-               <tr>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+               <tr class="text-center">
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>-</td>
                </tr>
             `
          } else {
@@ -82,7 +82,7 @@ function fetchTodoList() {
                // console.log(todo)
                data +=
                   `
-                  <tr>
+                  <tr class="text-center">
                     <td>${title}</td>
                     <td>${description}</td>
                     ${todo.status ? `<td class="text-success">complete</td>` : `<td class="text-danger">uncomplete</td>`}
@@ -96,6 +96,7 @@ function fetchTodoList() {
             }
             )   
          }
+         $("#loadingTodoList").hide()
          $("#showTodoList").html(data)
 
       })
@@ -249,6 +250,7 @@ function convertDate (date) {
 }
 
 function zomato() {
+  $("#zomatoList").hide()
    $.ajax({
       method: "GET",
       url: `http://localhost:3000/search`,
@@ -257,7 +259,7 @@ function zomato() {
       }
    })
       .done(data => {
-         console.log(data)
+        //  console.log(data)
          let restaurant = []
          let restoId = []
          let restoAddress =[]
@@ -282,8 +284,9 @@ function zomato() {
                </tr>
             `
          })
+         $("tbody#loading").hide()
+         $("#zomatoList").show()
          $("#zomatoList").html(newData)
-         
       })
       .fail(err => {
          let fail = `
@@ -306,7 +309,6 @@ function selectResto(resto, id) {
 function addZomatoList() {
    $("#showTodoList").html('')
    $("#alert").html('')
-   
    $.ajax({
       method: "POST",
       url: "http://localhost:3000/todos",
