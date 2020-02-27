@@ -20,6 +20,7 @@ class Controller{
             status : false,
             due_date : req.body.due_date
         }
+        console.log(newTodo)
         Todo.create(newTodo)
             .then(todo => {
                 newTodo.id = todo.id
