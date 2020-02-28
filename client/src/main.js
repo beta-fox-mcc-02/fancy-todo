@@ -70,7 +70,7 @@ class Main {
     }
     static register(){
         $.ajax({
-            url :'http://localhost:3000/register',
+            url :'https://mysterious-bastion-25366.herokuapp.com/register',
             method : 'post',
             data : {
                         email : $('#emailRegister').val(),
@@ -82,7 +82,7 @@ class Main {
     }
     static login(){
         $.ajax({
-            url :'http://localhost:3000/login',
+            url :'https://mysterious-bastion-25366.herokuapp.com/login',
             method : 'post',
             data : {
                         email : $('#emailLogin').val(),
@@ -111,7 +111,7 @@ class Main {
         Main.currency()
         $('#chooseFriend').hide()
         $.ajax({
-            url :'http://localhost:3000/todos',
+            url :'https://mysterious-bastion-25366.herokuapp.com/todos',
             method : 'get',
             headers : {
                 token : localStorage.token
@@ -173,7 +173,7 @@ class Main {
     }
     static currency(){
         $.ajax({
-            url : 'http://localhost:3000/todos/currencys',
+            url : 'https://mysterious-bastion-25366.herokuapp.com/todos/currencys',
             method : 'get'
         })
         .then(result => {
@@ -199,7 +199,7 @@ class Main {
     }
     static friend(id){
         $.ajax({
-            url : "http://localhost:3000/todos/teams",
+            url : "https://mysterious-bastion-25366.herokuapp.com/todos/teams",
             method : 'get',
             headers : {
                 id : id,
@@ -225,7 +225,7 @@ class Main {
     }
     static insertFriend(friendId, TodoId){
         $.ajax({
-            url : "http://localhost:3000/todos/teams",
+            url : "https://mysterious-bastion-25366.herokuapp.com/todos/teams",
             method : 'post',
             data : {
                 UserId : friendId,
@@ -250,7 +250,7 @@ class Main {
         // console.log($('#descriptionCreate').val())
         // console.log($('#due_dateCreate').val())
         $.ajax({
-            url : "http://localhost:3000/todos",
+            url : "https://mysterious-bastion-25366.herokuapp.com/todos",
             method : 'post',
             data : {
                 title : $('#titleCreate').val(),
@@ -274,7 +274,7 @@ class Main {
     static update(id){
         $('#submitUpdate').on('click', (event) =>{
             $.ajax({
-                url : `http://localhost:3000/todos/${id}`,
+                url : `https://mysterious-bastion-25366.herokuapp.com/todos/${id}`,
                 method : 'put',
                 data : {
                     title : $('#titleUpdate').val(),
@@ -301,7 +301,7 @@ class Main {
     }
     static delete(id){
         $.ajax({
-            url : `http://localhost:3000/todos/${id}`,
+            url : `https://mysterious-bastion-25366.herokuapp.com/todos/${id}`,
             method : 'delete',
             headers : {
                 id : id,
@@ -322,7 +322,7 @@ class Main {
 function onSignIn(googleUser){
     let id_token = googleUser.getAuthResponse().id_token
     $.ajax({
-        url : 'http://localhost:3000/gLogin',
+        url : 'https://mysterious-bastion-25366.herokuapp.com/gLogin',
         method : 'post',
         data : {
             gToken : id_token
