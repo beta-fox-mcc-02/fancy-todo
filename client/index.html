@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="google-signin-client_id" content="709480184066-qviqsmrmivcmvtsej6lnn40jjb31amqu.apps.googleusercontent.com">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
         <link rel="stylesheet" href="./src/style.css">
         <title>Todo</title> 
     </head>
@@ -107,14 +108,14 @@
                             <div class="card card-signup z-depth-0 text-center bg-light text-dark" id="createForm">
                                 <div class="card-body">
                                     <h2>Todo</h2>
-                                    <form>
+                                    <form id="submitCreate">
                                         <label>Title</label><br>
                                         <input type="text" name="title" id="titleCreate"><br><br>
                                         <label for="">Description</label><br>
                                         <input type="text" name="description" id="descriptionCreate"><br><br>
                                         <label for="">Due date</label><br>
                                         <input type="date" name="due_date" id="due_dateCreate"><br><br>
-                                        <input class="btn bg-succes hover" type="submit" value="Submit" id="submitCreate">
+                                        <input class="btn bg-succes hover" type="submit" value="Submit">
                                     </form>
                                 </div>
                             </div>
@@ -132,7 +133,7 @@
                                         <label ><input type="radio" name="statusUpdate" id="radioFalse" value="false"> Not Done</label>
                                         <br><br>
                                         <label >Due date</label><br>
-                                        <input type="date" name="due_date" id="due_dateUpdate" value=""><br><br>
+                                        <input type="date" name="due_date" id="due_dateUpdate" value="" min="now ()"><br><br>
                                         <input class="btn bg-succes hover" type="submit" value="Submit" id="submitUpdate">
                                     </form>
                                 </div>

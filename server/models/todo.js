@@ -27,13 +27,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     status: {
       type : DataTypes.BOOLEAN
-      // ,
-      // validate : {
-      //   notEmpty : {
-      //     args : true,
-      //     msg : 'empty is not allowed'
-      //   }
-      // }
     },
     due_date: {
       type : DataTypes.DATE,

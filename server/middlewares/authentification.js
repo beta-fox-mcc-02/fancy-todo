@@ -5,7 +5,7 @@ module.exports = {
     auth : (req, res, next) => {
         try {
             const decoded = jwt.verify(req.headers.token, process.env.SECRET)
-            console.log(decoded)
+            // console.log(req.body)
             if(decoded.name === 'JsonWebTokenError'){
                 const err = {
                     name : 'JsonWebTokenError',

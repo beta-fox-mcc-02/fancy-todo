@@ -1,5 +1,6 @@
 class Main {
     static home(){
+        $('#due_dateCreate').attr("min", new Date().toISOString().substr(0,10))
         if(localStorage.token){
             $('#home').hide()
             $('#todosList').show()
@@ -62,7 +63,8 @@ class Main {
             $('#todosList').hide()
             $('#createForm').show()
         })
-        $('#submitCreate').on('click', (event) =>{
+        $('#submitCreate').on('submit', (event) =>{
+            // event.preventDefault()
             Main.create()
         })
     }
@@ -91,6 +93,7 @@ class Main {
             localStorage.token = result.token
             let token = result.token
             localStorage.setItem('token', token)
+            localStorage.email = $('#emailLogin').val()
             Main.readAll()
             $('#registerForm').hide()
             $('#loginForm').hide()
@@ -114,48 +117,55 @@ class Main {
                 token : localStorage.token
             }
         })
-        .done(result => {
-            // console.log(result)
+        .done(({data}) => {
+            console.log(data)
             $('#tableBody').empty()
-            result.data.forEach(el => {
-                el.due_date = new Date(el.due_date)
-                $('#tableBody').append(
-                    `<tr>
-                        <td> ${el.id} </td>
-                        <td> ${el.title} </td>  
-                        <td> ${el.description} </td>  
-                        <td> ${el.status} </td>  
-                        <td> ${result.friend} </td>
-                        <td> ${el.due_date.toLocaleString('id').substr(0, 10)} </td>  
-                        <td> <a class="text-primary btn btn" id="updateTodo${el.id}">Update</a> | <a class="text-primary btn" id="deleteTodo${el.id}">Delete</a> | <a class="text-primary btn" id="addFriend${el.id}">Friend</a></td> 
-                    </tr>`)
-                $(`#deleteTodo${el.id}`).on('click', (event) => {
-                    // event.preventDefault()
-                    // console.log('masuuuk')
-                    Main.delete(el.id)
-                })
-                $(`#addFriend${el.id}`).on('click', (event) => {
-                    // event.preventDefault()
-                    $('#todosList').hide()
-                    $('#chooseFriend').show()
-                    Main.friend(el.id)
-                })
-                $(`#updateTodo${el.id}`).on('click', (event) => {
-                    // event.preventDefault()
-                    $('#titleUpdate').val(el.title)
-                    $('#descriptionUpdate').val(el.description)
-                    if(el.status){
-                        $('#radioTrue').prop("checked", true)
+            for (let i = 0; i < data.length; i++) {
+                let friend = []
+                data[i].due_date = new Date (data[i].due_date)
+                for (let j = 0; j < data[i].Users.length; j++){
+                    if(data[i].Users[j].email != localStorage.email){
+                        friend.push(data[i].Users[j].email.split('@')[0])
                     }
-                    else{
-                        $('#radioFalse').prop("checked", true)
-                    }
-                    $('#due_dateUpdate').val(el.due_date.toISOString().substr(0,10))
-                    $('#todosList').hide()
-                    $('#updateForm').show()
-                    Main.update(el.id)
-                })
-            })
+                }
+                    $('#tableBody').append(
+                        `<tr>
+                            <td> ${data[i].id} </td>
+                            <td> ${data[i].title} </td>  
+                            <td> ${data[i].description} </td>  
+                            <td> ${data[i].status} </td>  
+                            <td> ${friend} </td>
+                            <td> ${data[i].due_date.toLocaleString('id').substr(0, 10)} </td>  
+                            <td> <a class="text-primary btn btn" id="updateTodo${data[i].id}"><i class="fas fa-edit"></i></a> | <a class="text-primary btn" id="deleteTodo${data[i].id}"><i class="fas fa-trash-alt"></i></a> | <a class="text-primary btn" id="addFriend${data[i].id}"><i class="fas fa-user-plus"></i></a></td> 
+                        </tr>`)
+                    $(`#deleteTodo${data[i].id}`).on('click', (event) => {
+                        // event.preventDefault()
+                        // console.log('masuuuk')
+                        Main.delete(data[i].id)
+                    })
+                    $(`#addFriend${data[i].id}`).on('click', (event) => {
+                        // event.preventDefault()
+                        $('#todosList').hide()
+                        $('#chooseFriend').show()
+                        Main.friend(data[i].id)
+                    })
+                    $(`#updateTodo${data[i].id}`).on('click', (event) => {
+                        // event.preventDefault()
+                        $('#titleUpdate').val(data[i].title)
+                        $('#descriptionUpdate').val(data[i].description)
+                        if(data[i].status){
+                            $('#radioTrue').prop("checked", true)
+                        }
+                        else{
+                            $('#radioFalse').prop("checked", true)
+                        }
+                        $('#due_dateUpdate').val(data[i].due_date.toISOString().substr(0,10))
+                        $('#due_dateUpdate').attr("min", new Date().toISOString().substr(0,10))
+                        $('#todosList').hide()
+                        $('#updateForm').show()
+                        Main.update(data[i].id)
+                    })
+            }
         })
         .fail((err) => {
             $('span#errorLogin').append(err.responseJSON.msg) 
@@ -198,6 +208,7 @@ class Main {
         })
         .done(result => {
             console.log(result)
+            $('#friendBody').empty()
             result.data.forEach(el => {
                 $('#friendBody').append(`
                     <tr>
@@ -227,6 +238,7 @@ class Main {
         })
         .done(result => {
             console.log(result)
+            Main.home()
             Main.readAll()
         })
         .fail(err => {
@@ -234,6 +246,9 @@ class Main {
         })
     }
     static create(){
+        // console.log($('#titleCreate').val())
+        // console.log($('#descriptionCreate').val())
+        // console.log($('#due_dateCreate').val())
         $.ajax({
             url : "http://localhost:3000/todos",
             method : 'post',
@@ -243,18 +258,17 @@ class Main {
                 due_date : $('#due_dateCreate').val()
             },
             headers : {
-                id : id,
                 token : localStorage.token
             }
         })
         .done(result => {
-            // console.log(result)
+            console.log(result)
             $('#createForm').hide()
             $('#todosList').show()
             Main.readAll()
         })
         .catch(err => {
-            // console.log(err)
+            console.log(err)
         })
     }
     static update(id){
@@ -344,8 +358,10 @@ $(document).ready(() => {
         $('#nav-home').hide()
         $('#nav-todos').show()
         $('#nav-logout').show()
-        Main.home()
+        // $('#createForm').hide()
+        // $('#updateForm').hide()
         Main.readAll()
+        Main.home()
     }else{
         $('#nav-todos').hide()
         $('#nav-logout').hide()

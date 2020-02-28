@@ -106,8 +106,11 @@ class Controller{
             .catch(next)
     }
     static findFriend(req, res, next){
-        User.findAll()
+        User.findAll({
+                include : Todo
+            })
             .then(result => {
+                console.log(result[0].Todos)
                 let find = []
                 for(let i = 0; i < result.length; i++){
                     if(result[i].id != req.decode.id){
@@ -115,9 +118,10 @@ class Controller{
                             id : result[i].id,
                             email : result[i].email
                         }
-                        find.push(temp)
+                        find.push(result[i].dataValues)
                     }
                 }
+                console.log(find)
                 res.status(200).json({
                     data : find
                 })

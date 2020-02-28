@@ -14,13 +14,13 @@ class Controller{
         })
     }
     static insert(req, res, next){
+        console.log(req.body)
         const newTodo = {
             title : req.body.title,
             description : req.body.description,
             status : false,
             due_date : req.body.due_date
         }
-        console.log(newTodo)
         Todo.create(newTodo)
             .then(todo => {
                 newTodo.id = todo.id
@@ -47,7 +47,6 @@ class Controller{
             .then(todos => {
                 // console.log(todos)
                 let find = []
-                let friend = []
                 const currency = Controller.currency()
                 for(let i = 0; i < todos.length; i++){
                     for(let j = 0; j < todos[i].Users.length; j++){
@@ -56,22 +55,9 @@ class Controller{
                         }
                     }
                 }
-                // console.log(find)
-                // for(let i = 0; i < find.length; i++){
-                //     for(let k = 0; k < find[k].Users.length; k++){
-                //         if(find[i].Users[k].id != req.decode.id){
-                //             friend.push(find[i].Users[k].email)
-                //         }
-                //     }
-                // }
-                if(friend.length > 0){
-                    friend.join(', ')
-                }
-                else friend.join('')
-            
                 res.status(200).json({
                     data : find,
-                    friend,
+                    // friend,
                     currency
                 })
             })
