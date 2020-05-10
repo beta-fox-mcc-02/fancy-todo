@@ -6,7 +6,7 @@ const axios = require("axios");
 
 class TodoController {
   static findAll(req, res, next) {
-    console.log(req.UserId, "ini req.UserId")
+    console.log(req.UserId, "==========ini req.UserId")
     Todo.findAll({
         where: {
           UserId: req.UserId
@@ -19,6 +19,7 @@ class TodoController {
         });
       })
       .catch(err => {
+        console.log(err, "====Error findAll")
         next(err);
       });
   }

@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const privateKey = process.env.PRIVATEKEY;
+const privateKey = process.env.PRIVATEKEY || 'secret';
 const {
     User
 } = require("../models")

@@ -113,6 +113,8 @@ function isLogin() {
 
 
 function login_todo() {
+    console.log($("#email-login").val())
+    console.log($("#password-login").val())
     $.ajax({
             method: "post",
             url: "http://localhost:3000/login",
@@ -123,7 +125,7 @@ function login_todo() {
         })
         .done(data => {
             localStorage.setItem("token", data.token);
-            // console.log(data)
+            console.log(data, "=====login berhasil")
             list_todo();
         })
         .fail(err => {

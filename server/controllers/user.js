@@ -3,7 +3,7 @@ const {
 } = require("../models/");
 const hashBcrypt = require("../helpers/bcrypt");
 const jwt = require("jsonwebtoken");
-const privateKey = process.env.PRIVATEKEY;
+const privateKey = process.env.PRIVATEKEY || 'secret';
 const {
     OAuth2Client
 } = require("google-auth-library");
@@ -39,7 +39,6 @@ class UserController {
             .then(data => {
                 if (data) {
                     let passwordCheck = hashBcrypt.check(password, data.password);
-                    console.log(passwordCheck)
                     if (passwordCheck) {
                         let token = jwt.sign({
                                 data
@@ -50,12 +49,6 @@ class UserController {
                             email: data.email,
                             token
                         });
-                    } else {
-                        let err = {
-                            err: "WRONG LOGIN DATA",
-                            msg: "EMAIL OR PASSWORD IS WRONG"
-                        };
-                        next(err);
                     }
                 }
             })
@@ -70,14 +63,14 @@ class UserController {
 
     static googleLogin(req, res, next) {
         // console.log(req.headers.id_token)
-        console.log(process.env.CLIENT_ID)
+        // console.log(process.env.CLIENT_ID)
         let payload = "";
         client.verifyIdToken({
                 idToken: req.headers.id_token,
                 audience: process.env.CLIENT_ID
             })
             .then(result => {
-                console.log(result)
+                // console.log(result)
                 payload = result.payload;
                 return User.findOne({
                     where: {
