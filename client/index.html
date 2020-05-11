@@ -9,6 +9,8 @@
     content="160576325712-9vemqoqk95memgtu3ekldpo29vurm8ah.apps.googleusercontent.com" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" 
+    rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <title>Todo List</title>
 </head>
 
@@ -29,11 +31,11 @@
           <li class="nav-item" id="create">
             <a class="nav-link" href="#">Create new todo</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="weather">Weather API</a>
+          <li class="nav-item" id="weather">
+            <a class="nav-link" href="#">Weather API</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="logout">Logout</a>
+          <li class="nav-item" id="logout">
+            <a class="nav-link" href="#">Logout</a>
           </li>
         </ul>
       </div>
@@ -86,26 +88,23 @@
         <input type="submit" value="login" class="btn btn-primary" />
       </form>
       <br />
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-      <button id="logout-button" href="#" class="btn btn-danger">Log Out</button>
     </center>
 
     <hr />
   </section>
 
-  <section id="list">
+  <section id="list" style="margin: auto 40px;">
     <center>
       <h2>Todo List</h2>
-      <table border="1" id="list_value">
+      <table class="table table-hover" id="list_value">
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Due Date</th>
-            <th>Edit</th>
-            <th>Delete</th>
+            <th scope="col">No.</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col">Due Date</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody id="tbody_list">
@@ -115,45 +114,48 @@
     </center>
   </section>
 
-  <section id="create">
+  <section id="create" style="margin: auto 40px;">
     <center>
       Create new todo list
       <hr width="20%" />
       <form id="create-form">
-        <label for="">Title</label> <br />
-        <input type="text" name="title" id="title-create" placeholder="todo list title...." />
-        <br />
-        <label for="">Description</label> <br />
-        <input type="text" name="description" id="description-create" placeholder="todo description..." />
-        <br />
-        <label for="">Due Date</label> <br>
-        <input type="date" name="due_date" id="due_date_create">
-        <br>
-        <input type="submit" value="add" />
+        <div class="form-group">
+          <label for="">Title</label> <br />
+          <input type="text" class="form-control" name="title" id="title-create" placeholder="todo list title...." />
+        </div>
+        <div class="form-group">
+          <label for="">Description</label> <br />
+          <input type="text" class="form-control" name="description" id="description-create" placeholder="todo description..." />
+        </div>
+        <div class="form-group">
+          <label for="">Due Date</label> <br>
+          <input type="date" class="form-control" name="due_date" id="due_date_create">
+        </div>
+        <input type="submit" class="btn btn-info" value="add" />
       </form>
       <br />
     </center>
     <hr />
   </section>
 
-  <section id="update">
+  <section id="update" style="margin: auto 40px;">
     <center>
       Update todo list
       <hr width="20%" />
       <form id="update-form">
-        <label for="">id</label> <br />
-        <input type="text" name="id" id="id-update" readonly>
-        <br />
-        <label for="">Title</label> <br />
-        <input type="text" name="title" id="title-update">
-        <br />
-        <label for="">Description</label> <br />
-        <input type="text" name="description" id="description-update">
-        <br />
-        <label for="">Due Date</label> <br>
-        <input type="date" name="due_date" id="due_date_update">
-        <br>
-        <input type="submit" value="Update" />
+        <div class="form-group">
+          <label for="">Title</label> <br />
+          <input type="text" class="form-control" name="title" id="title-update">
+        </div>
+        <div class="form-group">
+          <label for="">Description</label> <br />
+          <input type="text" class="form-control" name="description" id="description-update">
+        </div>
+        <div class="form-group">
+          <label for="">Due Date</label> <br>
+          <input type="date" class="form-control" name="due_date" id="due_date_update">
+        </div>
+        <input type="submit" class="btn btn-success" value="Update" />
       </form>
       <br />
     </center>

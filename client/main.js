@@ -1,3 +1,5 @@
+let id_update = '';
+
 function welcome() {
     $("section#welcome").show();
     $("section#register").hide();
@@ -113,8 +115,6 @@ function isLogin() {
 
 
 function login_todo() {
-    console.log($("#email-login").val())
-    console.log($("#password-login").val())
     $.ajax({
             method: "post",
             url: "http://localhost:3000/login",
@@ -163,16 +163,24 @@ function list_todo() {
             if (data) {
                 console.log(data)
                 $("#tbody_list").empty();
-                data.data.forEach(el => {
+                data.data.forEach((el, i) => {
+                    let currentDate = new Date(el.due_date);
+                    let date = currentDate.getDate();
+                    let month = currentDate.getMonth(); //Be careful! January is 0 not 1
+                    let year = currentDate.getFullYear();
+                    let dateString = date + "-" + month + "-" + year;
+
                     $("#tbody_list").append(
-                        `<tr>
-                        <td id="id_list">${el.id}</td>
+                    `<tr>
+                        <th scope="row">${i + 1}</th>
                         <td>${el.title}</td>
                         <td>${el.description}</td>
-                        <td>${el.status}</td>
-                        <td>${el.due_date}</td>
-                        <td><a href="#" onclick="formUpdate(${el.id})">Edit</a></td>
-                        <td><a href="#" onclick="deleteTodo(${el.id})">Delete</a></td>
+                        <td>${el.status === true ? '<i class="fa fa-check-circle" style="color:green;" />' : '<i class="fa fa-times-circle" style="color:red;" />'}</td>
+                        <td>${dateString}</td>
+                        <td><button type="button" class="btn btn-warning"  onclick="formUpdate(${el.id})"><i class="fa fa-edit" /></button> 
+                            <button type="button" class="btn btn-danger" onclick="deleteTodo(${el.id})"><i class="fa fa-trash" /></button>
+                            ${el.status === false ? `<button type="button" class="btn btn-success" onclick="set_status(${el.id})"><i class="fa fa-check" /></button>` : ''}
+                        </td>
                     </tr>`
                     );
                 });
@@ -211,6 +219,7 @@ function create_todo() {
 }
 
 function formUpdate(id) {
+    id_update = id
     $.ajax({
             method: "GET",
             url: `http://localhost:3000/todos/${id}`,
@@ -220,11 +229,15 @@ function formUpdate(id) {
         })
         .done(data => {
             // console.log(data.data.title)
-            $("#id-update").val(data.data.id),
-                $("#title-update").val(data.data.title),
-                $("#description-update").val(data.data.description),
-                $("#due_date_update").val(Date(data.data.due_date)),
-                update()
+            let currentDate = new Date(data.data.due_date);
+            let date = currentDate.getDate() < 10 ? '0' + currentDate.getDate() : currentDate.getDate();
+            let month = currentDate.getMonth() < 10 ? '0' + currentDate.getMonth() : currentDate.getMonth(); //Be careful! January is 0 not 1
+            let year = currentDate.getFullYear();
+            let dateString = year + "-" + month + "-" + date;
+            $("#title-update").val(data.data.title),
+            $("#description-update").val(data.data.description),
+            $("#due_date_update").val(dateString),
+            update()
         })
         .fail(err => {
             console.log(err, "error update form")
@@ -232,10 +245,9 @@ function formUpdate(id) {
 }
 
 function update_todo() {
-    console.log($("#id-update").val())
     $.ajax({
             method: "PUT",
-            url: `http://localhost:3000/todos/${$("#id-update").val()}`,
+            url: `http://localhost:3000/todos/${id_update}`,
             data: {
                 title: $("#title-update").val(),
                 description: $("#description-update").val(),
@@ -246,12 +258,31 @@ function update_todo() {
             }
         })
         .done(data => {
-            console.log("update success")
             list_todo()
         })
         .fail(err => {
             console.log(err, "fail to update data")
         })
+}
+
+function set_status(id) {
+    $.ajax({
+        method: "PUT",
+        url: `http://localhost:3000/todos/${id}`,
+        data: {
+            status: status === true ? false : true
+        },
+        headers: {
+            token: localStorage.getItem("token")
+        }
+    })
+    .done(data => {
+        console.log(data.data, "////////")
+        list_todo()
+    })
+    .fail(err => {
+        console.log(err, "fail to update data")
+    })
 }
 
 function deleteTodo(id) {
