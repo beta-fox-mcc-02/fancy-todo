@@ -1,5 +1,6 @@
 function onSignIn(googleUser) {
    let id_token = googleUser.getAuthResponse().id_token;
+   console.log('hai')
 
    $.ajax({
       method: "POST",

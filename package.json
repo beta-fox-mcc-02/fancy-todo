@@ -1,0 +1,22 @@
+{
+  "name": "Fancy-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "cd server && npm install",
+    "start": "cd server && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fikrimarzuki/fancy-todo-1.git"
+  },
+  "keywords": [],
+  "author": "fikri marzuki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fikrimarzuki/fancy-todo-1/issues"
+  },
+  "homepage": "https://github.com/Fikrimarzuki/fancy-todo-1#readme"
+}

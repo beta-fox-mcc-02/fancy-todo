@@ -54,6 +54,8 @@ $(document).ready(function(){
    resetPage()
    if(localStorage.token) {
       whenLogin()
+      $("#todoList").show()
+      fetchTodoList()
    } else {
       whenLogout()
       $("#homePage").show()
