@@ -5,7 +5,7 @@ function addTodoList() {
    
    $.ajax({
       method: "POST",
-      url: "http://localhost:3000/todos",
+      url: `${URL}/todos`,
       data : {
          title: $("#addTitle").val(),
          description: $("#addDescription").val(),
@@ -47,7 +47,7 @@ function fetchTodoList() {
    
    $.ajax({
       method: "GET",
-      url: "http://localhost:3000/todos",
+      url: `${URL}/todos`,
       headers : {
         token : localStorage.getItem("token")
       }
@@ -117,7 +117,7 @@ function getModalTodo(id) {
    $("#modalUpdateTodo").show()
    $.ajax({
       method: "GET",
-      url: `http://localhost:3000/todos/${id}`,
+      url: `${URL}/todos/${id}`,
       headers : {
          token : localStorage.token
       }
@@ -161,7 +161,7 @@ function updateTodoList(id, date) {
    const description = $("#updateDescription").val()
    $.ajax({
       method: "PUT",
-      url: `http://localhost:3000/todos/${id}`,
+      url: `${URL}/todos/${id}`,
       data : {
          title,
          description,
@@ -208,7 +208,7 @@ function deleteTodoList(id) {
 
    $.ajax({
       method: "DELETE",
-      url: `http://localhost:3000/todos/${id}`,
+      url: `${URL}/todos/${id}`,
       headers : {
          token : localStorage.token
       }
@@ -253,7 +253,7 @@ function zomato() {
   $("#zomatoList").hide()
    $.ajax({
       method: "GET",
-      url: `http://localhost:3000/search`,
+      url: `${URL}/search`,
       headers : {
          token : localStorage.token
       }
@@ -311,7 +311,7 @@ function addZomatoList() {
    $("#alert").html('')
    $.ajax({
       method: "POST",
-      url: "http://localhost:3000/todos",
+      url: `${URL}/todos`,
       data : {
          title: $("#addZomatoTitle").val(),
          description: $("#addZomatoDescription").val(),

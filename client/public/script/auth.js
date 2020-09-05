@@ -1,10 +1,12 @@
+const URL = "https://salty-plateau-26911.herokuapp.com"
+
 function onSignIn(googleUser) {
    let id_token = googleUser.getAuthResponse().id_token;
    console.log('hai')
 
    $.ajax({
       method: "POST",
-      url: "http://localhost:3000/googleSignIn",
+      url: `${URL}/googleSignIn`,
       headers : {
          token : id_token
       }
@@ -29,7 +31,7 @@ function isLogin() {
 
    $.ajax({
       method: "POST",
-      url: `http://localhost:3000/users/login`,
+      url: `${URL}/users/login`,
       data : {
          email,
          password
@@ -62,7 +64,7 @@ function successNotif(msg) {
 function register() {
    $.ajax({
       method: "POST",
-      url: `http://localhost:3000/users/register`,
+      url: `${URL}/users/register`,
       data : {
          email : $("#registerEmail").val(),
          password : $("#registerPassword").val()
