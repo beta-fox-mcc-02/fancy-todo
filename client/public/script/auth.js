@@ -1,5 +1,3 @@
-const URL = "https://salty-plateau-26911.herokuapp.com"
-
 function onSignIn(googleUser) {
    let id_token = googleUser.getAuthResponse().id_token;
    console.log('hai')

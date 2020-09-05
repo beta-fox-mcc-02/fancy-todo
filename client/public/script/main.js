@@ -48,6 +48,7 @@ function resetWarning() {
    $("div#failLogin").hide()
    $("div#successCreateTodo").hide()
    $("div#failCreateTodo").hide()
+   $("div#alertZomatoTodo").hide()
 }
 
 $(document).ready(function(){
@@ -138,6 +139,8 @@ $(document).ready(function(){
 
    $("#addZomato").on("click", function(el) {
       el.preventDefault()
+      resetWarning()
+      $("#zomatoAddLoading").hide()
       $("#zomatoModal").show()
       $("#todoList").hide()
    })

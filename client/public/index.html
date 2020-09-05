@@ -100,9 +100,7 @@
          <div class="col">
             
             <!-- Alert -->
-            <div id="alert" role="alert">
-
-            </div>
+            <div id="alert" role="alert"></div>
 
             <h1 class="text-center">Todo List</h1>
             
@@ -123,9 +121,7 @@
                      <th scope="col" class="text-center">Action</th>
                   </tr>
                </thead>
-               <tbody id="showTodoList">
-
-               </tbody>
+               <tbody id="showTodoList"></tbody>
                <tbody id="loadingTodoList">
                 <tr>
                   <td colspan="5" class="alert alert-info"><b>NOW LOADING</b></td>
@@ -143,9 +139,7 @@
          <div class="modal-header">
             <span class="close close-modal">&times;</span>
             <h5>Add Todo</h5>
-            <div id="alertAddTodo">
-
-            </div>
+            <div id="alertAddTodo"></div>
          </div>
          <div class="modal-body">
             <form>
@@ -172,39 +166,44 @@
    <!-- Zomato Modal -->
    <div class="modal" id="zomatoModal">
       <div class="modal-content">
-         <div class="modal-header">
-            <span class="close close-modal">&times;</span>
-            <h5>Todo where to eat</h5>
-            <div>
-               <div id="alertZomatoTodo">
-   
+         <div id="zomatoAddLoading" style="display: none">
+            <div class="spinner-border" role="status">
+               <span class="sr-only">Loading...</span>
+             </div>
+         </div>
+         <div id="zomatoAddContent">
+            <div class="modal-header">
+               <span class="close close-modal">&times;</span>
+               <h5>Todo where to eat</h5>
+               <div>
+                  <div id="alertZomatoTodo"></div>
                </div>
             </div>
-         </div>
-         <div class="modal-body">
-            <form>
-               <label>Location : </label>
-               <label>Jakarta</label>
-               <div class="form-group">
-                  <button class="btn btn-primary" id="showListZomato">List Reference</button>
-                  <small>Look here for reference restaurant</small>
-               </div>
-               <div class="form-group">
-                  <label for="title">Restaurant</label>
-                  <input type="text" class="form-control" id="addZomatoTitle" placeholder="restaurant" required autofocus>
-               </div>
-               <div class="form-group">
-                  <label for="description">Description</label>
-                  <input type="text" class="form-control" id="addZomatoDescription" placeholder="description" required>
-               </div>
-               <div class="form-group">
-                  <label for="due_date">Due_date</label>
-                  <input type="date" class="form-control" id="addZomatoDueDate" placeholder="date" required>
-               </div>
-               <div>
-                  <button class="btn btn-primary" type="submit" id="addZomatoConfirm">Add schedule</button>
-               </div>
-            </form>
+            <div class="modal-body">
+               <form>
+                  <label>Location : </label>
+                  <label>Jakarta</label>
+                  <div class="form-group">
+                     <button class="btn btn-primary" id="showListZomato">List Reference</button>
+                     <small>Look here for reference restaurant</small>
+                  </div>
+                  <div class="form-group">
+                     <label for="title">Restaurant</label>
+                     <input type="text" class="form-control" id="addZomatoTitle" placeholder="restaurant" required autofocus>
+                  </div>
+                  <div class="form-group">
+                     <label for="description">Description</label>
+                     <input type="text" class="form-control" id="addZomatoDescription" placeholder="description" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="due_date">Due_date</label>
+                     <input type="date" class="form-control" id="addZomatoDueDate" placeholder="date" required>
+                  </div>
+                  <div>
+                     <button class="btn btn-primary" type="submit" id="addZomatoConfirm">Add schedule</button>
+                  </div>
+               </form>
+            </div>
          </div>
       </div>
    </div>

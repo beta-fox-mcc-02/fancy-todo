@@ -1,3 +1,5 @@
+const URL = "https://salty-plateau-26911.herokuapp.com"
+
 function addTodoList() {
    $("#showTodoList").html('')
    $("#alert").html('')
@@ -309,6 +311,8 @@ function selectResto(resto, id) {
 function addZomatoList() {
    $("#showTodoList").html('')
    $("#alert").html('')
+   $("#zomatoAddLoading").show()
+   $("#zomatoAddContent").hide()
    $.ajax({
       method: "POST",
       url: `${URL}/todos`,
@@ -328,12 +332,15 @@ function addZomatoList() {
             ${todos.msg}
          </div>
          `
+         $("#zomatoModal").hide()
+         $("#todoList").show()
          $("#alert").show()
          $("#alert").html(success)
          $("#addZomatoTitle").val('')
          $("#addZomatoDescription").val('')
          $("#addZomatoDueDate").val('')
-         fetchTodoList()         
+         $("#zomatoAddLoading").hide()
+         fetchTodoList()
       })
       .fail(err => {
          // console.log(err)
@@ -342,7 +349,9 @@ function addZomatoList() {
             ${err.responseJSON.message}
          </div>
          `
+         $("#zomatoAddLoading").hide()
          $("#alertZomatoTodo").show()
+         $("#zomatoAddContent").show()
          $("#alertZomatoTodo").html(fail)
       })
 }
