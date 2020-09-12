@@ -1,0 +1,13 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "postgres",
+    "database": "todo_app",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": 0
+  },
+  "production": {
+    "use_env_variable" : "DATABASE_URL"
+  }
+}
