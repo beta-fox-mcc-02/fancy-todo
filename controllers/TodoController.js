@@ -1,5 +1,5 @@
-const { Todo } = require('../models');
-const axios = require('axios');
+const { Todo } = require("../models");
+const axios = require("axios");
 
 class TodoController {
   // findAll
@@ -7,20 +7,14 @@ class TodoController {
     let tmpTodos;
     Todo.findAll({
       where: { UserId: req.currentUserId },
-      order: [['id', 'ASC']]
+      order: [["id", "ASC"]],
     })
-      .then(todos => {
+      .then((todos) => {
         // axios
         tmpTodos = todos;
-        return axios.get(`https://api.weatherbit.io/v2.0/current?city=Jakarta&country=Indonesia&lang=en&key=${process.env.TOKEN}`)
-      })
-      .then(weather => {
-        tmpTodos.forEach(el => {
-          el.dataValues.currentWeather = weather.data.data[0].weather.description;
-        })
         res.status(200).json({ data: tmpTodos });
       })
-      .catch(next)
+      .catch(next);
   }
 
   // create
@@ -30,33 +24,25 @@ class TodoController {
       description: req.body.description,
       status: req.body.status,
       due_date: req.body.due_date,
-      UserId: req.currentUserId
-    }
+      UserId: req.currentUserId,
+    };
 
     Todo.create(todo)
-      .then(data => {
-        res.status(201).json({ data: data })
+      .then((data) => {
+        res.status(201).json({ data: data });
       })
-      .catch(next)
+      .catch(next);
   }
 
   // findOne
   static findOne(req, res, next) {
     let tmpTodo;
     Todo.findByPk(req.params.id)
-      .then(todo => {
+      .then((todo) => {
         tmpTodo = todo;
-        return axios.get(`https://api.weatherbit.io/v2.0/current?city=Jakarta&country=Indonesia&lang=id&key=${process.env.TOKEN}`)
+        res.status(200).json({ data: tmpTodo });
       })
-      .then(weather => {
-        if (tmpTodo) {
-          tmpTodo.dataValues.currentWeather = weather.data.data[0].weather.description;
-          res.status(200).json({ data: tmpTodo })
-        } else {
-          next({ message: 'Bad Request', status: 400 })
-        }
-      })
-      .catch(next)
+      .catch(next);
   }
 
   // update
@@ -65,35 +51,35 @@ class TodoController {
       title: req.body.title,
       description: req.body.description,
       status: req.body.status,
-      due_date: req.body.due_date
-    }
+      due_date: req.body.due_date,
+    };
     Todo.update(todo, {
       where: {
-        id: req.params.id
+        id: req.params.id,
       },
-      returning: true
+      returning: true,
     })
-      .then(todo => {
+      .then((todo) => {
         res.status(200).json({
-          data: todo[1][0]
-        })
+          data: todo[1][0],
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 
   // delete
   static destroy(req, res, next) {
     Todo.destroy({
       where: {
-        id: req.params.id
-      }
+        id: req.params.id,
+      },
     })
-      .then(data => {
+      .then((data) => {
         res.status(200).json({
-          message: `Success delete data with id: ${req.params.id}`
-        })
+          message: `Success delete data with id: ${req.params.id}`,
+        });
       })
-      .catch(next)
+      .catch(next);
   }
 }
 
