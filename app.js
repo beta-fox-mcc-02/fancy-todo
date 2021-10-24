@@ -19,4 +19,4 @@ app.use(express.json());
 app.use(indexRouter);
 app.use(errorHandler);
 
-app.listen(port, () => console.log(`Listen to port ${port}`));
+app.listen(port, () => console.log(`Listening to port ${port}`));

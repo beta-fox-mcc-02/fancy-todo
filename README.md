@@ -1,27 +1,35 @@
-**Show All Todos**
-----
-  Returns json data about all todos.
+## **Show All Todos**
 
-* **URL**
+Returns json data about all todos.
+
+- **URL**
 
   /todos
 
-* **Method:**
+- **Headers:**
+
+  ```json
+  {
+    "access_token": "Your JWT access token"
+  }
+  ```
+
+- **Method:**
 
   `GET`
-  
-*  **URL Params**
 
-    None
+- **URL Params**
 
-* **Data Params**
+  None
 
-    None
+- **Data Params**
 
-* **Success Response:**
+  None
 
-  * **Code:** 200 <br />
-    **Content:** 
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
     ```json
     {
       "data": [
@@ -33,8 +41,7 @@
           "due_date": "2020-02-20T00:00:00.000Z",
           "createdAt": "2020-02-04T10:44:23.214Z",
           "updatedAt": "2020-02-04T10:44:23.214Z",
-          "UserId": 1,
-          "currentWeather": "awan Mendung"
+          "UserId": 1
         },
         {
           "id": 3,
@@ -44,46 +51,61 @@
           "due_date": "2020-02-20T00:00:00.000Z",
           "createdAt": "2020-02-04T12:32:34.850Z",
           "updatedAt": "2020-02-04T12:32:34.850Z",
-          "UserId": 1,
-          "currentWeather": "awan Mendung"
+          "UserId": 1
         }
       ]
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 401 UNAUTHORIZED <br />
+- **Error Response:**
+
+  - **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ message : "You must login first" }`
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error" }`
+
 ---
 
-**Create Todo**
-----
-  Inserts a data into database and returns the corresponding data.
+## **Create Todo**
 
-* **URL**
+Inserts a data into database and returns the corresponding data.
+
+- **URL**
 
   /todos
 
-* **Method:**
+- **Headers:**
+
+  ```json
+  {
+    "access_token": "Your JWT access token"
+  }
+  ```
+
+- **Method:**
 
   `POST`
-  
-*  **URL Params**
 
-    None
+- **URL Params**
 
-* **Data Params**
+  None
 
-    None
+- **Data Params**
 
-* **Success Response:**
+  ```json
+  {
+    "title": "Your title",
+    "description": "Your description",
+    "status": false,
+    "due_date": "2021-12-25"
+  }
+  ```
 
-  * **Code:** 201 <br />
-    **Content:** 
+- **Success Response:**
+
+  - **Code:** 201 <br />
+    **Content:**
     ```json
     {
       "data": {
@@ -98,274 +120,294 @@
       }
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 400 BAD REQUEST <br />
+- **Error Response:**
+
+  - **Code:** 400 BAD REQUEST <br />
     **Content:** `{ message : "Bad request" }`
 
-  * **Code:** 401 UNAUTHORIZED <br />
+  - **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ message : "You must login first" }`
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error" }`
 
 ---
 
-**Show One Todo**
-----
-  Return one todo based on id.
+## **Show One Todo**
 
-* **URL**
+Return one todo based on id.
+
+- **URL**
 
   /todos/:id
 
-* **Method:**
+- **Headers:**
+
+  ```json
+  {
+    "access_token": "Your JWT access token"
+  }
+  ```
+
+- **Method:**
 
   `GET`
-  
-*  **URL Params**
 
-    **Required**
+- **URL Params**
 
-    id=[integer]
+  **Required**
 
-* **Data Params**
+  id=integer
 
-    None
+- **Data Params**
 
-* **Success Response:**
+  None
 
-  * **Code:** 200 <br />
-    **Content:** 
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
     ```json
     {
-        "data": {
-            "id": 3,
-            "title": "Thrid",
-            "description": "Latihan",
-            "status": false,
-            "due_date": "2020-02-20T00:00:00.000Z",
-            "createdAt": "2020-02-04T12:32:34.850Z",
-            "updatedAt": "2020-02-04T12:32:34.850Z",
-            "UserId": 1,
-            "currentWeather": "awan Mendung"
-        }
+      "data": {
+        "id": 3,
+        "title": "Third",
+        "description": "Latihan",
+        "status": false,
+        "due_date": "2020-02-20T00:00:00.000Z",
+        "createdAt": "2020-02-04T12:32:34.850Z",
+        "updatedAt": "2020-02-04T12:32:34.850Z",
+        "UserId": 1
+      }
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 401 UNAUTHORIZED <br />
+- **Error Response:**
+
+  - **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ message : "You must login first" }`
 
-  * **Code:** 404 Not Found <br />
+  - **Code:** 404 Not Found <br />
     **Content:** `{ message : "Not Found" }`
 
 ---
 
-**Update One Todo**
-----
-  Update one todo based on id.
+## **Update One Todo**
 
-* **URL**
+Update one todo based on id.
+
+- **URL**
 
   /todos/:id
 
-* **Method:**
+- **Headers:**
 
-  `PUT`
-  
-*  **URL Params**
+  ```json
+  {
+    "access_token": "Your JWT access token"
+  }
+  ```
 
-    **Required**
+- **Method:**
 
-    id=[integer]
+  `PATCH`
 
-* **Data Params**
+- **URL Params**
 
-    None
+  **Required**
 
-* **Success Response:**
+  id=integer
 
-  * **Code:** 200 <br />
-    **Content:** 
+- **Data Params**
+
+  ```json
+  {
+    "status": true
+  }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
     ```json
     {
-        "data": {
-            "id": 3,
-            "title": "ajksndkja",
-            "description": "asdkjasb",
-            "status": false,
-            "due_date": "2020-09-10T00:00:00.000Z",
-            "UserId": 1,
-            "createdAt": "2020-02-04T12:32:34.850Z",
-            "updatedAt": "2020-02-04T12:53:07.836Z"
-        }
+      "data": {
+        "id": 3,
+        "title": "ajksndkja",
+        "description": "asdkjasb",
+        "status": true,
+        "due_date": "2020-09-10T00:00:00.000Z",
+        "UserId": 1,
+        "createdAt": "2020-02-04T12:32:34.850Z",
+        "updatedAt": "2020-02-04T12:53:07.836Z"
+      }
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 400 BAD REQUEST <br />
+- **Error Response:**
+
+  - **Code:** 400 BAD REQUEST <br />
     **Content:** `{ message : "Bad request" }`
 
-  * **Code:** 401 UNAUTHORIZED <br />
+  - **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ message : "You must login first" }`
 
-  * **Code:** 404 Not Found <br />
+  - **Code:** 404 Not Found <br />
     **Content:** `{ message : "Not Found" }`
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error" }`
 
 ---
 
-**Delete One Todo**
-----
-  Delete one todo based on id.
+## **Delete One Todo**
 
-* **URL**
+Delete one todo based on id.
+
+- **URL**
 
   /todos/:id
 
-* **Method:**
+- **Headers:**
+
+  ```json
+  {
+    "access_token": "Your JWT access token"
+  }
+  ```
+
+- **Method:**
 
   `DELETE`
-  
-*  **URL Params**
 
-    **Required**
+- **URL Params**
 
-    id=[integer]
+  **Required**
 
-* **Data Params**
+  id=integer
 
-    None
+- **Data Params**
 
-* **Success Response:**
+  None
 
-  * **Code:** 200 <br />
-    **Content:** 
+- **Success Response:**
+
+  - **Code:** 200 <br />
+    **Content:**
     ```json
     {
       "message": "Success delete data with id: 5"
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 404 Not Found <br />
+- **Error Response:**
+
+  - **Code:** 404 Not Found <br />
     **Content:** `{ message : "Not Found" }`
 
-  * **Code:** 401 UNAUTHORIZED <br />
+  - **Code:** 401 UNAUTHORIZED <br />
     **Content:** `{ message : "You must login first" }`
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error" }`
 
 ---
 
-**Register User**
-----
-  Register a user.
+## **Register User**
 
-* **URL**
+Register a user.
+
+- **URL**
 
   /register
 
-* **Method:**
+- **Method:**
 
   `POST`
-  
-*  **URL Params**
 
-    **Required**
+- **URL Params**
 
-    None
+  None
 
-* **Data Params**
+- **Data Params**
 
-    None
+  ```json
+  {
+    "email": "my_email@gmail.com",
+    "password": "secret"
+  }
+  ```
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 201 <br />
-    **Content:** 
+  - **Code:** 201 <br />
+    **Content:**
     ```json
     {
-        "id": 6,
-        "email": "uulwake@mail.com",
-        "password": "$2a$10$Fh/oCthhmgT5O/YKgMx0d.BOl0O6Wrd/R8P4ImDN/ujbqspUCfo3."
+      "id": 6,
+      "email": "my_email@gmail.com"
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 400 BAD REQUEST <br />
+- **Error Response:**
+
+  - **Code:** 400 BAD REQUEST <br />
     **Content:** `{ message : "Bad request" }`
 
-  * **Code:** 404 BAD REQUEST <br />
+  - **Code:** 404 BAD REQUEST <br />
     **Content:** `{ message : "Email Already Exist" }`
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error" }`
 
 ---
 
-**Google Sign In**
-----
-  Login a user using google sign in.
+## **Login User**
 
-* **URL**
+Login a user.
 
-  /googleSignIn
+- **URL**
 
-* **Method:**
+  /login
+
+- **Method:**
 
   `POST`
-  
-*  **URL Params**
 
-    **Required**
+- **URL Params**
 
-    None
+  None
 
-* **Data Params**
+- **Data Params**
 
-    None
+  ```json
+  {
+    "email": "my_email@gmail.com",
+    "password": "secret"
+  }
+  ```
 
-* **Success Response:**
+- **Success Response:**
 
-  * **Code:** 200 <br />
-    **Content:** 
+  - **Code:** 201 <br />
+    **Content:**
     ```json
     {
-      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNTgwODI2MTk1fQ.h56et9F8Iby0BNgLIG6e5wvGtRC6oRDvpxHf8WO4rWs" 
+      "access_token": "Your JWT token"
     }
     ```
- 
-* **Error Response:**
 
-  * **Code:** 400 Not Found <br />
+- **Error Response:**
+
+  - **Code:** 400 BAD REQUEST <br />
+    **Content:** `{ message : "Bad request" }`
+
+  - **Code:** 401 BAD REQUEST <br />
     **Content:** `{ message : "Email/Password Invalid" }`
 
-  * **Code:** 500 INTERNAL SERVER ERROR <br />
+  - **Code:** 500 INTERNAL SERVER ERROR <br />
     **Content:** `{ message : "Internal server error" }`
 
 ---
-
-**Third Party API**
-----
-  Third party API that I used.
-
-* **URL**
-
-  https://api.weatherbit.io/v2.0/current?city=Jakarta&country=Indonesia&lang=id&key=ae858ea5e4c94d0fb0384e7b1e966e45
-
-* **TOKEN**
-
-  ae858ea5e4c94d0fb0384e7b1e966e45
-
-
-
