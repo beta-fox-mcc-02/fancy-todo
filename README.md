@@ -1,3 +1,43 @@
+# How to Run Server
+
+1. Make sure you have Nodejs installed
+
+```bash
+node --version
+```
+
+2. Make sure you have docker installed
+
+```bash
+docker --version
+```
+
+3. Install all packages
+
+```bash
+npm ci
+```
+
+4. Run postgres database
+
+```bash
+npm run db:up
+```
+
+5. Run server
+
+```bash
+npm run start
+```
+
+6. Upon using server, remember to always shutdown database
+
+```bash
+npm run db:down
+```
+
+# API Documentation
+
 ## **Show All Todos**
 
 Returns json data about all todos.
